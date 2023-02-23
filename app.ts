@@ -1,24 +1,11 @@
 import express from 'express'
-import { PrismaClient } from '@prisma/client'
+import { router } from './router'
 
-const prisma = new PrismaClient()
 const app = express()
 
-app.get('/feed', async (_, res) => {
-	const posts = await prisma.tiposLancamentos.findMany({
-		select: {
-			Nome: true,
-			id: true,
-			create_at: true
-		},
-		where: {
-			deletede_at: null,
-		},
-		orderBy: {
-			create_at: 'desc'
-		}
-	})
-	res.json(posts)
+const port = 3000
+//app.use(express.json())
+app.use(router)
+app.listen(port, () => {
+	console.log(`Example app listening on port ${port}`)
 })
-
-app.listen(3000)
