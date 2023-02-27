@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-import express, { Router } from "express";
-import { tiposLancamentos } from "./controllers/tipoLancamentos";
+import { Router } from "express";
+import { tiposLancamentos } from "./src/controllers/tipoLancamentos";
+import { a, xd } from "./src/models/contas";
 
 const router: Router = Router()
 export { router };
 
 
-router.get('/', tiposLancamentos.getAll)
+router.get('/', xd(a,))
