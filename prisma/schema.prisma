@@ -13,7 +13,7 @@ datasource db {
 model Envolvidos {
     id          Int           @id @default(autoincrement())
     create_at   DateTime      @default(now())
-    deletede_at DateTime
+    deletede_at DateTime?
     Nome        String
     Lancamentos Lancamentos[]
 }
@@ -22,14 +22,14 @@ model TiposLancamentos {
     id          Int          @id @default(autoincrement())
     create_at   DateTime     @default(now())
     deletede_at DateTime?
-    Nome        String
+    Nome        String       @unique
     Categorias  Categorias[]
 }
 
 model Categorias {
     id                 Int              @id @default(autoincrement())
     create_at          DateTime         @default(now())
-    deletede_at        DateTime
+    deletede_at        DateTime?
     Nome               String
     TiposLancamentosID Int
     TiposLancamentos   TiposLancamentos @relation(fields: [TiposLancamentosID], references: [id])
@@ -40,7 +40,7 @@ model Categorias {
 model Subcategorias {
     id           Int           @id @default(autoincrement())
     create_at    DateTime      @default(now())
-    deletede_at  DateTime
+    deletede_at  DateTime?
     Nome         String
     CategoriasID Int
     Categorias   Categorias    @relation(fields: [CategoriasID], references: [id])
@@ -50,7 +50,7 @@ model Subcategorias {
 model Contas {
     id           Int           @id @default(autoincrement())
     create_at    DateTime      @default(now())
-    deletede_at  DateTime
+    deletede_at  DateTime?
     Nome         String
     SaldoInicial Float
     SaldoAtual   Float
@@ -60,14 +60,15 @@ model Contas {
 model Lancamentos {
     id                 Int           @id @default(autoincrement())
     create_at          DateTime      @default(now())
-    deletede_at        DateTime
+    deletede_at        DateTime?
     Nome               String
-    Data               DateTime
-    DataPagamento      DateTime
+    DataVencimento     DateTime
+    DataPagamento      DateTime?
     DescricaoBasica    String
     DescricaoAdicional String
     Valor              Float
-    Situacao           Int
+    situacaoId         Int
+    Situacao           Situacao      @relation(fields: [situacaoId], references: [id])
     EnvolvidosID       Int
     Envolvidos         Envolvidos    @relation(fields: [EnvolvidosID], references: [id])
     ContasID           Int
@@ -76,4 +77,11 @@ model Lancamentos {
     Categorias         Categorias    @relation(fields: [CategoriasID], references: [id])
     SubcategoriasID    Int
     Subcategorias      Subcategorias @relation(fields: [SubcategoriasID], references: [id])
+}
+
+model Situacao {
+    id          Int           @id @default(autoincrement())
+    create_at   DateTime      @default(now())
+    deletede_at DateTime?
+    Lancamentos Lancamentos[]
 }
