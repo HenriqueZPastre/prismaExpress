@@ -14,11 +14,8 @@ const a = new PrismaClient()
 
 const at = async () => {
 	await a.tiposLancamentos.create({
-		data: {
-			id: tipo1.gorm?.id,
-			Nome: tipo1.Nome
-
-		}
+		data: tipo1
+		
 	})
 }
 

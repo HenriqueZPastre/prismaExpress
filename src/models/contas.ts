@@ -1,7 +1,5 @@
-import { gormLike } from "./gormLike"
-
 export type Contas = {
-	gormLike: gormLike
+	id?: number
 	nome: string
 	saldoInicial: number
 	saldoAtual: number

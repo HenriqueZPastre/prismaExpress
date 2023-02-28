@@ -1,7 +1,4 @@
-import { gormLike } from "./gormLike"
-
 export type createTipoLancamento = {
-	gorm?: gormLike
-	//id?: number
+	id?: number
 	Nome: string
 }
