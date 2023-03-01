@@ -1,4 +1,10 @@
 export type createTipoLancamento = {
 	id?: number
-	Nome: string
+	nome: string
 }
+
+/**
+ * 0 = Receita
+ * 1 = Despesa
+ */
+export type tiposPadrao = 0 | 1

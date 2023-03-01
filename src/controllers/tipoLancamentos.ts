@@ -7,7 +7,7 @@ export const tiposLancamentos = {
 	async getAll(_req: Request, res: Response) {
 		const posts = await prisma.tiposLancamentos.findMany({
 			select: {
-				Nome: true,
+				nome: true,
 				id: true,
 				create_at: true
 			},

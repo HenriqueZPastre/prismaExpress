@@ -14,7 +14,7 @@ model Envolvidos {
     id          Int           @id @default(autoincrement())
     create_at   DateTime      @default(now())
     deletede_at DateTime?
-    Nome        String
+    nome        String
     Lancamentos Lancamentos[]
 }
 
@@ -22,7 +22,7 @@ model TiposLancamentos {
     id          Int          @id @default(autoincrement())
     create_at   DateTime     @default(now())
     deletede_at DateTime?
-    Nome        String       @unique
+    nome        String       @unique
     Categorias  Categorias[]
 }
 
@@ -30,9 +30,9 @@ model Categorias {
     id                 Int              @id @default(autoincrement())
     create_at          DateTime         @default(now())
     deletede_at        DateTime?
-    Nome               String
-    TiposLancamentosID Int
-    TiposLancamentos   TiposLancamentos @relation(fields: [TiposLancamentosID], references: [id])
+    nome               String
+    tiposLancamentosId Int
+    tiposLancamentos   TiposLancamentos @relation(fields: [tiposLancamentosId], references: [id])
     Lancamentos        Lancamentos[]
     Subcategorias      Subcategorias[]
 }
@@ -41,9 +41,9 @@ model Subcategorias {
     id           Int           @id @default(autoincrement())
     create_at    DateTime      @default(now())
     deletede_at  DateTime?
-    Nome         String
-    CategoriasID Int
-    Categorias   Categorias    @relation(fields: [CategoriasID], references: [id])
+    nome         String
+    categoriasId Int
+    categorias   Categorias    @relation(fields: [categoriasId], references: [id])
     Lancamentos  Lancamentos[]
 }
 
@@ -51,32 +51,32 @@ model Contas {
     id           Int           @id @default(autoincrement())
     create_at    DateTime      @default(now())
     deletede_at  DateTime?
-    Nome         String
-    SaldoInicial Float
-    SaldoAtual   Float
+    nome         String
+    saldoInicial Float
+    saldoAtual   Float
     Lancamentos  Lancamentos[]
 }
 
 model Lancamentos {
-    id                 Int           @id @default(autoincrement())
-    create_at          DateTime      @default(now())
+    id                 Int            @id @default(autoincrement())
+    create_at          DateTime       @default(now())
     deletede_at        DateTime?
-    Nome               String
-    DataVencimento     DateTime
-    DataPagamento      DateTime?
-    DescricaoBasica    String
-    DescricaoAdicional String
-    Valor              Float
+    nome               String
+    dataVencimento     DateTime
+    dataPagamento      DateTime?
+    descricaoBasica    String
+    descricaoAdicional String
+    valor              Float
     situacaoId         Int
-    Situacao           Situacao      @relation(fields: [situacaoId], references: [id])
-    EnvolvidosID       Int
-    Envolvidos         Envolvidos    @relation(fields: [EnvolvidosID], references: [id])
-    ContasID           Int
-    Contas             Contas        @relation(fields: [ContasID], references: [id])
-    CategoriasID       Int
-    Categorias         Categorias    @relation(fields: [CategoriasID], references: [id])
-    SubcategoriasID    Int
-    Subcategorias      Subcategorias @relation(fields: [SubcategoriasID], references: [id])
+    situacao           Situacao       @relation(fields: [situacaoId], references: [id])
+    envolvidosId       Int
+    envolvidos         Envolvidos     @relation(fields: [envolvidosId], references: [id])
+    contasId           Int
+    contas             Contas         @relation(fields: [contasId], references: [id])
+    categoriasId       Int
+    categorias         Categorias     @relation(fields: [categoriasId], references: [id])
+    subcategoriasId    Int?
+    subcategorias      Subcategorias? @relation(fields: [subcategoriasId], references: [id])
 }
 
 model Situacao {
