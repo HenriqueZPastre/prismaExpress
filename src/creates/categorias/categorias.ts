@@ -20,26 +20,17 @@ const categoriassAdd = async (objeto: createCategorias) => {
 		await prisma.categorias.create({
 			data: objeto
 		})
-	}catch(e) {
+	} catch (e) {
 		console.log('Erro com', objeto.nome)
 		console.log(e)
 	}
-	
+
 }
 
-const t = categoriasBase
-
 export const categoriasInsert = () => {
-	categoriassAdd(t[0])
-	categoriassAdd(t[1])
-	categoriassAdd(t[2])
-	categoriassAdd(t[3])
-	categoriassAdd(t[4])
-	categoriassAdd(t[5])
-	categoriassAdd(t[6])
-	categoriassAdd(t[7])
-	categoriassAdd(t[8])
-	categoriassAdd(t[9])
+	categoriasBase.forEach(obj => {
+		categoriassAdd(obj)
+	})
 }
 
 categoriasInsert()

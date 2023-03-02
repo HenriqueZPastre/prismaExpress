@@ -3,7 +3,7 @@ import { createCategorias } from "src/models/categorias";
 export const categoriasBase: createCategorias[] = [
 	{
 		id: 0,
-		nome: 'Salario',
+		nome: 'Salário',
 		tiposLancamentosId: 0
 	},
 	{

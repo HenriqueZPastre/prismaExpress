@@ -65,7 +65,7 @@ model Lancamentos {
     dataVencimento     DateTime
     dataPagamento      DateTime?
     descricaoBasica    String
-    descricaoAdicional String
+    descricaoAdicional String?
     valor              Float
     situacaoId         Int
     situacao           Situacao       @relation(fields: [situacaoId], references: [id])
@@ -83,5 +83,6 @@ model Situacao {
     id          Int           @id @default(autoincrement())
     create_at   DateTime      @default(now())
     deletede_at DateTime?
+    nome        String
     Lancamentos Lancamentos[]
 }
