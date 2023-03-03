@@ -10,43 +10,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Envolvidos {
-    id          Int           @id @default(autoincrement())
-    create_at   DateTime      @default(now())
-    deletede_at DateTime?
-    nome        String
-    Lancamentos Lancamentos[]
-}
-
-model TiposLancamentos {
-    id          Int          @id @default(autoincrement())
-    create_at   DateTime     @default(now())
-    deletede_at DateTime?
-    nome        String       @unique
-    Categorias  Categorias[]
-}
-
-model Categorias {
-    id                 Int              @id @default(autoincrement())
-    create_at          DateTime         @default(now())
-    deletede_at        DateTime?
-    nome               String
-    tiposLancamentosId Int
-    tiposLancamentos   TiposLancamentos @relation(fields: [tiposLancamentosId], references: [id])
-    Lancamentos        Lancamentos[]
-    Subcategorias      Subcategorias[]
-}
-
-model Subcategorias {
-    id           Int           @id @default(autoincrement())
-    create_at    DateTime      @default(now())
-    deletede_at  DateTime?
-    nome         String
-    categoriasId Int
-    categorias   Categorias    @relation(fields: [categoriasId], references: [id])
-    Lancamentos  Lancamentos[]
-}
-
 model Contas {
     id           Int           @id @default(autoincrement())
     create_at    DateTime      @default(now())
@@ -58,31 +21,30 @@ model Contas {
 }
 
 model Lancamentos {
-    id                 Int            @id @default(autoincrement())
-    create_at          DateTime       @default(now())
-    deletede_at        DateTime?
-    nome               String
-    dataVencimento     DateTime
-    dataPagamento      DateTime?
-    descricaoBasica    String
-    descricaoAdicional String?
-    valor              Float
-    situacaoId         Int
-    situacao           Situacao       @relation(fields: [situacaoId], references: [id])
-    envolvidosId       Int
-    envolvidos         Envolvidos     @relation(fields: [envolvidosId], references: [id])
-    contasId           Int
-    contas             Contas         @relation(fields: [contasId], references: [id])
-    categoriasId       Int
-    categorias         Categorias     @relation(fields: [categoriasId], references: [id])
-    subcategoriasId    Int?
-    subcategorias      Subcategorias? @relation(fields: [subcategoriasId], references: [id])
+    id               Int                @id @default(autoincrement())
+    create_at        DateTime           @default(now())
+    deletede_at      DateTime?
+    descricao        String
+    dataVencimento   DateTime           @default(now())
+    dataPagamento    DateTime?
+    valor            Float
+    contasId         Int
+    contas           Contas             @relation(fields: [contasId], references: [id])
+    lancamentos_tags lancamentos_tags[]
 }
 
-model Situacao {
-    id          Int           @id @default(autoincrement())
-    create_at   DateTime      @default(now())
-    deletede_at DateTime?
-    nome        String
-    Lancamentos Lancamentos[]
+model Tags {
+    id               Int                @id @default(autoincrement())
+    create_at        DateTime           @default(now())
+    deletede_at      DateTime?
+    nome             String
+    lancamentos_tags lancamentos_tags[]
+}
+
+model lancamentos_tags {
+    id            Int         @id @default(autoincrement())
+    tags          Tags        @relation(fields: [tagsId], references: [id])
+    tagsId        Int
+    lacamentos    Lancamentos @relation(fields: [lancamentosId], references: [id])
+    lancamentosId Int
 }
