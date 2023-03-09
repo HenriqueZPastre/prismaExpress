@@ -11,13 +11,14 @@ datasource db {
 }
 
 model Contas {
-    id           Int           @id @default(autoincrement())
-    create_at    DateTime      @default(now())
+    id           Int            @id @default(autoincrement())
+    create_at    DateTime       @default(now())
     deletede_at  DateTime?
     nome         String
     saldoInicial Float
     saldoAtual   Float
     Lancamentos  Lancamentos[]
+    contas_saldo contas_saldo[]
 }
 
 model Lancamentos {
@@ -25,10 +26,10 @@ model Lancamentos {
     create_at        DateTime           @default(now())
     deletede_at      DateTime?
     descricao        String
-    dataVencimento   DateTime           @default(now())
-    dataPagamento    DateTime?
     valor            Float
+    dataVencimento   DateTime           @default(now())
     contasId         Int
+    dataPagamento    DateTime?
     contas           Contas             @relation(fields: [contasId], references: [id])
     lancamentos_tags lancamentos_tags[]
 }
@@ -43,8 +44,15 @@ model Tags {
 
 model lancamentos_tags {
     id            Int         @id @default(autoincrement())
-    tags          Tags        @relation(fields: [tagsId], references: [id])
     tagsId        Int
-    lacamentos    Lancamentos @relation(fields: [lancamentosId], references: [id])
     lancamentosId Int
+    tags          Tags        @relation(fields: [tagsId], references: [id])
+    lacamentos    Lancamentos @relation(fields: [lancamentosId], references: [id])
+}
+
+model contas_saldo {
+    contasId          Int      @id
+    saldoAtual        Float
+    ultimoAtualizacao DateTime @default(now())
+    contas            Contas   @relation(fields: [contasId], references: [id])
 }
