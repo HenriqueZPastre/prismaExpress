@@ -5,9 +5,9 @@ const prisma = new PrismaClient()
 
 export const tiposLancamentos = {
 	async getAll(_req: Request, res: Response) {
-		const posts = await prisma.tiposLancamentos.findMany({
+		const posts = await prisma.lancamentos.findMany({
 			select: {
-				nome: true,
+				descricao: true,
 				id: true,
 				create_at: true
 			},

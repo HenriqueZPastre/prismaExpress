@@ -5,3 +5,10 @@ export type createContas = {
 	saldoInicial: number
 	saldoAtual: number
 } 
+
+export type listarContas = {
+	id: number
+	nome: string
+	saldoInicial: number
+	saldoAtual: number
+}
