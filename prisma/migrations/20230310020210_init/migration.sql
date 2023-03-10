@@ -18,6 +18,7 @@ CREATE TABLE "Lancamentos" (
     "dataVencimento" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "contasId" INTEGER NOT NULL,
     "dataPagamento" DATETIME,
+    "tipo" INTEGER NOT NULL,
     CONSTRAINT "Lancamentos_contasId_fkey" FOREIGN KEY ("contasId") REFERENCES "Contas" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -36,12 +37,4 @@ CREATE TABLE "lancamentos_tags" (
     "lancamentosId" INTEGER NOT NULL,
     CONSTRAINT "lancamentos_tags_tagsId_fkey" FOREIGN KEY ("tagsId") REFERENCES "Tags" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "lancamentos_tags_lancamentosId_fkey" FOREIGN KEY ("lancamentosId") REFERENCES "Lancamentos" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "contas_saldo" (
-    "contasId" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "saldoAtual" REAL NOT NULL,
-    "ultimoAtualizacao" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "contas_saldo_contasId_fkey" FOREIGN KEY ("contasId") REFERENCES "Contas" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );

@@ -1,13 +1,23 @@
 export type createLancamentos = {
-	nome: string
-	dataVencimento: Date
-	dataPagamento?: Date
-	descricaoBasica: string
-	descricaoAdicional?: string
+	descricao: string
 	valor: number
-	situacaoId: number
-	envolvidosId: number
+	dataVencimento: Date | undefined
 	contasId: number
-	categoriasId: number
-	subcategoriasId?: number
+	dataPagamento?: Date
+	/**
+	 * 0 é entrada
+	 * 
+	 * 1 é saida
+	 */
+	tipo: 0 | 1
+	tags?: number[]
 }
+
+const a : createLancamentos = {
+	descricao: "",
+	valor: 0,
+	dataVencimento: undefined,
+	contasId: 0,
+	tipo: 0
+}
+console.log(a)
