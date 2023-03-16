@@ -12,3 +12,8 @@ export type listarContas = {
 	saldoInicial: number
 	saldoAtual: number
 }
+
+export type editarContas = {
+	nome?: string
+	saldoInicial?: number
+}

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 import { Request, Response } from "express"
-import { createContas, listarContas } from "src/models/contas"
+import { createContas, editarContas, listarContas } from "src/models/contas"
 
 const prisma = new PrismaClient()
 
@@ -63,6 +63,43 @@ export const CONTAS = {
 			}
 		})
 		res.status(204).send()
+	},
+
+	async editarConta(req: Request<editarContas & { id: string }>, resp: Response) {
+
+		if (Object.keys(req.body).length < 1) {
+			return resp.status(404).json({
+				message: "Não existe nenhum parametro para alteração"
+			})
+		}
+
+		const a = new Object(req.body)
+		if (!a.hasOwnProperty('saldoInicial') && !a.hasOwnProperty('nome')) {
+			return resp.status(404).json({
+				message: "Não existe nenhum parametro correto para alteração"
+			})
+		}
+
+		try {
+			const editar = await prisma.contas.update({
+				data: {
+					nome: req.body.nome,
+					saldoInicial: req.body.saldoInicial
+				},
+				where: {
+					id: parseInt(req.params.id)
+				}
+			})
+			resp.status(200).json({
+				message: {
+					id: editar.id
+				}
+			})
+		} catch (err) {
+			resp.status(404).json({
+				message: "Houve um erro com a request ou a conta em especifico não existe"
+			})
+		}
 	}
 }
 
