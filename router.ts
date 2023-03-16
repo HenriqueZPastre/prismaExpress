@@ -9,3 +9,5 @@ export { router };
 router.get('/', tiposLancamentos.getAll)
 
 router.get('/contas', CONTAS.listAll)
+router.post('/contas', CONTAS.createConta)
+router.delete('/contas/:id', CONTAS.deleteConta)

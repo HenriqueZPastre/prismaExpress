@@ -1,6 +1,5 @@
 ### CONTAS FEATURES
-	Endpoints
-		- [ ] Inserir
-		- [ ] Buscar
-		- [ ] Editar
-		- [ ] Excluir 
+- [x] Buscar
+- [ ] Inserir
+- [ ] Editar
+- [ ] Excluir 
