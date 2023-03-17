@@ -48,12 +48,33 @@ export const CONTAS = {
 			},
 			where: {
 				id: parseInt(req.params.id),
-				deletede_at: null
+				deletede_at: null,
+				
+			},
+			
+		})
+
+		const b = await prisma.lancamentos.findFirst({
+			select: {
+				id:true
+			},
+			where: {
+				contasId: parseInt(req.params.id),
+				deletede_at: null,
 			}
 		})
+
+		console.log(b)
+
 		if (!a) {
 			return res.status(404).json({ message: 'Conta não encontrada' });
 		}
+
+		if (b) {
+			return res.status(404).json({ message: 'Conta não pode ser excluida pois possui vinculo com outros dados do banco' });
+		}
+		
+
 		await prisma.contas.update({
 			data: {
 				deletede_at: new Date()
