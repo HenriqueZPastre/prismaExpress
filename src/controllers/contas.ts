@@ -1,4 +1,5 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, Prisma } from "@prisma/client"
+import { PrismaClientKnownRequestError, PrismaClientValidationError } from "@prisma/client/runtime"
 import e, { Request, Response } from "express"
 import { createContas, editarContas, listarContas } from "src/models/contas"
 
@@ -90,44 +91,59 @@ export const CONTAS = {
 
 		const id: { id: string } = req.params
 
-
 		const body: editarContas = req.body
-		console.log(typeof body.nome)
 
-		if (Object.keys(body).length < 1) {
-			return resp.status(404).json({
-				message: "Não existe nenhum parametro para alteração"
-			})
+		if (!body.nome && !body.saldoInicial) {
+			return resp.status(400).json({
+				message: "O corpo da requisição deve incluir pelo menos uma propriedade para alteração",
+			});
 		}
 
-		if (typeof body.nome?.toString != 'string' || typeof body.nome?.toString != 'undefined') {
+		if (body.nome && typeof body.nome !== "string") {
+			return resp.status(400).json({
+				message: "A propriedade 'nome' deve ser uma string",
+			});
+		}
+
+		if (body.saldoInicial && typeof body.saldoInicial !== "number") {
+			return resp.status(400).json({
+				message: "A propriedade 'saldoInicial' deve ser um número",
+			});
+		}
+
+		//Trata para que os paremtros sejam connnvertidos para a tipagem correta
+		/* if (typeof body.nome != 'string' || typeof body.nome?.toString != 'undefined') {
 			body.nome = body.nome?.toString()
 		}
-		
-		if (typeof body.nome?.toString != 'string' || typeof body.nome?.toString != 'undefined') {
-			body.nome = body.nome?.toString()
+
+		if (typeof body.saldoInicial == 'string') {
+			const parseToFixed = parseFloat(body.saldoInicial).toFixed(2)
+			body.saldoInicial = parseFloat(parseToFixed)
 		}
-
-
-
-
-
-
-
+ */
 		try {
 			const editar = await prisma.contas.update({
-				data: body,
+				data: {
+					nome: body.nome,
+					saldoInicial: body.saldoInicial
+				},
 				where: {
-					id: parseInt(id.id)
-				}
-			})
-			resp.status(200).json({})
+					id: parseInt(id.id),
+				},
+			});
+			resp.status(200).json({});
 		} catch (err) {
 			console.log(err)
-			resp.status(404).json({
-				message: "Houve um erro com a request ou a conta em especifico não existe",
-				erro: err
-			})
+			if (err instanceof Prisma.PrismaClientValidationError) {
+				resp.status(500).json({
+					message: "Não foi possível editar a conta",
+					error: err.message,
+				});
+			}
+			resp.status(500).json({
+				message: "Não foi possível editar a conta",
+				error: err,
+			});
 		}
 	}
 }
