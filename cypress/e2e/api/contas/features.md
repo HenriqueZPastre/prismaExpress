@@ -1,5 +1,5 @@
 ### CONTAS FEATURES
 - [x] Buscar
-- [ ] Inserir
+- [x] Inserir
 - [ ] Editar
-- [ ] Excluir 
+- [x] Excluir 

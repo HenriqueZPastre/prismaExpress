@@ -1,20 +1,21 @@
 /// <reference types = 'cypress'/>
 
 let teste: number;
-describe('Verificar a tipagem e o valor do response para cada resultado da listagem de contas bancarias', () => {
-	
-	it('Realizar a request', () => {
+describe('Valida a request de delete', () => {
+
+	it('Realizar a request da listagem de contas', () => {
 		cy.request('GET', '/contas').then(resp => {
 			teste = resp.body[0].id
 		})
 	})
-	it('DELETE Sucesss', () => {
+
+	it('DELETE Sucess', () => {
 		cy.request('DELETE', `/contas/${teste}`).then(response => {
 			expect(response.status).eql(204)
 		})
 	})
 
-	it('DELET Fail', () => {
+	it('DELET Conta não existe', () => {
 		cy.request({
 			method: "DELETE",
 			url: `/contas/${teste}`,

@@ -1,9 +1,9 @@
 /// <reference types = 'cypress'/>
 
-import { createContas } from 'src/models/contas';
+import { editarContas } from 'src/models/contas';
 import { novaConta } from './objetos.cy';
 
-describe('Verificar a tipagem e o valor do response para cada resultado da listagem de contas bancarias', () => {
+describe('Verifica a tipagem e o valor do response para cada resultado da listagem de contas bancarias', () => {
 	it('Realizar a request com sucesso', () => {
 		cy.request({
 			method: 'POST',
@@ -14,7 +14,7 @@ describe('Verificar a tipagem e o valor do response para cada resultado da lista
 		})
 	})
 	it('Realizar a request com erro', () => {
-		cy.request({
+		cy.request<editarContas>({
 			method: 'POST',
 			url: '/contas',
 			body: {

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import { Request, Response } from "express"
+import e, { Request, Response } from "express"
 import { createContas, editarContas, listarContas } from "src/models/contas"
 
 const prisma = new PrismaClient()
@@ -11,7 +11,7 @@ export const CONTAS = {
 				id: true,
 				nome: true,
 				saldoInicial: true,
-				saldoAtual: true
+				saldoAtual: true,
 			},
 			where: {
 				deletede_at: null
@@ -19,7 +19,7 @@ export const CONTAS = {
 		})
 
 		if (all.length < 1) {
-			return res.status(200).json({ message: 'Nenhuma conta encontrada' })
+			return res.status(404).json({ message: 'Nenhuma conta encontrada' })
 		}
 
 		res.status(200).json(all)
@@ -49,14 +49,14 @@ export const CONTAS = {
 			where: {
 				id: parseInt(req.params.id),
 				deletede_at: null,
-				
+
 			},
-			
+
 		})
 
 		const b = await prisma.lancamentos.findFirst({
 			select: {
-				id:true
+				id: true
 			},
 			where: {
 				contasId: parseInt(req.params.id),
@@ -73,7 +73,7 @@ export const CONTAS = {
 		if (b) {
 			return res.status(404).json({ message: 'Conta não pode ser excluida pois possui vinculo com outros dados do banco' });
 		}
-		
+
 
 		await prisma.contas.update({
 			data: {
@@ -86,39 +86,47 @@ export const CONTAS = {
 		res.status(204).send()
 	},
 
-	async editarConta(req: Request<editarContas & { id: string }>, resp: Response) {
+	async editarConta(req: Request<{ id: string }>, resp: Response) {
 
-		if (Object.keys(req.body).length < 1) {
+		const id: { id: string } = req.params
+
+
+		const body: editarContas = req.body
+		console.log(typeof body.nome)
+
+		if (Object.keys(body).length < 1) {
 			return resp.status(404).json({
 				message: "Não existe nenhum parametro para alteração"
 			})
 		}
 
-		const a = new Object(req.body)
-		if (!a.hasOwnProperty('saldoInicial') && !a.hasOwnProperty('nome')) {
-			return resp.status(404).json({
-				message: "Não existe nenhum parametro correto para alteração"
-			})
+		if (typeof body.nome?.toString != 'string' || typeof body.nome?.toString != 'undefined') {
+			body.nome = body.nome?.toString()
 		}
+		
+		if (typeof body.nome?.toString != 'string' || typeof body.nome?.toString != 'undefined') {
+			body.nome = body.nome?.toString()
+		}
+
+
+
+
+
+
 
 		try {
 			const editar = await prisma.contas.update({
-				data: {
-					nome: req.body.nome,
-					saldoInicial: req.body.saldoInicial
-				},
+				data: body,
 				where: {
-					id: parseInt(req.params.id)
+					id: parseInt(id.id)
 				}
 			})
-			resp.status(200).json({
-				message: {
-					id: editar.id
-				}
-			})
+			resp.status(200).json({})
 		} catch (err) {
+			console.log(err)
 			resp.status(404).json({
-				message: "Houve um erro com a request ou a conta em especifico não existe"
+				message: "Houve um erro com a request ou a conta em especifico não existe",
+				erro: err
 			})
 		}
 	}
