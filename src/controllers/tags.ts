@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { HandleResponse } from '../utils/HandleResponse';
 import { Request, Response } from "express";
+import { has } from "cypress/types/lodash";
 
 
 const prisma = new PrismaClient()
@@ -25,10 +26,10 @@ export const TAGS = {
 		})
 
 		if (query.length < 1) {
-			return HandleResponse(resp, 404, 'Erro', {b:'Nenhum resultado econtrado'})
+			return HandleResponse(resp, 404, 'Nenhum resultado econtrado', 'Erro')
 
 		} else {
-			return HandleResponse(resp, 200, undefined, {a:query})
+			return HandleResponse(resp, 200, query)
 		}
 	},
 
@@ -48,7 +49,7 @@ export const TAGS = {
 
 		if (numLancamentos > 0) {
 			const mensagemErro = `Não é possível excluir a tag com ID ${tagId} porque há ${numLancamentos} lançamentos associados a ela.`
-			return HandleResponse(resp, 400, 'Erro', {b:mensagemErro})
+			return HandleResponse(resp, 400, mensagemErro, 'Erro')
 
 		} else {
 			const existe = await prisma.tags.findFirst({
@@ -68,19 +69,17 @@ export const TAGS = {
 				})
 				return HandleResponse(resp, 200)
 			}
-			return HandleResponse(resp, 400, 'Erro', {b:'Tag não existe'})
+			return HandleResponse(resp, 400, 'Tag não existe', 'Erro')
 		}
 	},
 
 	async teste(_req: Request, resp: Response) {
 
 		const t = await prisma.contas.findMany({
-
 			where: {
 				deletede_at: null
 			}
 		})
-
-		return HandleResponse(resp, 200, 'Sucesso', { a: t, b:'teste'})
+		return HandleResponse(resp, 200, t)
 	}
 }
