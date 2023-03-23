@@ -16,10 +16,9 @@ const criarLancamentos = async (objeto: createLancamentos) => {
 	const t = d.getMonth()
 
 	if (existe) {
-		console.log('mes ---', existe?.create_at.getMonth())
-		console.log(existe)
+	
 		if (existe?.create_at.getMonth() == t) {
-			console.log('O registro:', objeto.nome, 'já existe')
+			
 			return
 		}
 

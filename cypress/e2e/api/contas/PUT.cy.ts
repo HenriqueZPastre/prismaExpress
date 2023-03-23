@@ -13,12 +13,13 @@ describe('Testes de metodo PUT em contas', () => {
 			failOnStatusCode: false
 			
 		}).then(resp => {
-			expect(resp.body.message).be.equal('Não foi possível editar a conta')
+			expect(resp.body.data.error).be.equal('Não foi possível editar a conta')
 		})
 	})
+
 	it('Realizar a request da listagem de contas', () => {
 		cy.request('GET', '/contas').then(resp => {
-			id = resp.body[0].id
+			id = resp.body.data[0].id
 		})
 	})
 
@@ -45,7 +46,7 @@ describe('Testes de metodo PUT em contas', () => {
 			
 		}).then(resp => {
 			expect(resp.status).be.equal(400)
-			expect(resp.body.message).be.equal('O corpo da requisição deve incluir pelo menos uma propriedade para alteração')
+			expect(resp.body.data.error).be.equal('O corpo da requisição deve incluir pelo menos uma propriedade para alteração')
 		})
 	})
 
@@ -61,7 +62,7 @@ describe('Testes de metodo PUT em contas', () => {
 			
 		}).then(resp => {
 			expect(resp.status).be.equal(400)
-			expect(resp.body.message).be.equal('O corpo da requisição deve incluir pelo menos uma propriedade para alteração')
+			expect(resp.body.data.error).be.equal('O corpo da requisição deve incluir pelo menos uma propriedade para alteração')
 		})
 	})
 

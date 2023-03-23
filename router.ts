@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { tiposLancamentos } from "./src/controllers/tipoLancamentos";
+
 import { CONTAS } from "./src/controllers/contas";
 import { TAGS } from "./src/controllers/tags";
 
 const router: Router = Router()
 export { router };
 
-
-router.get('/', tiposLancamentos.getAll)
-
+//*********************************\\
+//**** CONTAS BANCÁRIAS ***********\\
+//*********************************\\
 router.get('/contas', CONTAS.listAll)
 router.post('/contas', CONTAS.createConta)
 router.delete('/contas/:id', CONTAS.deleteConta)

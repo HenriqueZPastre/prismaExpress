@@ -1,11 +1,12 @@
 /// <reference types = 'cypress'/>
 
-import { listarContas } from "src/models/contas";
+import { listarContas } from "../../../../src/models/contas";
 
 describe('Verificar a tipagem e o valor do response para cada resultado da listagem de contas bancarias', () => {
 	it('Realizar a request', () => {
-		cy.request<listarContas[]>('GET', '/contas').then(response => {
-			response.body.forEach(conta => {
+		cy.request('GET', '/contas').then(response => {
+			const body: listarContas[] = response.body.data
+			body.forEach(conta => {
 				expect(typeof conta.id).to.eq("number");
 				expect(typeof conta.nome).to.eq("string");
 				expect(typeof conta.saldoInicial).to.eq("number");

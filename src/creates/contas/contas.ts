@@ -11,7 +11,6 @@ export const contasAdd = async (objeto: createContas) => {
 	})
 
 	if (registroExistente) {
-		console.log('Já existe a conta', objeto.nome)
 		return
 	}
 

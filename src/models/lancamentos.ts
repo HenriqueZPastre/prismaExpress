@@ -20,4 +20,3 @@ const a : createLancamentos = {
 	contasId: 0,
 	tipo: 0
 }
-console.log(a)

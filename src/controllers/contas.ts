@@ -1,7 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client"
-import { PrismaClientKnownRequestError, PrismaClientValidationError } from "@prisma/client/runtime"
-import e, { Request, Response } from "express"
+import { Request, Response } from "express"
 import { createContas, editarContas, listarContas } from '../models/contas'
+import { HandleResponse } from "../utils/HandleResponse"
 
 const prisma = new PrismaClient()
 
@@ -20,15 +20,16 @@ export const CONTAS = {
 		})
 
 		if (all.length < 1) {
-			return res.status(404).json({ message: 'Nenhuma conta encontrada' })
-		}
+			return HandleResponse(res, 404, 'Nenhuma conta encontrada', 'Mensagem')
 
-		res.status(200).json(all)
+		}
+		return HandleResponse(res, 200, all)
 	},
 
 	async createConta(req: Request<createContas>, res: Response,) {
 		if (!req.body.nome) {
-			return res.status(400).json({ erro: 'Nome é obrigatório' })
+			return HandleResponse(res, 404, 'Nome é obrigatório', 'Erro')
+
 		}
 		if (!req.body.saldoInicial) {
 			req.body.saldoInicial = 0
@@ -36,10 +37,10 @@ export const CONTAS = {
 		if (!req.body.saldoAtual) {
 			req.body.saldoAtual = 0
 		}
-		await prisma.contas.create({
+		const create = await prisma.contas.create({
 			data: req.body
 		})
-		res.status(201).json()
+		return HandleResponse(res, 201, create.id.toString())
 	},
 
 	async deleteConta(req: Request<{ id: string }>, res: Response,) {
@@ -65,16 +66,14 @@ export const CONTAS = {
 			}
 		})
 
-		console.log(b)
 
 		if (!a) {
-			return res.status(404).json({ message: 'Conta não encontrada' });
+			return HandleResponse(res, 404, 'Conta não encontrada', 'Erro')
 		}
 
 		if (b) {
-			return res.status(404).json({ message: 'Conta não pode ser excluida pois possui vinculo com outros dados do banco' });
+			return HandleResponse(res, 400, 'Conta não pode ser excluida pois possui vinculo com outros dados do banco', 'Mensagem')
 		}
-
 
 		await prisma.contas.update({
 			data: {
@@ -84,19 +83,15 @@ export const CONTAS = {
 				id: parseInt(req.params.id)
 			}
 		})
-		res.status(204).send()
+		return HandleResponse(res, 204)
 	},
 
 	async editarConta(req: Request<{ id: string }>, resp: Response) {
-
 		const id: { id: string } = req.params
-
 		const body: editarContas = req.body
 
 		if (!body.nome && !body.saldoInicial) {
-			return resp.status(400).json({
-				message: "O corpo da requisição deve incluir pelo menos uma propriedade para alteração",
-			});
+			return HandleResponse(resp, 400, 'O corpo da requisição deve incluir pelo menos uma propriedade para alteração', 'Erro')
 		}
 
 		//Retorna que tal tipagem deve existir
@@ -123,7 +118,7 @@ export const CONTAS = {
 		}
 
 		try {
-			const editar = await prisma.contas.update({
+			await prisma.contas.update({
 				data: {
 					nome: body.nome,
 					saldoInicial: body.saldoInicial
@@ -132,11 +127,10 @@ export const CONTAS = {
 					id: parseInt(id.id),
 				},
 			});
-			resp.status(200).json();
+			return HandleResponse(resp, 200)
+
 		} catch (err) {
-			resp.status(500).json({
-				message: "Não foi possível editar a conta"
-			});
+			return HandleResponse(resp, 500, 'Não foi possível editar a conta', 'Erro')
 		}
 	}
 }

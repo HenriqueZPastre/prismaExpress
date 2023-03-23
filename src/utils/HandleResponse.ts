@@ -17,11 +17,11 @@ export const HandleResponse = (response: Response, statusCode: number, message?:
 	if (tipo) {
 		if (tipo === 'Erro') {
 			texto.data = {
-				Error: message
+				error: message
 			}
 		} else {
 			texto.data = {
-				Message: message
+				message: message
 			}
 		}
 		return response.status(statusCode).json(texto)

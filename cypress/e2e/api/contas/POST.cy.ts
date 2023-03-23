@@ -1,7 +1,7 @@
 /// <reference types = 'cypress'/>
 
-import { editarContas } from 'src/models/contas';
-import { novaConta } from './objetos.cy';
+import { editarContas } from '../../../../src/models/contas';
+import { novaConta } from './objetos';
 
 describe('Verifica a tipagem e o valor do response para cada resultado da listagem de contas bancarias', () => {
 	it('Realizar a request com sucesso', () => {
@@ -14,17 +14,18 @@ describe('Verifica a tipagem e o valor do response para cada resultado da listag
 		})
 	})
 	it('Realizar a request com erro', () => {
-		cy.request<editarContas>({
+		cy.request({
 			method: 'POST',
 			url: '/contas',
 			body: {
 				nome: '',
 				saldoInicial: 200,
 				saldoAtual: 100
-			}
+			},
+			failOnStatusCode: false
 		}).then(response => {
-			console.log(response)
-			expect(response.body).eql('Nome não pode ser uma string vazia')
+			const body: editarContas = response.body.data.error
+			expect(body).eql('Nome é obrigatório')
 		})
 	})
 })
