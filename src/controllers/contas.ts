@@ -1,7 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client"
 import { PrismaClientKnownRequestError, PrismaClientValidationError } from "@prisma/client/runtime"
 import e, { Request, Response } from "express"
-import { createContas, editarContas, listarContas } from "src/models/contas"
+import { createContas, editarContas, listarContas } from '../models/contas'
 
 const prisma = new PrismaClient()
 

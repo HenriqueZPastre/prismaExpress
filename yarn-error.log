@@ -1,30 +1,20 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\teste\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add chai-json-schema-extended
+  C:\Program Files\nodejs\node.exe C:\Users\teste\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js upgrade
 
 PATH: 
-  C:\Program Files\PowerShell\7;C:\Python311\Scripts\;C:\Python311\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\Go\bin;C:\SQlite3;C:\Program Files\Git\cmd;C:\Program Files\PowerShell\7\;C:\Program Files\nodejs\;C:\mingw64\bin;C:\Users\teste\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\teste\AppData\Local\Programs\Python\Python310\;C:\Users\teste\AppData\Local\Microsoft\WindowsApps;C:\Users\teste\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\teste\go\bin;C:\Program Files\heroku\bin;C:\Users\teste\.fly\bin;C:\Users\teste\AppData\Local\Microsoft\WindowsApps;C:\Users\teste\go\bin;C:\SQlite3;C:\Users\teste\AppData\Roaming\npm;C:\mingw64\bin;
+  C:\Program Files\PowerShell\7;C:\Python311\Scripts\;C:\Python311\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\Go\bin;C:\SQlite3;C:\Program Files\Git\cmd;C:\Program Files\PowerShell\7\;C:\mingw64\bin;C:\Program Files\nodejs\;C:\Users\teste\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\teste\AppData\Local\Programs\Python\Python310\;C:\Users\teste\AppData\Local\Microsoft\WindowsApps;C:\Users\teste\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\teste\go\bin;C:\Program Files\heroku\bin;C:\Users\teste\.fly\bin;C:\Users\teste\AppData\Local\Microsoft\WindowsApps;C:\Users\teste\go\bin;C:\SQlite3;C:\mingw64\bin;C:\Users\teste\AppData\Roaming\npm
 
 Yarn version: 
   1.22.19
 
 Node version: 
-  18.14.0
+  18.15.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/chai-json-schema-extended: Not found
-      at params.callback [as _callback] (C:\Users\teste\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66145:18)
-      at self.callback (C:\Users\teste\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140890:22)
-      at Request.emit (node:events:513:28)
-      at Request.<anonymous> (C:\Users\teste\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141862:10)
-      at Request.emit (node:events:513:28)
-      at IncomingMessage.<anonymous> (C:\Users\teste\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141784:12)
-      at Object.onceWrapper (node:events:627:28)
-      at IncomingMessage.emit (node:events:525:35)
-      at endReadableNT (node:internal/streams/readable:1359:12)
-      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+  Error: EPERM: operation not permitted, unlink 'C:\Users\teste\Desktop\apenas\node_modules\prisma\engines\8fde8fef4033376662cad983758335009d522acb\query_engine-windows.dll.node'
 
 npm manifest: 
   {

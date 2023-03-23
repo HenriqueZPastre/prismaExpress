@@ -1,3 +1,5 @@
+import { Response } from "express"
+
 type contas = 'Sicredi' | 'Alelo' | 'Nubank'
 
 export const getIdContas = (objeto: contas) => {

@@ -79,5 +79,4 @@ describe('Testes de metodo PUT em contas', () => {
 			expect(resp.status).be.equal(200)
 		})
 	})
-
 })
