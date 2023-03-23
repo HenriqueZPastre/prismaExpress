@@ -1,5 +1,5 @@
-import { Prisma, PrismaClient } from "@prisma/client"
-import { createContas } from "src/models/contas"
+import { PrismaClient } from "@prisma/client"
+import { createContas } from "../../../src/models/contas"
 
 const prisma = new PrismaClient()
 export const contasAdd = async (objeto: createContas) => {
