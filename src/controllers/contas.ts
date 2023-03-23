@@ -99,7 +99,8 @@ export const CONTAS = {
 			});
 		}
 
-		if (body.nome && typeof body.nome !== "string") {
+		//Retorna que tal tipagem deve existir
+		/* if (body.nome && typeof body.nome !== "string") {
 			return resp.status(400).json({
 				message: "A propriedade 'nome' deve ser uma string",
 			});
@@ -109,10 +110,10 @@ export const CONTAS = {
 			return resp.status(400).json({
 				message: "A propriedade 'saldoInicial' deve ser um número",
 			});
-		}
+		} */
 
 		//Trata para que os paremtros sejam connnvertidos para a tipagem correta
-		/* if (typeof body.nome != 'string' || typeof body.nome?.toString != 'undefined') {
+		if (typeof body.nome != 'string' || typeof body.nome?.toString != 'undefined') {
 			body.nome = body.nome?.toString()
 		}
 
@@ -120,7 +121,7 @@ export const CONTAS = {
 			const parseToFixed = parseFloat(body.saldoInicial).toFixed(2)
 			body.saldoInicial = parseFloat(parseToFixed)
 		}
- */
+
 		try {
 			const editar = await prisma.contas.update({
 				data: {
@@ -131,18 +132,10 @@ export const CONTAS = {
 					id: parseInt(id.id),
 				},
 			});
-			resp.status(200).json({});
+			resp.status(200).json();
 		} catch (err) {
-			console.log(err)
-			if (err instanceof Prisma.PrismaClientValidationError) {
-				resp.status(500).json({
-					message: "Não foi possível editar a conta",
-					error: err.message,
-				});
-			}
 			resp.status(500).json({
-				message: "Não foi possível editar a conta",
-				error: err,
+				message: "Não foi possível editar a conta"
 			});
 		}
 	}

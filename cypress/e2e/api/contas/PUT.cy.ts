@@ -13,7 +13,7 @@ describe('Testes de metodo PUT em contas', () => {
 			failOnStatusCode: false
 			
 		}).then(resp => {
-			expect(resp.body.message).be.equal('Houve um erro com a request ou a conta em especifico não existe')
+			expect(resp.body.message).be.equal('Não foi possível editar a conta')
 		})
 	})
 	it('Realizar a request da listagem de contas', () => {
@@ -44,8 +44,8 @@ describe('Testes de metodo PUT em contas', () => {
 			failOnStatusCode: false
 			
 		}).then(resp => {
-			expect(resp.status).be.equal(404)
-			expect(resp.body.message).be.equal('Não existe nenhum parametro para alteração')
+			expect(resp.status).be.equal(400)
+			expect(resp.body.message).be.equal('O corpo da requisição deve incluir pelo menos uma propriedade para alteração')
 		})
 	})
 
@@ -60,8 +60,8 @@ describe('Testes de metodo PUT em contas', () => {
 			failOnStatusCode: false
 			
 		}).then(resp => {
-			expect(resp.status).be.equal(404)
-			expect(resp.body.message).be.equal('Não existe nenhum parametro correto para alteração')
+			expect(resp.status).be.equal(400)
+			expect(resp.body.message).be.equal('O corpo da requisição deve incluir pelo menos uma propriedade para alteração')
 		})
 	})
 
@@ -76,8 +76,7 @@ describe('Testes de metodo PUT em contas', () => {
 			failOnStatusCode: false
 			
 		}).then(resp => {
-			//console.log(resp)
-			//expect(resp.status).be.equal(200)
+			expect(resp.status).be.equal(200)
 		})
 	})
 
