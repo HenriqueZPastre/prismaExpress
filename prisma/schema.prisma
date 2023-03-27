@@ -28,6 +28,7 @@ model Lancamentos {
     valor            Float
     dataVencimento   DateTime           @default(now())
     contasId         Int
+    contasNome       String
     dataPagamento    DateTime?
     tipo             Int
     contas           Contas             @relation(fields: [contasId], references: [id])

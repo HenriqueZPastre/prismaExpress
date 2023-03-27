@@ -10,6 +10,13 @@ type queryAll = {
 	id: number,
 	nome: string
 }
+
+
+type editar = {
+	id: string,
+	nome: string
+}
+
 export const TAGS = {
 	/**
 	 * Lista todas as tags ativas do banco
@@ -104,21 +111,20 @@ export const TAGS = {
 		return HandleResponse(resp, 200, tag)
 	},
 
-	async editar(req: Request<{ id: string }>, resp: Response) {
-		const { id } = req.params
-		let { nome } = req.body
+
+	async editar(req: Request<{ id: number }, {}, { nome: string }>, resp: Response) {
+		let id = Number(req.params.id)
+		let nome = String(req.body.nome).trim()
+
 		if (!nome) {
 			return HandleResponse(resp, 400, 'Nome não informado', 'Erro')
-		}
-		if (typeof nome !== 'string') {
-			nome = nome.toString()
 		}
 
 		const existe = await prisma.tags.findFirst({
 			where: {
-				id: parseInt(id),
+				id: id,
 				deletede_at: null
-			}
+			},
 		})
 
 		if (!existe) {
@@ -129,7 +135,7 @@ export const TAGS = {
 					nome: nome
 				},
 				where: {
-					id: parseInt(id)
+					id: id
 				}
 			})
 			return HandleResponse(resp, 200)

@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { CONTAS } from "./src/controllers/contas";
 import { TAGS } from "./src/controllers/tags";
+import { LancamentosController } from "./src/controllers/lancamentos";
 
 const router: Router = Router()
 export { router };
@@ -22,3 +23,9 @@ router.put('/tags/:id', TAGS.editar)
 router.delete('/tags/:id', TAGS.excluir)
 
 router.get('/tagss', TAGS.teste)
+
+
+//*********************************\\
+//**** LANÇAMENTOS ***************\\
+//*********************************\\
+router.get('/lancamentos', LancamentosController.listAll)
