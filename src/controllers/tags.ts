@@ -81,5 +81,26 @@ export const TAGS = {
 			}
 		})
 		return HandleResponse(resp, 200, t)
+
+	},
+
+	async create(req: Request<{ nome: string }>, resp: Response) {
+		let { nome } = req.body
+		if (!nome) {
+			return HandleResponse(resp, 400, 'Nome não informado', 'Erro')
+		}
+		if (typeof nome !== 'string') {
+			nome = nome.toString()
+		}
+		const tag = await prisma.tags.create({
+			select: {
+				id: true,
+				nome: true
+			},
+			data: {
+				nome: nome
+			}
+		})
+		return HandleResponse(resp, 200, tag)
 	}
 }
