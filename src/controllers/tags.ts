@@ -102,5 +102,56 @@ export const TAGS = {
 			}
 		})
 		return HandleResponse(resp, 200, tag)
+	},
+
+	async editar(req: Request<{ id: string }>, resp: Response) {
+		const { id } = req.params
+		let { nome } = req.body
+		if (!nome) {
+			return HandleResponse(resp, 400, 'Nome não informado', 'Erro')
+		}
+		if (typeof nome !== 'string') {
+			nome = nome.toString()
+		}
+
+		const existe = await prisma.tags.findFirst({
+			where: {
+				id: parseInt(id),
+				deletede_at: null
+			}
+		})
+
+		if (!existe) {
+			return HandleResponse(resp, 400, 'Tag não existe', 'Erro')
+		} else {
+			await prisma.tags.update({
+				data: {
+					nome: nome
+				},
+				where: {
+					id: parseInt(id)
+				}
+			})
+			return HandleResponse(resp, 200)
+		}
+	},
+
+	async getById(req: Request<{ id: string }>, resp: Response) {
+		const { id } = req.params
+		const tag = await prisma.tags.findFirst({
+			select: {
+				id: true,
+				nome: true,
+			},
+			where: {
+				id: parseInt(id),
+				deletede_at: null
+			}
+		})
+		if (!tag) {
+			return HandleResponse(resp, 404, 'Tag não encontrada', 'Erro')
+		}
+		return HandleResponse(resp, 200, tag)
 	}
+
 }

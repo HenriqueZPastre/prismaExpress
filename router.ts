@@ -10,11 +10,15 @@ export { router };
 //**** CONTAS BANCÁRIAS ***********\\
 //*********************************\\
 router.get('/contas', CONTAS.listAll)
+router.get('/contas/:id', CONTAS.getById)
 router.post('/contas', CONTAS.createConta)
-router.delete('/contas/:id', CONTAS.deleteConta)
 router.put('/contas/:id', CONTAS.editarConta)
+router.delete('/contas/:id', CONTAS.deleteConta)
 
 router.get('/tags', TAGS.listAll)
-router.delete('/tags/:id', TAGS.excluir)
-router.get('/tagss', TAGS.teste)
+router.get('/tags/:id', TAGS.getById)
 router.post('/tags', TAGS.create)
+router.put('/tags/:id', TAGS.editar)
+router.delete('/tags/:id', TAGS.excluir)
+
+router.get('/tagss', TAGS.teste)

@@ -132,6 +132,28 @@ export const CONTAS = {
 		} catch (err) {
 			return HandleResponse(resp, 500, 'Não foi possível editar a conta', 'Erro')
 		}
+	},
+
+	async getById(req: Request<{ id: string }>, res: Response) {
+		const id = req.params.id
+		const conta = await prisma.contas.findFirst({
+			select: {
+				id: true,
+				nome: true,
+				saldoInicial: true,
+				saldoAtual: true,
+			},
+			where: {
+				id: parseInt(id),
+				deletede_at: null
+			}
+		})
+
+		if (!conta) {
+			return HandleResponse(res, 404, 'Conta não encontrada', 'Erro')
+		}
+		return HandleResponse(res, 200, conta)
 	}
+
 }
 

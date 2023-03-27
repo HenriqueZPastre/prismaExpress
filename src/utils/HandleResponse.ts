@@ -1,4 +1,3 @@
-import { any } from "cypress/types/bluebird"
 import { Response } from "express"
 
 type tipo = 'Erro' | 'Mensagem'
@@ -12,7 +11,7 @@ type tipo = 'Erro' | 'Mensagem'
  * 
  * O Campo mensagem aceita string | object | object[ ]
  */
-export const HandleResponse = (response: Response, statusCode: number, message?: string | object | object[]| number, tipo?: tipo,): Response => {
+export const HandleResponse = (response: Response, statusCode: number, message?: string | object | object[]| number| null, tipo?: tipo,): Response => {
 	let texto = { "data": {} }
 	if (tipo) {
 		if (tipo === 'Erro') {
