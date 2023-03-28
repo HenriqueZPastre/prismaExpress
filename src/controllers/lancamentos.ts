@@ -36,25 +36,23 @@ const prisma = new PrismaClient()
 
 export const LancamentosController = {
 
-	/**
-	 * 
-	 * @param req 
-	 * @param res 
-	 * @returns 
-	 */
 	async listAll(req: Query, res: Response) {
-		let next
-		let limit: number | undefined = 15
-		if (req.query.all === 'true') {
-			next = undefined
+		let limit: number | undefined = Number(req.query.limit)
+		let page: number = Number(req.query.page)
+		let all = req.query.all
+		let next = undefined
+
+		if (all === 'true') {
 			limit = undefined
+			page = NaN
+		} else {
+			if (!limit) {
+				limit = 15
+			}
 		}
 
-		if (req.query.limit) { limit = Number(req.query.limit) }
-
-		const page = Number(req.query.page)
-		if (page > 1 && !req.query.all) {
-			next = (page - 1) * Number(limit)
+		if (page && limit) {
+			page > 1 ? next = (page - 1) * limit : next = undefined
 		}
 
 		const lancamentos = await prisma.lancamentos.findMany({
