@@ -1,6 +1,6 @@
 import { Response } from "express"
 
-type tipo = 'Erro' | 'Mensagem'
+type tipo = 'Erro' | 'Mensagem' | 'Contador'
 
 /**
  * Recebe e retorna um Response do Express 
@@ -11,17 +11,26 @@ type tipo = 'Erro' | 'Mensagem'
  * 
  * O Campo mensagem aceita string | object | object[ ]
  */
-export const HandleResponse = (response: Response, statusCode: number, message?: string | object | object[]| number| null, tipo?: tipo,): Response => {
+export const HandleResponse = (response: Response, statusCode: number, message?: string | object | object[] | number | null, tipo?: tipo,): Response => {
 	let texto = { "data": {} }
 	if (tipo) {
-		if (tipo === 'Erro') {
-			texto.data = {
-				error: message
-			}
-		} else {
-			texto.data = {
-				message: message
-			}
+
+		switch (tipo) {
+			case 'Erro':
+				texto.data = {
+					error: message
+				}
+				break;
+			case 'Mensagem':
+				texto.data = {
+					message: message
+				}
+				break;
+			case 'Contador':
+				texto.data = {
+					Contador: message + 'resultados'
+				}
+				break;
 		}
 		return response.status(statusCode).json(texto)
 	}
