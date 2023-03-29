@@ -2,8 +2,6 @@ import { PrismaClient } from "@prisma/client";
 import { HandleResponse } from '../utils/HandleResponse';
 import { Request, Response } from "express";
 
-
-
 const prisma = new PrismaClient()
 
 type queryAll = {
@@ -145,12 +143,10 @@ export const TAGS = {
 	},
 
 	async teste(_req: Request, resp: Response) {
-		const te = await prisma.contas.findMany({
-			where: {
-				deletede_at: null
-			},
-			take: 3
-
+		const a = true
+		const ay = a ? { NOT: { deletede_at: null } } : { deletede_at: null }
+		const te = await prisma.tags.findMany({
+			where: ay,
 		})
 		const t = await prisma.contas.count({
 			where: {
