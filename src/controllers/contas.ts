@@ -20,15 +20,15 @@ export const CONTAS = {
 		})
 
 		if (all.length < 1) {
-			return HandleResponse(res, 404, 'Nenhuma conta encontrada', 'Mensagem')
+			return HandleResponse(res, 404, { mensagem: 'Nenhuma conta encontrada' },)
 
 		}
-		return HandleResponse(res, 200, all)
+		return HandleResponse(res, 200, { response: all })
 	},
 
 	async createConta(req: Request<createContas>, res: Response,) {
 		if (!req.body.nome) {
-			return HandleResponse(res, 404, 'Nome é obrigatório', 'Erro')
+			return HandleResponse(res, 404, { erro: 'Nome é obrigatório' },)
 
 		}
 		if (!req.body.saldoInicial) {
@@ -40,7 +40,7 @@ export const CONTAS = {
 		const create = await prisma.contas.create({
 			data: req.body
 		})
-		return HandleResponse(res, 201, create.id.toString())
+		return HandleResponse(res, 201, { response: create.id.toString() })
 	},
 
 	async deleteConta(req: Request<{ id: string }>, res: Response,) {
@@ -68,11 +68,11 @@ export const CONTAS = {
 
 
 		if (!a) {
-			return HandleResponse(res, 404, 'Conta não encontrada', 'Erro')
+			return HandleResponse(res, 404, { erro: 'Conta não encontrada' },)
 		}
 
 		if (b) {
-			return HandleResponse(res, 400, 'Conta não pode ser excluida pois possui vinculo com outros dados do banco', 'Mensagem')
+			return HandleResponse(res, 400, { mensagem: 'Conta não pode ser excluida pois possui vinculo com outros dados do banco' },)
 		}
 
 		await prisma.contas.update({
@@ -91,21 +91,8 @@ export const CONTAS = {
 		const body: editarContas = req.body
 
 		if (!body.nome && !body.saldoInicial) {
-			return HandleResponse(resp, 400, 'O corpo da requisição deve incluir pelo menos uma propriedade para alteração', 'Erro')
+			return HandleResponse(resp, 400, { erro: 'O corpo da requisição deve incluir pelo menos uma propriedade para alteração' })
 		}
-
-		//Retorna que tal tipagem deve existir
-		/* if (body.nome && typeof body.nome !== "string") {
-			return resp.status(400).json({
-				message: "A propriedade 'nome' deve ser uma string",
-			});
-		}
-
-		if (body.saldoInicial && typeof body.saldoInicial !== "number") {
-			return resp.status(400).json({
-				message: "A propriedade 'saldoInicial' deve ser um número",
-			});
-		} */
 
 		//Trata para que os paremtros sejam connnvertidos para a tipagem correta
 		if (typeof body.nome != 'string' || typeof body.nome?.toString != 'undefined') {
@@ -130,7 +117,7 @@ export const CONTAS = {
 			return HandleResponse(resp, 200)
 
 		} catch (err) {
-			return HandleResponse(resp, 500, 'Não foi possível editar a conta', 'Erro')
+			return HandleResponse(resp, 500, { erro: 'Não foi possível editar a conta' },)
 		}
 	},
 
@@ -150,9 +137,9 @@ export const CONTAS = {
 		})
 
 		if (!conta) {
-			return HandleResponse(res, 404, 'Conta não encontrada', 'Erro')
+			return HandleResponse(res, 404, { erro: 'Conta não encontrada' },)
 		}
-		return HandleResponse(res, 200, conta)
+		return HandleResponse(res, 200, { response: conta })
 	}
 
 }

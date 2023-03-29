@@ -76,8 +76,8 @@ export const LancamentosController = {
 			take: limit,
 		})
 		if (lancamentos.length === 0) {
-			return HandleResponse(res, 404, "Nenhum lançamento encontrado", 'Mensagem')
+			return HandleResponse(res, 404, {mensagem:"Nenhum lançamento encontrado"}, )
 		}
-		return HandleResponse(res, 200, lancamentos)
+		return HandleResponse(res, 200, {response:lancamentos})
 	}
 }

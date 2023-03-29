@@ -11,12 +11,6 @@ type queryAll = {
 	nome: string
 }
 
-
-type editar = {
-	id: string,
-	nome: string
-}
-
 export const TAGS = {
 	/**
 	 * Lista todas as tags ativas do banco
@@ -33,10 +27,10 @@ export const TAGS = {
 		})
 
 		if (query.length < 1) {
-			return HandleResponse(resp, 404, 'Nenhum resultado econtrado', 'Erro')
+			return HandleResponse(resp, 404, { erro: 'Nenhum resultado econtrado' },)
 
 		} else {
-			return HandleResponse(resp, 200, query)
+			return HandleResponse(resp, 200, { response: query })
 		}
 	},
 
@@ -56,7 +50,7 @@ export const TAGS = {
 
 		if (numLancamentos > 0) {
 			const mensagemErro = `Não é possível excluir a tag com ID ${tagId} porque há ${numLancamentos} lançamentos associados a ela.`
-			return HandleResponse(resp, 400, mensagemErro, 'Erro')
+			return HandleResponse(resp, 400, { erro: mensagemErro },)
 
 		} else {
 			const existe = await prisma.tags.findFirst({
@@ -76,25 +70,34 @@ export const TAGS = {
 				})
 				return HandleResponse(resp, 200)
 			}
-			return HandleResponse(resp, 400, 'Tag não existe', 'Erro')
+			return HandleResponse(resp, 400, { erro: 'Tag não existe' },)
 		}
 	},
 
 	async teste(_req: Request, resp: Response) {
 
-		const t = await prisma.contas.findMany({
+		const te = await prisma.contas.findMany({
+			where: {
+				deletede_at: null
+			},
+			take: 3
+
+		})
+
+		const t = await prisma.contas.count({
 			where: {
 				deletede_at: null
 			}
 		})
-		return HandleResponse(resp, 200, t)
+		const erro = 'TUDO ERRADO CARA'
+		return HandleResponse(resp, 200, { response: te, registros: t, erro: erro, mensagem: 'Sucesso', paginas: 1 })
 
 	},
 
 	async create(req: Request<{ nome: string }>, resp: Response) {
 		let { nome } = req.body
 		if (!nome) {
-			return HandleResponse(resp, 400, 'Nome não informado', 'Erro')
+			return HandleResponse(resp, 400, { erro: 'Nome não informado' },)
 		}
 		if (typeof nome !== 'string') {
 			nome = nome.toString()
@@ -108,7 +111,7 @@ export const TAGS = {
 				nome: nome
 			}
 		})
-		return HandleResponse(resp, 200, tag)
+		return HandleResponse(resp, 200, { response: tag })
 	},
 
 
@@ -117,7 +120,7 @@ export const TAGS = {
 		let nome = String(req.body.nome).trim()
 
 		if (!nome) {
-			return HandleResponse(resp, 400, 'Nome não informado', 'Erro')
+			return HandleResponse(resp, 400, { erro: 'Nome não informado' })
 		}
 
 		const existe = await prisma.tags.findFirst({
@@ -128,7 +131,7 @@ export const TAGS = {
 		})
 
 		if (!existe) {
-			return HandleResponse(resp, 400, 'Tag não existe', 'Erro')
+			return HandleResponse(resp, 400, { erro: 'Tag não existe' },)
 		} else {
 			await prisma.tags.update({
 				data: {
@@ -155,9 +158,9 @@ export const TAGS = {
 			}
 		})
 		if (!tag) {
-			return HandleResponse(resp, 404, 'Tag não encontrada', 'Erro')
+			return HandleResponse(resp, 404, { erro: 'Tag não encontrada' },)
 		}
-		return HandleResponse(resp, 200, tag)
+		return HandleResponse(resp, 200, { response: tag })
 	}
 
 }

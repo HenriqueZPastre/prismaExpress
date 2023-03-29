@@ -1,6 +1,12 @@
 import { Response } from "express"
 
-type tipo = 'Erro' | 'Mensagem' | 'Contador'
+type Meta = {
+	response?: any,
+	mensagem?: any,
+	erro?: any,
+	paginas?: any,
+	registros?: any,
+}
 
 /**
  * Recebe e retorna um Response do Express 
@@ -11,59 +17,17 @@ type tipo = 'Erro' | 'Mensagem' | 'Contador'
  * 
  * O Campo mensagem aceita string | object | object[ ]
  */
-export const HandleResponse = (response: Response, statusCode: number, message?: string | object | object[] | number | null, tipo?: tipo,): Response => {
-	let texto = { "data": {} }
-	if (tipo) {
+export const HandleResponse = (response: Response, statusCode: number, obj?: Meta): Response => {
+	const registros = obj?.registros
+	const paginas = obj?.paginas
+	const erro = obj?.erro
+	const mensagem = obj?.mensagem
 
-		switch (tipo) {
-			case 'Erro':
-				texto.data = {
-					error: message
-				}
-				break;
-			case 'Mensagem':
-				texto.data = {
-					message: message
-				}
-				break;
-			case 'Contador':
-				texto.data = {
-					Contador: message + 'resultados'
-				}
-				break;
-		}
-		return response.status(statusCode).json(texto)
-	}
-	if (message) {
-		return response.status(statusCode).json({ data: message })
+	if (obj?.response) {
+		return response.status(statusCode).json({ data: obj.response, registros, paginas, erro, mensagem })
+	} 
+	if (obj) {
+		return response.status(statusCode).json({ registros, paginas, erro, mensagem })
 	}
 	return response.status(statusCode).json()
 }
-
-
-//EXEMPLO DE OUTRA FUNÇÂO
-/* export type ost = {
-	response: Response,
-	statusCode: number,
-	tipo?: 'Erro' | 'Mensagem',
-	message?: string,
-	objeto?: object[]
-}
-export const testex = (params: ost): Response => {
-	let data = {
-		data: [{}],
-		message: '',
-		error: ''
-	}
-	if (params.objeto) {
-		data.data = params.objeto
-	}
-	if (params.message && params.tipo) {
-		if (params.tipo === 'Erro') {
-			data.error = params.message
-		} else {
-			data.message = params.message
-		}
-	}
-	return params.response.status(params.statusCode).json(data)
-} */
