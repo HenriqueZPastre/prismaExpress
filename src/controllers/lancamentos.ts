@@ -143,7 +143,6 @@ export const LancamentosController = {
 			orderBy: {
 				id: 'desc',
 			},
-			
 		})
 
 		const a: any = await prisma.$queryRaw`
