@@ -74,25 +74,6 @@ export const TAGS = {
 		}
 	},
 
-	async teste(_req: Request, resp: Response) {
-
-		const te = await prisma.contas.findMany({
-			where: {
-				deletede_at: null
-			},
-			take: 3
-
-		})
-
-		const t = await prisma.contas.count({
-			where: {
-				deletede_at: null
-			}
-		})
-		const erro = 'TUDO ERRADO CARA'
-		return HandleResponse(resp, 200, { response: te, registros: t, erro: erro, mensagem: 'Sucesso', paginas: 1 })
-
-	},
 
 	async create(req: Request<{ nome: string }>, resp: Response) {
 		let { nome } = req.body
@@ -161,6 +142,22 @@ export const TAGS = {
 			return HandleResponse(resp, 404, { erro: 'Tag não encontrada' },)
 		}
 		return HandleResponse(resp, 200, { response: tag })
-	}
+	},
 
+	async teste(_req: Request, resp: Response) {
+		const te = await prisma.contas.findMany({
+			where: {
+				deletede_at: null
+			},
+			take: 3
+
+		})
+		const t = await prisma.contas.count({
+			where: {
+				deletede_at: null
+			}
+		})
+		const erro = 'TUDO ERRADO CARA'
+		return HandleResponse(resp, 200, { response: te, registros: t, erro: erro, mensagem: 'Sucesso', paginas: 1 })
+	},
 }

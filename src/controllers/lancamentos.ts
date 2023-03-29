@@ -1,7 +1,13 @@
 import { PrismaClient } from "@prisma/client"
-import { Request, Response } from "express"
+import e, { Request, Response } from "express"
 import { HandleResponse } from "../utils/HandleResponse"
 
+const prisma = new PrismaClient()
+
+/**
+ * 0 é despesa 1 é receita
+ */
+type Tipo = 0 | 1
 
 /**
  * 0 é despesa 1 é receita
@@ -13,10 +19,7 @@ type Lancamentos = {
 	valor: number,
 	dataVencimento: Date,
 	dataPagamento: Date,
-	/**
-	 * 0 é despesa 1 é receita
-	 */
-	tipo: 0 | 1,
+	tipo: Tipo
 	contasId: number,
 	contasNome: string
 }
@@ -26,35 +29,30 @@ let a: Lancamentos
 
 interface Query extends Request {
 	query: {
-		page?: string,
+		pagina?: string,
 		all?: string,
-		limit?: string
-	}
+		limite?: string
+	},
 }
 
-const prisma = new PrismaClient()
 
 export const LancamentosController = {
 
 	async listAll(req: Query, res: Response) {
-		let limit: number | undefined = Number(req.query.limit)
-		let page: number = Number(req.query.page)
-		let all = req.query.all
+		const all = req.query.all === 'true' ? Boolean(req.query.all) : null
+		let limite: number | undefined = Number(req.query.limite) || 15
+		let pagina: number = Number(req.query.pagina)
 		let next = undefined
 
-		if (all === 'true') {
-			limit = undefined
-			page = NaN
-		} else {
-			if (!limit) {
-				limit = 15
-			}
-		}
+		if (all) {
+			limite = undefined
+			pagina = NaN
+		} 
 
-		if (page && limit) {
-			page > 1 ? next = (page - 1) * limit : next = undefined
+		if (pagina && limite) {
+			pagina > 1 ? next = (pagina - 1) * limite : next = undefined
 		}
-
+		
 		const lancamentos = await prisma.lancamentos.findMany({
 			select: {
 				id: true,
@@ -73,11 +71,11 @@ export const LancamentosController = {
 				id: 'desc',
 			},
 			skip: next,
-			take: limit,
+			take: limite,
 		})
 		if (lancamentos.length === 0) {
-			return HandleResponse(res, 404, {mensagem:"Nenhum lançamento encontrado"}, )
+			return HandleResponse(res, 404, { mensagem: "Nenhum lançamento encontrado" },)
 		}
-		return HandleResponse(res, 200, {response:lancamentos})
+		return HandleResponse(res, 200, { response: lancamentos })
 	}
 }
