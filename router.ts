@@ -3,6 +3,7 @@ import { Router } from "express";
 import { CONTAS } from "./src/controllers/contas";
 import { TAGS } from "./src/controllers/tags";
 import { LancamentosController } from "./src/controllers/lancamentos";
+import { xuxo } from "./src/controllers/xuxo";
 
 const router: Router = Router()
 export { router };
@@ -29,5 +30,5 @@ router.get('/tagss', TAGS.teste)
 //**** LANÇAMENTOS ***************\\
 //*********************************\\
 router.get('/lancamentos', LancamentosController.listAll)
-router.get('/a', LancamentosController.listAllTag)
+router.get('/a', xuxo.listAllTag)
 router.post('/lancamentos', LancamentosController.create)

@@ -68,8 +68,12 @@ export const LancamentosController = {
 				dataVencimento: true,
 				dataPagamento: true,
 				tipo: true,
-				contasId: true,
-				contasNome: true
+				contasNome: true,
+				lancamentos_tags: {
+					select: {
+						tagsId: true,
+					}
+				},
 			},
 			where: {
 				deletede_at: null
@@ -111,52 +115,4 @@ export const LancamentosController = {
 		}
 		return HandleResponse(res, 201,)
 	},
-
-	async listAllTag(req: QueryList, res: Response) {
-		const all = req.query.all === 'true' ? Boolean(req.query.all) : null
-		let limite: number | undefined = Number(req.query.limite) || 15
-		let pagina: number = Number(req.query.pagina)
-		let proximaPagina = undefined
-
-		if (all) {
-			limite = undefined
-			pagina = NaN
-		}
-
-		if (pagina && limite) {
-			pagina > 1 ? proximaPagina = (pagina - 1) * limite : proximaPagina = undefined
-		}
-
-
-		const lancamentos = await prisma.lancamentos.findMany({
-			include: {
-				lancamentos_tags: {
-					select: {
-						tagsId: true,
-						
-					},
-				},
-			},
-			where: {
-				deletede_at: null
-			},
-			orderBy: {
-				id: 'desc',
-			},
-		})
-
-		const a: any = await prisma.$queryRaw`
-		SELECT lt.tagsId, l.id,l.descricao,l.valor,l.dataVencimento,l.dataPagamento,l.tipo,l.contasId,l.contasNome
-		FROM lancamentos l
-		LEFT JOIN lancamentos_tags lt ON l.id = lt.lancamentosId
-		WHERE l.deletede_at IS NULL
-		ORDER BY l.id DESC;
-		`
-		if (lancamentos.length < 1) {
-			return HandleResponse(res, 404, { mensagem: "Nenhum lançamento encontrado" },)
-		}
-		return HandleResponse(res, 200, { response: lancamentos })
-	},
-
-
 }
