@@ -56,10 +56,8 @@ export const xuxo = {
 
 	async criaTag(req: Request<{}, tap>, res: Response) {
 
-		const test = schema_tag.safeParse(req.body)
-
 		try {
-			schema_tag._parse(req.body)
+			schema_tag.parse(req.body)
 		} catch (error) {
 			return HandleResponse(res, 400, { response: error })
 		}
