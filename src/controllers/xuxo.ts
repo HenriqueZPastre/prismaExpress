@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client"
 import { HandleResponse } from "../utils/HandleResponse"
 import { Request, Response } from "express"
 import { take } from "cypress/types/lodash"
+import { z } from "zod"
 
 const prisma = new PrismaClient()
 
@@ -52,4 +53,27 @@ export const xuxo = {
 
 		HandleResponse(res, 200, { response: firtDados })
 	},
+
+	async criaTag(req: Request<{}, tap>, res: Response) {
+
+		const test = schema_tag.safeParse(req.body)
+
+		try {
+			schema_tag._parse(req.body)
+		} catch (error) {
+			return HandleResponse(res, 400, { response: error })
+		}
+		const lancamentos = await prisma.tags.create({
+			data: {
+				nome: req.body.nome,
+			}
+		})
+		HandleResponse(res, 200, { response: lancamentos })
+	}
 }
+
+const schema_tag = z.object({
+	nome: z.string()
+})
+
+type tap = z.infer<typeof schema_tag>

@@ -31,4 +31,5 @@ router.get('/tagss', TAGS.teste)
 //*********************************\\
 router.get('/lancamentos', LancamentosController.listAll)
 router.get('/a', xuxo.listAllTag)
+router.post('/a', xuxo.criaTag)
 router.post('/lancamentos', LancamentosController.create)

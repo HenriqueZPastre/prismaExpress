@@ -22,5 +22,8 @@
     "migrate": "npx prisma migrate dev --name init",
     "cyOpen": "npx cypress open",
     "cyRun": "npx cypress run --browser chrome"
+  },
+  "dependencies": {
+    "zod": "^3.21.4"
   }
 }
