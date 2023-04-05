@@ -13,8 +13,8 @@ export type createLancamentos = {
 	tags?: number[]
 }
 
-const a : createLancamentos = {
-	descricao: "",
+export const a : createLancamentos = {
+	descricao: '',
 	valor: 0,
 	dataVencimento: undefined,
 	contasId: 0,

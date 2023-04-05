@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client"
-import { Request, Response } from "express"
-import { HandleResponse } from "../utils/HandleResponse"
+import { PrismaClient } from '@prisma/client'
+import { Request, Response } from 'express'
+import { HandleResponse } from '../utils/HandleResponse'
 
 const prisma = new PrismaClient()
 
@@ -48,7 +48,7 @@ export const LancamentosController = {
 	async listAll(req: QueryList, res: Response) {
 		const all = req.query.all === 'true' ? Boolean(req.query.all) : null
 		let limite: number | undefined = Number(req.query.limite) || 15
-		let pagina: number = Number(req.query.pagina)
+		let pagina = Number(req.query.pagina)
 		let proximaPagina = undefined
 
 		if (all) {
@@ -85,7 +85,7 @@ export const LancamentosController = {
 			take: limite,
 		})
 		if (lancamentos.length < 1) {
-			return HandleResponse(res, 404, { mensagem: "Nenhum lançamento encontrado" },)
+			return HandleResponse(res, 404, { mensagem: 'Nenhum lançamento encontrado' },)
 		}
 		return HandleResponse(res, 200, { response: lancamentos })
 	},

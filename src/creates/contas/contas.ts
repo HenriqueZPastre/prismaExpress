@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client"
-import { createContas } from "../../../src/models/contas"
+import { PrismaClient } from '@prisma/client'
+import { createContas } from '../../../src/models/contas'
 
 const prisma = new PrismaClient()
 export const contasAdd = async (objeto: createContas) => {
@@ -22,21 +22,21 @@ export const contasAdd = async (objeto: createContas) => {
 
 const a: createContas = {
 	id: 1,
-	nome: "Alelo",
+	nome: 'Alelo',
 	saldoInicial: 169.63,
 	saldoAtual: 169.63,
 }
 
 const b: createContas = {
 	id: 0,
-	nome: "Sicredi",
+	nome: 'Sicredi',
 	saldoInicial: 2050.37,
 	saldoAtual: 2050.37,
 }
 
 const c: createContas = {
 	id: 2,
-	nome: "Nubank",
+	nome: 'Nubank',
 	saldoInicial: 0,
 	saldoAtual: 0,
 }

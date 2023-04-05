@@ -1,7 +1,7 @@
 /// <reference types = 'cypress'/>
 
-let teste: number;
-let newContaId: number;
+let teste: number
+let newContaId: number
 
 describe('Valida a request de delete', () => {
 
@@ -24,8 +24,8 @@ describe('Valida a request de delete', () => {
 
 	it('Conta não existe', () => {
 		cy.request({
-			method: "DELETE",
-			url: `/contas/89725`,
+			method: 'DELETE',
+			url: '/contas/89725',
 			failOnStatusCode: false
 		}).then(response => {
 			expect(response.status).eql(404)
@@ -48,7 +48,7 @@ describe('Valida a request de delete', () => {
 
 	it('Conta deletada com sucesso', () => {
 		cy.request({
-			method: "DELETE",
+			method: 'DELETE',
 			url: `/contas/${newContaId}`,
 			failOnStatusCode: false
 		}).then(response => {

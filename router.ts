@@ -1,12 +1,12 @@
-import { Router } from "express";
+import { Router } from 'express'
 
-import { CONTAS } from "./src/controllers/contas";
-import { TAGS } from "./src/controllers/tags";
-import { LancamentosController } from "./src/controllers/lancamentos";
-import { xuxo } from "./src/controllers/xuxo";
+import { CONTAS } from './src/controllers/contas'
+import { TAGS } from './src/controllers/tags'
+import { LancamentosController } from './src/controllers/lancamentos'
+import { xuxo } from './src/controllers/xuxo'
 
 const router: Router = Router()
-export { router };
+export { router }
 
 //*********************************\\
 //**** CONTAS BANCÁRIAS ***********\\

@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import { HandleResponse } from '../utils/HandleResponse';
-import { Request, Response } from "express";
+import { PrismaClient } from '@prisma/client'
+import { HandleResponse } from '../utils/HandleResponse'
+import { Request, Response } from 'express'
 
 const prisma = new PrismaClient()
 
@@ -94,9 +94,9 @@ export const TAGS = {
 	},
 
 
-	async editar(req: Request<{ id: number }, {}, { nome: string }>, resp: Response) {
-		let id = Number(req.params.id)
-		let nome = String(req.body.nome).trim()
+	async editar(req: Request<{ id: number }, object, { nome: string }>, resp: Response) {
+		const id = Number(req.params.id)
+		const nome = String(req.body.nome).trim()
 
 		if (!nome) {
 			return HandleResponse(resp, 400, { erro: 'Nome não informado' })

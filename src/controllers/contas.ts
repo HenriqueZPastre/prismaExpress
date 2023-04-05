@@ -1,7 +1,7 @@
-import { PrismaClient, Prisma } from "@prisma/client"
-import { Request, Response } from "express"
+import { PrismaClient } from '@prisma/client'
+import { Request, Response } from 'express'
 import { createContas, editarContas, listarContas } from '../models/contas'
-import { HandleResponse } from "../utils/HandleResponse"
+import { HandleResponse } from '../utils/HandleResponse'
 
 const prisma = new PrismaClient()
 
@@ -113,7 +113,7 @@ export const CONTAS = {
 				where: {
 					id: parseInt(id.id),
 				},
-			});
+			})
 			return HandleResponse(resp, 200)
 
 		} catch (err) {

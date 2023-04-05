@@ -1,11 +1,11 @@
-import { Response } from "express"
+import { Response } from 'express'
 
 type Meta = {
-	response?: any,
-	mensagem?: any,
-	erro?: any,
-	paginas?: any,
-	registros?: any,
+	response?: unknown,
+	mensagem?: unknown,
+	erro?: unknown,
+	paginas?: unknown,
+	registros?: unknown,
 }
 
 /**

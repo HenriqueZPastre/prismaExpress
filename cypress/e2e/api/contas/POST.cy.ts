@@ -1,7 +1,7 @@
 /// <reference types = 'cypress'/>
 
-import { editarContas } from '../../../../src/models/contas';
-import { novaConta } from './objetos';
+import { editarContas } from '../../../../src/models/contas'
+import { novaConta } from './objetos'
 
 describe('Verifica a tipagem e o valor do response para cada resultado da listagem de contas bancarias', () => {
 	it('Realizar a request com sucesso', () => {
