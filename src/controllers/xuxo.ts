@@ -1,8 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import { HandleResponse } from "../utils/HandleResponse"
 import { Request, Response } from "express"
-import { take } from "cypress/types/lodash"
-import { z } from "zod"
+import { ZodError, z } from "zod"
 
 const prisma = new PrismaClient()
 
@@ -56,10 +55,13 @@ export const xuxo = {
 
 	async criaTag(req: Request<{}, tap>, res: Response) {
 
+		
 		try {
 			schema_tag.parse(req.body)
 		} catch (error) {
-			return HandleResponse(res, 400, { response: error })
+			if( error instanceof ZodError){
+				return HandleResponse(res, 400, { mensagem: `Input ${error.issues[0].path[0].toString().toLowerCase()} ${error.issues[0].message.toLowerCase()}`  })
+			}
 		}
 		const lancamentos = await prisma.tags.create({
 			data: {
