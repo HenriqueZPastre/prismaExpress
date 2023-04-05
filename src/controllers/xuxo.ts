@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client"
-import { HandleResponse } from "../utils/HandleResponse"
-import { Request, Response } from "express"
-import { ZodError, z } from "zod"
+import { PrismaClient } from '@prisma/client'
+import { HandleResponse } from '../utils/HandleResponse'
+import { Request, Response } from 'express'
+import { ZodError, z } from 'zod'
 
 const prisma = new PrismaClient()
 
@@ -53,7 +53,7 @@ export const xuxo = {
 		HandleResponse(res, 200, { response: firtDados })
 	},
 
-	async criaTag(req: Request<{}, tap>, res: Response) {
+	async criaTag(req: Request<object, tap>, res: Response) {
 
 		
 		try {
