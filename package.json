@@ -10,7 +10,9 @@
     "@types/node": "^18.15.5",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
+    "commitizen": "^4.3.0",
     "cypress": "^12.8.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.37.0",
     "express": "^4.18.2",
     "prisma": "^4.11.0",
@@ -22,6 +24,9 @@
     "zod": "^3.21.4"
   },
   "scripts": {
+    "cz": "git-cz",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "lint": "eslint . --ext .ts",
     "prisma": "npx prisma studio",
     "dev": "tsnd --respawn ./app.ts",
     "migrate": "npx prisma migrate dev --name init",
@@ -30,5 +35,10 @@
   },
   "description": "Api REST com prisma, express, zod e cypress.",
   "repository": "git@github.com:HenriqueZPastre/prismaExpress.git",
-  "author": "Henrique <hpastre1@gmail.com>"
+  "author": "Henrique <hpastre1@gmail.com>",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
