@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import { HandleResponse } from '../utils/HandleResponse'
 import { Request, Response } from 'express'
-import { ZodError, z } from 'zod'
+import { ZodError } from 'zod'
+import { TAG } from '../models/test'
 
 const prisma = new PrismaClient()
 
@@ -53,27 +54,20 @@ export const xuxo = {
 		HandleResponse(res, 200, { response: firtDados })
 	},
 
-	async criaTag(req: Request<object, tap>, res: Response) {
-
-		
+	async criaTag(req: TAG.TES, res: Response) {
 		try {
-			schema_tag.parse(req.body)
+			const { nome } = TAG.schema_tag.parse(req.body)
+			const lancamentos = await prisma.tags.create({
+				data: {
+					nome: nome,
+				}
+			})
+			HandleResponse(res, 200, { response: lancamentos })
 		} catch (error) {
-			if( error instanceof ZodError){
-				return HandleResponse(res, 400, { mensagem: `Input ${error.issues[0].path[0].toString().toLowerCase()} ${error.issues[0].message.toLowerCase()}`  })
+			if (error instanceof ZodError) {
+				return HandleResponse(res, 400, { mensagem: `Input ${error.issues[0].path[0].toString().toLowerCase()} ${error.issues[0].message.toLowerCase()}` })
 			}
 		}
-		const lancamentos = await prisma.tags.create({
-			data: {
-				nome: req.body.nome,
-			}
-		})
-		HandleResponse(res, 200, { response: lancamentos })
 	}
 }
 
-const schema_tag = z.object({
-	nome: z.string()
-})
-
-type tap = z.infer<typeof schema_tag>
