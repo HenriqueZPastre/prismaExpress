@@ -24,13 +24,16 @@ export const HandleResponse = (response: Response, statusCode: number, obj?: Met
 	const paginas = obj?.paginas
 	const erro = obj?.erro
 	const mensagem = obj?.mensagem
-	const zod = obj?.zod?.issues[0].path[0].toString().toLowerCase() + ' ' + obj?.zod?.issues[0].message.toLowerCase()
-
+	if (obj?.zod !== undefined) {
+		const zod = obj?.zod?.issues[0].path[0] + ' ' + obj?.zod?.issues[0].message.toLowerCase()
+		const extra = obj?.zod
+		return response.status(statusCode).json({ registros, paginas, erro, mensagem, zod , extra})
+	}
 	if (obj?.response) {
-		return response.status(statusCode).json({ data: obj.response, registros, paginas, erro, mensagem, zod })
+		return response.status(statusCode).json({ data: obj.response, registros, paginas, erro, mensagem })
 	}
 	if (obj) {
-		return response.status(statusCode).json({ registros, paginas, erro, mensagem, zod })
+		return response.status(statusCode).json({ registros, paginas, erro, mensagem, })
 	}
 	return response.status(statusCode).json()
 }

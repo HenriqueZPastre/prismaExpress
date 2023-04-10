@@ -1,6 +1,7 @@
 import { Request } from 'express'
 import { z } from 'zod'
-import { paramsId } from '../utils/paramsId'
+import { ParamsId } from '../utils/paramsId'
+
 
 export const schema_create_contas = z.object({
 	id: z.number().optional(),
@@ -18,14 +19,16 @@ export interface CreateContas extends Request {
 
 
 //Listar todas as contas
-export const schema_lista_contas = z.object({
+export const schema_lista_contas_objetos = z.object({
 	id: z.number(),
 	nome: z.string(),
 	saldoInicial: z.number(),
 	saldoAtual: z.number(),
 })
 
-export type listarContas = z.infer<typeof schema_lista_contas>
+export const schema_lista_contas = z.array(schema_lista_contas_objetos)
+
+export type listarContas = z.infer<typeof schema_lista_contas_objetos>
 
 //Editar contas
 export const schema_edita_contas = z.object({
@@ -36,7 +39,7 @@ export const schema_edita_contas = z.object({
 export type editarContas = z.infer<typeof schema_edita_contas>
 
 export interface EditarContas extends Request {
-	params: paramsId
+	params: ParamsId.paramsId
 	body: editarContas
 }
 

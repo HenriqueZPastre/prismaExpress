@@ -21,24 +21,24 @@ export const CONTAS = {
 			}
 		})
 
+		try {
+			Contas.schema_lista_contas.parse(all)
+		} catch (err) {
+			if (err instanceof ZodError) {
+				return HandleResponse(res, 400, { zod: err })
+			}
+			return HandleResponse(res, 400, { erro: err })
+		}
+
 		if (all.length < 1) {
 			return HandleResponse(res, 404, { mensagem: 'Nenhuma conta encontrada' },)
-
 		}
+
 		return HandleResponse(res, 200, { response: all })
+
 	},
 
 	async createConta(req: Contas.CreateContas, res: Response,) {
-		/* if (!req.body.nome) {
-			return HandleResponse(res, 404, { erro: 'Nome é obrigatório' },)
-
-		}
-		if (!req.body.saldoInicial) {
-			req.body.saldoInicial = 0
-		}
-		if (!req.body.saldoAtual) {
-			req.body.saldoAtual = 0
-		} */
 		try {
 			const { nome, saldoInicial, saldoAtual } = Contas.schema_create_contas.parse(req.body)
 			const create = await prisma.contas.create({
@@ -58,34 +58,27 @@ export const CONTAS = {
 	},
 
 	async deleteConta(req: ParamsId.RequestParamsId, res: Response,) {
-		const a = await prisma.contas.findFirst({
-			select: {
-				nome: true
-			},
+		const id = parseInt(req.params.id)
+
+		const selectConta = await prisma.contas.findFirst({
 			where: {
-				id: parseInt(req.params.id),
+				id: id,
 				deletede_at: null,
-
 			},
-
 		})
 
-		const b = await prisma.lancamentos.findFirst({
-			select: {
-				id: true
-			},
+		const verificarLancamentosVinculados = await prisma.lancamentos.findFirst({
 			where: {
-				contasId: parseInt(req.params.id),
+				contasId: id,
 				deletede_at: null,
 			}
 		})
 
-
-		if (!a) {
+		if (!selectConta) {
 			return HandleResponse(res, 404, { erro: 'Conta não encontrada' },)
 		}
 
-		if (b) {
+		if (verificarLancamentosVinculados) {
 			return HandleResponse(res, 400, { mensagem: 'Conta não pode ser excluida pois possui vinculo com outros dados do banco' },)
 		}
 
@@ -94,49 +87,39 @@ export const CONTAS = {
 				deletede_at: new Date()
 			},
 			where: {
-				id: parseInt(req.params.id)
+				id: id
 			}
 		})
 		return HandleResponse(res, 204)
 	},
 
 	async editarConta(req: Contas.EditarContas, resp: Response) {
-		const id: { id: string } = req.params
-		const body: Contas.editarContas = req.body
-
-		if (!body.nome && !body.saldoInicial) {
-			return HandleResponse(resp, 400, { erro: 'O corpo da requisição deve incluir pelo menos uma propriedade para alteração' })
-		}
-
-		//Trata para que os paremtros sejam connnvertidos para a tipagem correta
-		if (typeof body.nome != 'string' || typeof body.nome?.toString != 'undefined') {
-			body.nome = body.nome?.toString()
-		}
-
-		if (typeof body.saldoInicial == 'string') {
-			const parseToFixed = parseFloat(body.saldoInicial).toFixed(2)
-			body.saldoInicial = parseFloat(parseToFixed)
-		}
-
+		const id = parseInt(req.params.id)
 		try {
+			const { nome, saldoInicial } = Contas.schema_edita_contas.parse(req.body)
+			if (!nome && !saldoInicial) {
+				return HandleResponse(resp, 400, { erro: 'Nenhum dado foi informado para edição' },)
+			}
 			await prisma.contas.update({
 				data: {
-					nome: body.nome,
-					saldoInicial: body.saldoInicial
+					nome: nome,
+					saldoInicial: saldoInicial
 				},
 				where: {
-					id: parseInt(id.id),
+					id: id,
 				},
 			})
-			return HandleResponse(resp, 200)
-
 		} catch (err) {
+			if (err instanceof ZodError) {
+				return HandleResponse(resp, 400, { zod: err })
+			}
 			return HandleResponse(resp, 500, { erro: 'Não foi possível editar a conta' },)
 		}
+		return HandleResponse(resp, 200)
 	},
 
-	async getById(req: Request<{ id: string }>, res: Response) {
-		const id = req.params.id
+	async getById(req: ParamsId.RequestParamsId, res: Response) {
+		const id = parseInt(req.params.id)
 		const conta = await prisma.contas.findFirst({
 			select: {
 				id: true,
@@ -145,7 +128,7 @@ export const CONTAS = {
 				saldoAtual: true,
 			},
 			where: {
-				id: parseInt(id),
+				id: id,
 				deletede_at: null
 			}
 		})

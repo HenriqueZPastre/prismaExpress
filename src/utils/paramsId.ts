@@ -1,3 +1,4 @@
+import { Request } from 'express'
 import { z } from 'zod'
 
 export const paramsId = z.object({
