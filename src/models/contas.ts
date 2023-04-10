@@ -1,19 +1,44 @@
-export type createContas = {
-	id?: number
-	create_at?: Date
-	nome: string
-	saldoInicial: number
-	saldoAtual: number
-} 
+import { Request } from 'express'
+import { z } from 'zod'
+import { paramsId } from '../utils/paramsId'
 
-export type listarContas = {
-	id: number
-	nome: string
-	saldoInicial: number
-	saldoAtual: number
+export const schema_create_contas = z.object({
+	id: z.number().optional(),
+	create_at: z.date().optional(),
+	nome: z.string(),
+	saldoInicial: z.number().min(1).optional(),
+	saldoAtual: z.number().min(1).optional(),
+})
+
+export type createContas = z.infer<typeof schema_create_contas>
+
+export interface CreateContas extends Request {
+	body: createContas
 }
 
-export type editarContas = {
-	nome?: string
-	saldoInicial?: number
+
+//Listar todas as contas
+export const schema_lista_contas = z.object({
+	id: z.number(),
+	nome: z.string(),
+	saldoInicial: z.number(),
+	saldoAtual: z.number(),
+})
+
+export type listarContas = z.infer<typeof schema_lista_contas>
+
+//Editar contas
+export const schema_edita_contas = z.object({
+	nome: z.string().optional(),
+	saldoInicial: z.number().min(1).optional(),
+})
+
+export type editarContas = z.infer<typeof schema_edita_contas>
+
+export interface EditarContas extends Request {
+	params: paramsId
+	body: editarContas
 }
+
+
+export * as Contas from './contas'

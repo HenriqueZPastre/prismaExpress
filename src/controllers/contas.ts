@@ -1,13 +1,15 @@
 import { PrismaClient } from '@prisma/client'
 import { Request, Response } from 'express'
-import { createContas, editarContas, listarContas } from '../models/contas'
 import { HandleResponse } from '../utils/HandleResponse'
+import { Contas } from '../models/contas'
+import { ZodError } from 'zod'
+import { ParamsId } from '../utils/paramsId'
 
 const prisma = new PrismaClient()
 
 export const CONTAS = {
 	async listAll(_req: Request, res: Response,) {
-		const all: listarContas[] = await prisma.contas.findMany({
+		const all: Contas.listarContas[] = await prisma.contas.findMany({
 			select: {
 				id: true,
 				nome: true,
@@ -26,8 +28,8 @@ export const CONTAS = {
 		return HandleResponse(res, 200, { response: all })
 	},
 
-	async createConta(req: Request<createContas>, res: Response,) {
-		if (!req.body.nome) {
+	async createConta(req: Contas.CreateContas, res: Response,) {
+		/* if (!req.body.nome) {
 			return HandleResponse(res, 404, { erro: 'Nome é obrigatório' },)
 
 		}
@@ -36,14 +38,26 @@ export const CONTAS = {
 		}
 		if (!req.body.saldoAtual) {
 			req.body.saldoAtual = 0
+		} */
+		try {
+			const { nome, saldoInicial, saldoAtual } = Contas.schema_create_contas.parse(req.body)
+			const create = await prisma.contas.create({
+				data: {
+					nome: nome,
+					saldoInicial: saldoInicial || 0,
+					saldoAtual: saldoAtual || 0
+				}
+			})
+			return HandleResponse(res, 201, { response: create.id.toString() })
+		} catch (err) {
+			if (err instanceof ZodError) {
+				return HandleResponse(res, 400, { zod: err })
+			}
+			return HandleResponse(res, 400, { erro: err })
 		}
-		const create = await prisma.contas.create({
-			data: req.body
-		})
-		return HandleResponse(res, 201, { response: create.id.toString() })
 	},
 
-	async deleteConta(req: Request<{ id: string }>, res: Response,) {
+	async deleteConta(req: ParamsId.RequestParamsId, res: Response,) {
 		const a = await prisma.contas.findFirst({
 			select: {
 				nome: true
@@ -86,9 +100,9 @@ export const CONTAS = {
 		return HandleResponse(res, 204)
 	},
 
-	async editarConta(req: Request<{ id: string }>, resp: Response) {
+	async editarConta(req: Contas.EditarContas, resp: Response) {
 		const id: { id: string } = req.params
-		const body: editarContas = req.body
+		const body: Contas.editarContas = req.body
 
 		if (!body.nome && !body.saldoInicial) {
 			return HandleResponse(resp, 400, { erro: 'O corpo da requisição deve incluir pelo menos uma propriedade para alteração' })
