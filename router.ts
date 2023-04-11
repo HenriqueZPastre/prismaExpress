@@ -17,19 +17,25 @@ router.post('/contas', CONTAS.createConta)
 router.put('/contas/:id', CONTAS.editarConta)
 router.delete('/contas/:id', CONTAS.deleteConta)
 
+//*********************************\\
+//**** TAGS ***********************\\
+//*********************************\\
 router.get('/tags', TAGS.listAll)
 router.get('/tags/:id', TAGS.getById)
 router.post('/tags', TAGS.create)
 router.put('/tags/:id', TAGS.editar)
 router.delete('/tags/:id', TAGS.excluir)
 
-router.get('/tagss', TAGS.teste)
 
 
 //*********************************\\
 //**** LANÇAMENTOS ***************\\
 //*********************************\\
 router.get('/lancamentos', LancamentosController.listAll)
+router.post('/lancamentos', LancamentosController.create)
+
+//*********************************\\
+//**** XUXOS/TESTES ***************\\
+//*********************************\\
 router.get('/a', xuxo.listAllTag)
 router.post('/a', xuxo.criaTag)
-router.post('/lancamentos', LancamentosController.create)

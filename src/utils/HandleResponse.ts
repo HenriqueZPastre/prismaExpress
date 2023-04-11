@@ -1,7 +1,13 @@
 import { Response } from 'express'
 import { ZodError } from 'zod'
 
+type generic = {
+	success?: boolean,
+}
+
 type Meta = {
+	zodValidate?: generic,
+	extras?: unknown,
 	response?: unknown,
 	mensagem?: unknown,
 	erro?: unknown,
@@ -24,16 +30,18 @@ export const HandleResponse = (response: Response, statusCode: number, obj?: Met
 	const paginas = obj?.paginas
 	const erro = obj?.erro
 	const mensagem = obj?.mensagem
+	const zodValidate = obj?.zodValidate?.success === false ? obj?.zodValidate : undefined
+	const extras = obj?.extras
 	if (obj?.zod !== undefined) {
 		const zod = obj?.zod?.issues[0].path[0] + ' ' + obj?.zod?.issues[0].message.toLowerCase()
-		const extra = obj?.zod
-		return response.status(statusCode).json({ registros, paginas, erro, mensagem, zod , extra})
+		const extraZod = obj?.zod
+		return response.status(statusCode).json({ registros, paginas, erro, mensagem, zod, extraZod, zodValidate, extras })
 	}
 	if (obj?.response) {
-		return response.status(statusCode).json({ data: obj.response, registros, paginas, erro, mensagem })
+		return response.status(statusCode).json({ data: obj.response, registros, paginas, erro, mensagem, zodValidate, extras })
 	}
 	if (obj) {
-		return response.status(statusCode).json({ registros, paginas, erro, mensagem, })
+		return response.status(statusCode).json({ registros, paginas, erro, mensagem, zodValidate, extras })
 	}
 	return response.status(statusCode).json()
 }

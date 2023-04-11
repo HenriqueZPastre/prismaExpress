@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { HandleResponse } from '../utils/HandleResponse'
 import { Request, Response } from 'express'
 import { ZodError } from 'zod'
-import { TAG } from '../models/test'
+import { TAG } from '../models/tags'
 
 const prisma = new PrismaClient()
 
@@ -54,7 +54,7 @@ export const xuxo = {
 		HandleResponse(res, 200, { response: firtDados })
 	},
 
-	async criaTag(req: TAG.TES, res: Response) {
+	async criaTag(req: TAG.Tag, res: Response) {
 		try {
 			const { nome } = TAG.schema_tag.parse(req.body)
 			const lancamentos = await prisma.tags.create({

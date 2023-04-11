@@ -6,7 +6,7 @@ import { ParamsId } from '../utils/paramsId'
 export const schema_create_contas = z.object({
 	id: z.number().optional(),
 	create_at: z.date().optional(),
-	nome: z.string(),
+	nome: z.string().trim(),
 	saldoInicial: z.number().min(1).optional(),
 	saldoAtual: z.number().min(1).optional(),
 })
@@ -21,7 +21,7 @@ export interface CreateContas extends Request {
 //Listar todas as contas
 export const schema_lista_contas_objetos = z.object({
 	id: z.number(),
-	nome: z.string(),
+	nome: z.string().trim(),
 	saldoInicial: z.number(),
 	saldoAtual: z.number(),
 })
@@ -32,7 +32,7 @@ export type listarContas = z.infer<typeof schema_lista_contas_objetos>
 
 //Editar contas
 export const schema_edita_contas = z.object({
-	nome: z.string().optional(),
+	nome: z.string().trim().optional(),
 	saldoInicial: z.number().min(1).optional(),
 })
 

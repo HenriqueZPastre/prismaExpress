@@ -2,7 +2,7 @@ import { Request } from 'express'
 import { z } from 'zod'
 
 export const paramsId = z.object({
-	id: z.string()
+	id: z.string().trim()
 })
 
 export type paramsId = z.infer<typeof paramsId>
