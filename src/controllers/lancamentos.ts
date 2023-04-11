@@ -56,12 +56,31 @@ export const LancamentosController = {
 	},
 
 	async create(req: Lancamentos.CreateLancamentos, res: Response) {
-
 		try {
 			const { descricao, valor, dataVencimento, dataPagamento, tipo, contasId, tagsId } = Lancamentos.schema_create_lancamentos.parse(req.body)
 			const conta = await CONTAS.contaExiste(contasId)
-
+			let tags = undefined
+			tagsId != undefined ? tags = await TAGS.verificarSeTagExiste(tagsId) : tags = undefined
 			const lancamentos = await prisma.lancamentos.create({
+				select: {
+					id: true,
+					descricao: true,
+					valor: true,
+					dataVencimento: true,
+					dataPagamento: true,
+					tipo: true,
+					contasNome: true,
+					lancamentos_tags: {
+						select: {
+							tags: {
+								select: {
+									id: true,
+									nome: true,
+								}
+							}
+						}
+					}
+				},
 				data: {
 					descricao: descricao,
 					valor: valor,
@@ -70,29 +89,27 @@ export const LancamentosController = {
 					tipo: tipo,
 					contasId: conta.id,
 					contasNome: conta.nome,
+					lancamentos_tags: {
+						create: tags?.map((tag) => {
+							return {
+								tags: {
+									connect: {
+										id: tag.id
+									}
+								}
+							}
+						})
+
+					}
 				}
 			})
-			let b: any[] = []
-			if (tagsId != undefined) {
-				const tags = await TAGS.verificarSeTagExiste(tagsId)
-				await tags.map(async (tag) => {
-					const t = await prisma.lancamentos_tags.create({
-						data: {
-							lancamentosId: lancamentos.id,
-							tagsId: tag.id
-						}
-					}).then(() => {
-						b.push(t)
-						console.log(t)
-					})
-				})
-			}
-			return HandleResponse(res, 201, { response: lancamentos, extras: b })
+			return HandleResponse(res, 201, { response: lancamentos, })
 		} catch (err) {
+			console.log(err)
 			if (err instanceof ZodError) {
 				return HandleResponse(res, 400, { zod: err, extras: err })
 			}
-			return HandleResponse(res, 500, { erro: err })
+			return HandleResponse(res, 500, { mensagem: err })
 		}
 	},
 }
