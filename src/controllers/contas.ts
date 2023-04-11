@@ -4,6 +4,8 @@ import { HandleResponse } from '../utils/HandleResponse'
 import { Contas } from '../models/contas'
 import { ZodError } from 'zod'
 import { ParamsId } from '../utils/paramsId'
+import { ErrorGenerico } from '../utils/erroGenerico'
+
 
 const prisma = new PrismaClient()
 
@@ -137,7 +139,19 @@ export const CONTAS = {
 			return HandleResponse(res, 404, { erro: 'Conta não encontrada' },)
 		}
 		return HandleResponse(res, 200, { response: conta })
-	}
+	},
 
+	async contaExiste(id: number) {
+		const conta = await prisma.contas.findFirst({
+			where: {
+				id: id,
+				deletede_at: null
+			}
+		})
+		if (!conta) {
+			throw ErrorGenerico('Conta não encontrada')
+		}
+		return conta
+	}
 }
 

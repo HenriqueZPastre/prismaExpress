@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 import { ParamsId } from '../utils/paramsId'
 import { TAG } from '../models/tags'
 import { ZodError } from 'zod'
+import { ErrorGenerico } from '../utils/erroGenerico'
 
 const prisma = new PrismaClient()
 
@@ -28,7 +29,6 @@ export const TAGS = {
 		})
 		try {
 			const validar = await TAG.schema_tag_listar.safeParse(query)
-			console.log(typeof (validar))
 			if (query.length < 1) {
 				return HandleResponse(resp, 404, { erro: 'Nenhum resultado econtrado' },)
 			} else {
@@ -152,5 +152,28 @@ export const TAGS = {
 		}
 		return HandleResponse(resp, 200, { response: tag })
 	},
-}
 
+	async verificarSeTagExiste(tags: number[]) {
+		const existe = await prisma.tags.findMany({
+			select: {
+				id: true,
+			},
+			where: {
+				deletede_at: null,
+				id: {
+					in: tags
+				}
+			}
+		})
+		const existeArrayId = Array.from(existe, ({ id }) => id)
+		tags.forEach((tag) => {
+			if (!existeArrayId.includes(tag)) {
+				throw ErrorGenerico(`Tag ${tag} não encontrada`)
+			}
+		})
+		if (existe.length < 1) {
+			throw ErrorGenerico('Nenhuma tag informada foi encontrada')
+		}
+		return existe
+	}
+}

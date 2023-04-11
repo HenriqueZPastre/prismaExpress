@@ -1,51 +1,16 @@
 import { PrismaClient } from '@prisma/client'
 import { Request, Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse'
+import { Lancamentos } from '../models/lancamentos'
+import { ZodError } from 'zod'
+import { CONTAS } from './contas'
+import { TAGS } from './tags'
 
 const prisma = new PrismaClient()
 
-/**
- * 0 é despesa 1 é receita
- * 
- * Data de venciemnto é defaut now() em caso de estar em branco
- */
-type Lancamentos = {
-	descricao: string,
-	valor: number,
-	dataVencimento: Date,
-	dataPagamento: Date,
-	tipo: 0 | 1,
-	contasId: number,
-	contasNome: string
-}
-interface QueryList extends Request {
-	query: {
-		pagina?: string,
-		all?: string,
-		limite?: string
-	},
-	params: {
-		id?: string
-	},
-	body: Lancamentos
-}
-
-interface QueryCreate extends Request {
-	body: {
-		descricao: string,
-		valor: number,
-		dataVencimento: Date,
-		dataPagamento?: Date,
-		tipo: 0 | 1,
-		contasId: number,
-		contasNome: string,
-		tagsId?: number[]
-	}
-}
-
 export const LancamentosController = {
 
-	async listAll(req: QueryList, res: Response) {
+	async listAll(req: Request, res: Response) {
 		const all = req.query.all === 'true' ? Boolean(req.query.all) : null
 		let limite: number | undefined = Number(req.query.limite) || 15
 		let pagina = Number(req.query.pagina)
@@ -90,29 +55,44 @@ export const LancamentosController = {
 		return HandleResponse(res, 200, { response: lancamentos })
 	},
 
-	async create(req: QueryCreate, res: Response) {
-		const create = await prisma.lancamentos.create({
-			data: {
-				descricao: req.body.descricao,
-				valor: req.body.valor,
-				dataVencimento: req.body.dataVencimento,
-				dataPagamento: req.body.dataPagamento,
-				tipo: req.body.tipo,
-				contasId: req.body.contasId,
-				contasNome: req.body.contasNome,
-			}
-		})
+	async create(req: Lancamentos.CreateLancamentos, res: Response) {
 
-		if (Array.isArray(req.body.tagsId)) {
-			req.body.tagsId.forEach(async (tagId) => {
-				await prisma.lancamentos_tags.create({
-					data: {
-						lancamentosId: create.id,
-						tagsId: tagId
-					}
-				})
+		try {
+			const { descricao, valor, dataVencimento, dataPagamento, tipo, contasId, tagsId } = Lancamentos.schema_create_lancamentos.parse(req.body)
+			const conta = await CONTAS.contaExiste(contasId)
+
+			const lancamentos = await prisma.lancamentos.create({
+				data: {
+					descricao: descricao,
+					valor: valor,
+					dataVencimento: dataVencimento,
+					dataPagamento: dataPagamento,
+					tipo: tipo,
+					contasId: conta.id,
+					contasNome: conta.nome,
+				}
 			})
+			let b: any[] = []
+			if (tagsId != undefined) {
+				const tags = await TAGS.verificarSeTagExiste(tagsId)
+				await tags.map(async (tag) => {
+					const t = await prisma.lancamentos_tags.create({
+						data: {
+							lancamentosId: lancamentos.id,
+							tagsId: tag.id
+						}
+					}).then(() => {
+						b.push(t)
+						console.log(t)
+					})
+				})
+			}
+			return HandleResponse(res, 201, { response: lancamentos, extras: b })
+		} catch (err) {
+			if (err instanceof ZodError) {
+				return HandleResponse(res, 400, { zod: err, extras: err })
+			}
+			return HandleResponse(res, 500, { erro: err })
 		}
-		return HandleResponse(res, 201,)
 	},
 }
