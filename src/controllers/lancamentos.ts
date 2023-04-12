@@ -59,6 +59,11 @@ export const LancamentosController = {
 		try {
 			const { descricao, valor, dataVencimento, dataPagamento, tipo, contasId, tagsId } = Lancamentos.schema_create_lancamentos.parse(req.body)
 			const conta = await CONTAS.contaExiste(contasId)
+			const dataAtual = new Date()
+			let situacao = req.body.situacao
+			if (dataPagamento !== undefined && new Date(dataPagamento) <= dataAtual && situacao === undefined) {
+				situacao = 1
+			}
 			let tags = undefined
 			tagsId != undefined ? tags = await TAGS.verificarSeTagExiste(tagsId) : tags = undefined
 			const lancamentos = await prisma.lancamentos.create({
@@ -70,6 +75,8 @@ export const LancamentosController = {
 					dataPagamento: true,
 					tipo: true,
 					contasNome: true,
+					contasId: true,
+					situacao: true,
 					lancamentos_tags: {
 						select: {
 							tags: {
@@ -89,6 +96,7 @@ export const LancamentosController = {
 					tipo: tipo,
 					contasId: conta.id,
 					contasNome: conta.nome,
+					situacao: situacao,
 					lancamentos_tags: {
 						create: tags?.map((tag) => {
 							return {
@@ -100,9 +108,13 @@ export const LancamentosController = {
 							}
 						})
 
-					}
+					},
 				}
 			})
+			const atualizaValor = await CONTAS.atualizarSaldo(lancamentos)
+			if (atualizaValor) {
+				return HandleResponse(res, 201, { response: lancamentos, extras: atualizaValor })
+			}
 			return HandleResponse(res, 201, { response: lancamentos, })
 		} catch (err) {
 			console.log(err)

@@ -9,7 +9,9 @@ export const schema_create_lancamentos = z.object({
 	dataVencimento: z.union([z.date(), z.string()]),
 	contasId: z.number(),
 	dataPagamento: z.union([z.date(), z.string()]).optional(),
+	//0 é entrada, 1 é saida
 	tipo: z.union([z.literal(0), z.literal(1)]),
+	situacao: z.union([z.literal(0), z.literal(1)]).optional(),
 	tagsId: z.array(z.number()).optional()
 })
 
@@ -25,7 +27,9 @@ export const schema_editar_lancamentos = z.object({
 	contasId: z.number().optional(),
 	dataPagamento: z.union([z.date(), z.string()]).optional(),
 	tipo: z.union([z.literal(0), z.literal(1)]).optional(),
+	situacao: z.union([z.literal(0), z.literal(1)]).optional(),
 	tags: z.array(z.number()).optional()
+
 })
 
 export type editarLancamentos = z.infer<typeof schema_editar_lancamentos>
@@ -33,6 +37,13 @@ export type editarLancamentos = z.infer<typeof schema_editar_lancamentos>
 export interface EditarLancamentos extends Request {
 	params: ParamsId.paramsId
 	body: editarLancamentos
+}
+
+export type infoValores = {
+	situacao: number,
+	tipo: number,
+	contasId: createLancamentos['contasId'],
+	valor: createLancamentos['valor']
 }
 
 export * as Lancamentos from './lancamentos'

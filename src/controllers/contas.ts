@@ -5,6 +5,7 @@ import { Contas } from '../models/contas'
 import { ZodError } from 'zod'
 import { ParamsId } from '../utils/paramsId'
 import { ErrorGenerico } from '../utils/erroGenerico'
+import { Lancamentos } from '../models/lancamentos'
 
 
 const prisma = new PrismaClient()
@@ -141,7 +142,7 @@ export const CONTAS = {
 		return HandleResponse(res, 200, { response: conta })
 	},
 
-	async contaExiste(id: number) {
+	contaExiste: async (id: number) => {
 		const conta = await prisma.contas.findFirst({
 			where: {
 				id: id,
@@ -152,6 +153,44 @@ export const CONTAS = {
 			throw ErrorGenerico('Conta não encontrada')
 		}
 		return conta
+	},
+
+	atualizarSaldo: async (lancamentos: Lancamentos.infoValores) => {
+		const select = {
+			saldoAtual: true,
+			id: true,
+			nome: true,
+			saldoInicial: true,
+		}
+		if (lancamentos.situacao === 1) {
+			let atualizaValor
+			if (lancamentos.tipo === 0) {
+				atualizaValor = await prisma.contas.update({
+					select: select,
+					where: {
+						id: lancamentos.contasId
+					},
+					data: {
+						saldoAtual: {
+							increment: lancamentos.valor
+						}
+					}
+				})
+			} else {
+				atualizaValor = await prisma.contas.update({
+					select: select,
+					where: {
+						id: lancamentos.contasId
+					},
+					data: {
+						saldoAtual: {
+							decrement: lancamentos.valor
+						}
+					}
+				})
+			}
+			return atualizaValor
+		}
 	}
 }
 
