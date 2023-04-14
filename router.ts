@@ -37,5 +37,4 @@ router.post('/lancamentos', LancamentosController.create)
 //*********************************\\
 //**** XUXOS/TESTES ***************\\
 //*********************************\\
-router.get('/a', xuxo.listAllTag)
-router.post('/a', xuxo.criaTag)
+router.get('/a', xuxo.listAll)

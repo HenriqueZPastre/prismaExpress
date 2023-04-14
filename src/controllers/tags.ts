@@ -1,10 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 import { HandleResponse } from '../utils/HandleResponse'
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import { ParamsId } from '../utils/paramsId'
 import { TAG } from '../models/tags'
 import { ZodError } from 'zod'
 import { ErrorGenerico } from '../utils/erroGenerico'
+import { PAGINATOR } from '../utils/Paginator'
 
 const prisma = new PrismaClient()
 
@@ -17,7 +18,8 @@ export const TAGS = {
 	/**
 	 * Lista todas as tags ativas do banco
 	*/
-	async listAll(_req: Request, resp: Response) {
+	async listAll(_req: PAGINATOR.Paginator, resp: Response) {
+		const { take, skip } = PAGINATOR.main(_req.query)
 		const query: queryAll[] = await prisma.tags.findMany({
 			select: {
 				id: true,
@@ -25,7 +27,9 @@ export const TAGS = {
 			},
 			where: {
 				deletede_at: null
-			}
+			},
+			take: take,
+			skip: skip,
 		})
 		try {
 			const validar = await TAG.schema_tag_listar.safeParse(query)
