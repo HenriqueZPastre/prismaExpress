@@ -15,7 +15,12 @@ export const contasAdd = async (objeto: createContas) => {
 	}
 
 	await prisma.contas.create({
-		data: objeto
+		data: {
+			id: objeto.id,
+			nome: objeto.nome,
+			saldoInicial: objeto.saldoInicial || 0,
+			saldoAtual: objeto.saldoAtual || 0,
+		}
 	})
 
 }
