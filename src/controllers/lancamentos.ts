@@ -1,30 +1,19 @@
 import { PrismaClient } from '@prisma/client'
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse'
 import { Lancamentos } from '../models/lancamentos'
 import { ZodError } from 'zod'
 import { CONTAS } from './contas'
 import { TAGS } from './tags'
+import { PAGINATOR } from '../utils/Paginator'
+import { ParamsId } from '../utils/paramsId'
 
 const prisma = new PrismaClient()
 
 export const LancamentosController = {
 
-	async listAll(req: Request, res: Response) {
-		const all = req.query.all === 'true' ? Boolean(req.query.all) : null
-		let limite: number | undefined = Number(req.query.limite) || 15
-		let pagina = Number(req.query.pagina)
-		let proximaPagina = undefined
-
-		if (all) {
-			limite = undefined
-			pagina = NaN
-		}
-
-		if (pagina && limite) {
-			pagina > 1 ? proximaPagina = (pagina - 1) * limite : proximaPagina = undefined
-		}
-
+	async listAll(req: PAGINATOR.Paginator, res: Response) {
+		const { skip, take } = PAGINATOR.main(req.query)
 		const lancamentos = await prisma.lancamentos.findMany({
 			select: {
 				id: true,
@@ -34,9 +23,18 @@ export const LancamentosController = {
 				dataPagamento: true,
 				tipo: true,
 				contasNome: true,
+				situacao: true,
 				lancamentos_tags: {
 					select: {
-						tagsId: true,
+						tags: {
+							select: {
+								nome: true,
+								id: true,
+							}
+						},
+					},
+					where: {
+						deletede_at: null
 					}
 				},
 			},
@@ -46,8 +44,8 @@ export const LancamentosController = {
 			orderBy: {
 				id: 'desc',
 			},
-			skip: proximaPagina,
-			take: limite,
+			skip: skip,
+			take: take,
 		})
 		if (lancamentos.length < 1) {
 			return HandleResponse(res, 404, { mensagem: 'Nenhum lançamento encontrado' },)
@@ -62,7 +60,7 @@ export const LancamentosController = {
 			const dataAtual = new Date()
 			let situacao = req.body.situacao
 			if (dataPagamento !== undefined && new Date(dataPagamento) <= dataAtual && situacao === undefined) {
-				situacao = 1
+				situacao = 1 //fechada
 			}
 			let tags = undefined
 			tagsId != undefined ? tags = await TAGS.verificarSeTagExiste(tagsId) : tags = undefined
@@ -124,4 +122,36 @@ export const LancamentosController = {
 			return HandleResponse(res, 500, { mensagem: err })
 		}
 	},
+
+	async delete(req: ParamsId.RequestParamsId, res: Response) {
+		const id = parseInt(req.params.id)
+
+		try {
+			await prisma.lancamentos.update({
+				data: {
+					deletede_at: new Date(),
+					lancamentos_tags: {
+						updateMany: {
+							data: {
+								deletede_at: new Date()
+							},
+							where: {
+								lancamentosId: id
+							}
+						}
+					}
+				},
+				where: {
+					id: id
+				}
+			})
+		} catch (err) {
+			if (err instanceof ZodError) {
+				return HandleResponse(res, 400, { zod: err, extras: err })
+			}
+			return HandleResponse(res, 500, { mensagem: err })
+		}
+		return HandleResponse(res, 200, { mensagem: 'Lançamento deletado com sucesso' })
+	}
+
 }

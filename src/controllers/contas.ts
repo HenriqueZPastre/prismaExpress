@@ -1,17 +1,19 @@
 import { PrismaClient } from '@prisma/client'
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse'
 import { Contas } from '../models/contas'
 import { ZodError } from 'zod'
 import { ParamsId } from '../utils/paramsId'
 import { ErrorGenerico } from '../utils/erroGenerico'
 import { Lancamentos } from '../models/lancamentos'
+import { PAGINATOR } from '../utils/Paginator'
 
 
 const prisma = new PrismaClient()
 
 export const CONTAS = {
-	async listAll(_req: Request, res: Response,) {
+	async listAll(_req: PAGINATOR.Paginator, res: Response,) {
+		const { skip, take } = PAGINATOR.main(_req.query)
 		const all: Contas.listarContas[] = await prisma.contas.findMany({
 			select: {
 				id: true,
@@ -21,7 +23,9 @@ export const CONTAS = {
 			},
 			where: {
 				deletede_at: null
-			}
+			},
+			take: take,
+			skip: skip,
 		})
 
 		try {

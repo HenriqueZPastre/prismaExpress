@@ -46,6 +46,8 @@ model Tags {
 
 model lancamentos_tags {
     id            Int         @id @default(autoincrement())
+    create_at     DateTime    @default(now())
+    deletede_at   DateTime?
     tagsId        Int
     lancamentosId Int
     tags          Tags        @relation(fields: [tagsId], references: [id])

@@ -6,7 +6,6 @@ import { PAGINATOR } from '../utils/Paginator'
 
 const prisma = new PrismaClient()
 
-
 export const xuxo = {
 	async listAll(req: PAGINATOR.Paginator, res: Response) {
 		const { skip, take } = PAGINATOR.main(req.query)
