@@ -24,6 +24,7 @@
     "zod": "^3.21.4"
   },
   "scripts": {
+	"build": "tsc",
     "cz": "git-cz",
     "lint:fix": "eslint . --ext .ts --fix",
     "lint": "eslint . --ext .ts",

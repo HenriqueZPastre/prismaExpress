@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 
 import { HandleResponse } from '../utils/HandleResponse'
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import { PAGINATOR } from '../utils/Paginator'
 
 const prisma = new PrismaClient()
@@ -19,6 +19,11 @@ export const xuxo = {
 		})
 		return HandleResponse(res, 200, { response: tags })
 	},
+
+	async test(req: Request, res: Response ) {
+		res.send('XUXO')
+	}
+
 }
 
 

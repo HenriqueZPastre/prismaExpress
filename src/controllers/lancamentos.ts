@@ -96,7 +96,7 @@ export const LancamentosController = {
 					contasNome: conta.nome,
 					situacao: situacao,
 					lancamentos_tags: {
-						create: tags?.map((tag) => {
+						create: tags?.map((tag: { id: number }) => {
 							return {
 								tags: {
 									connect: {

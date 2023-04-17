@@ -39,3 +39,10 @@ router.delete('/lancamentos/:id', LancamentosController.delete)
 //**** XUXOS/TESTES ***************\\
 //*********************************\\
 router.get('/a', xuxo.listAll)
+router.get('/', xuxo.test)
+
+
+
+  
+
+  
