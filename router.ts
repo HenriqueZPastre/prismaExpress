@@ -4,13 +4,18 @@ import { CONTAS } from './src/controllers/contas'
 import { TAGS } from './src/controllers/tags'
 import { LancamentosController } from './src/controllers/lancamentos'
 import { xuxo } from './src/controllers/xuxo'
+import swaggerUi from 'swagger-ui-express'
+import swaggerJson from './swagger.json'
 
 const router: Router = Router()
 export { router }
 
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJson))
+
 //*********************************\\
 //**** CONTAS BANCÁRIAS ***********\\
 //*********************************\\
+
 router.get('/contas', CONTAS.listAll)
 router.get('/contas/:id', CONTAS.getById)
 router.post('/contas', CONTAS.createConta)
@@ -40,9 +45,3 @@ router.delete('/lancamentos/:id', LancamentosController.delete)
 //*********************************\\
 router.get('/a', xuxo.listAll)
 router.get('/', xuxo.test)
-
-
-
-  
-
-  
