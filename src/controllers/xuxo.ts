@@ -21,7 +21,7 @@ export const xuxo = {
 	},
 
 	async test(req: Request, res: Response ) {
-		res.send('XUXO')
+		res.send('OK DEPLY')
 	}
 
 }

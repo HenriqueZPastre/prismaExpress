@@ -1,6 +1,6 @@
-# fly.toml file generated for prismaexp on 2023-04-17T16:29:49-03:00
+# fly.toml file generated for prismaexpress on 2023-04-18T08:24:06-03:00
 
-app = "prismaexp"
+app = "prismaexpress"
 primary_region = "gig"
 
 [http_service]
@@ -13,4 +13,3 @@ primary_region = "gig"
     interval = "15s"
     timeout = "2s"
     grace_period = "5s"
-
