@@ -1,16 +1,16 @@
 import { Router } from 'express'
-
 import { CONTAS } from './src/controllers/contas'
 import { TAGS } from './src/controllers/tags'
 import { LancamentosController } from './src/controllers/lancamentos'
 import { xuxo } from './src/controllers/xuxo'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJson from './swagger.json'
+import { authSwagger } from './src/controllers/teste'
 
 const router: Router = Router()
 export { router }
 
-router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJson))
+router.use('/api-docs', authSwagger, swaggerUi.serve, swaggerUi.setup(swaggerJson))
 
 //*********************************\\
 //**** CONTAS BANCÁRIAS ***********\\
@@ -45,3 +45,4 @@ router.delete('/lancamentos/:id', LancamentosController.delete)
 //*********************************\\
 router.get('/a', xuxo.listAll)
 router.get('/', xuxo.test)
+
