@@ -12,17 +12,6 @@ import { PAGINATOR } from '../utils/Paginator'
 const prisma = new PrismaClient()
 
 export const CONTAS = {
-	/**
- * @swagger
- * /users:
- *   get:
- *     description: Retorna uma lista de usuários
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: Lista de usuários
- */
 	async listAll(_req: PAGINATOR.Paginator, res: Response,) {
 		const { skip, take } = PAGINATOR.main(_req.query)
 		const all: Contas.listarContas[] = await prisma.contas.findMany({

@@ -1,0 +1,166 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Exemplo",
+    "description": "API para demonstração",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor de Desenvolvimento"
+    }
+  ],
+  "paths": {
+    "/contas": {
+      "get": {
+        "tags": [
+          "Contas"
+        ],
+        "summary": "Lista todas as contas",
+        "responses": {
+          "200": {
+            "description": "Lista de contas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/listarContas"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contas"
+        ],
+        "summary": " Insere uma nova conta",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createContas"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conta inserida com sucesso"
+          }
+        }
+      }
+    },
+    "/contas/{id}": {
+      "get": {
+        "tags": [
+          "Contas"
+        ],
+        "summary": "Lista todas as contas",
+        "responses": {
+          "200": {
+            "description": "Lista de contas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/listarContas"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contas"
+        ],
+        "summary": " Insere uma nova conta",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createContas"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conta inserida com sucesso"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "createContas": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "create_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nome": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 2
+          },
+          "saldoInicial": {
+            "type": "number",
+            "minimum": 1
+          },
+          "saldoAtual": {
+            "type": "number",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "nome"
+        ]
+      },
+      "listarContas": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "nome": {
+              "type": "string"
+            },
+            "saldoInicial": {
+              "type": "number"
+            },
+            "saldoAtual": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "nome",
+            "saldoInicial",
+            "saldoAtual"
+          ]
+        }
+      },
+      "editarContas": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "saldoInicial": {
+            "type": "number",
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}

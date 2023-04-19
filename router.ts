@@ -4,7 +4,7 @@ import { TAGS } from './src/controllers/tags'
 import { LancamentosController } from './src/controllers/lancamentos'
 import { xuxo } from './src/controllers/xuxo'
 import swaggerUi from 'swagger-ui-express'
-import swaggerJson from './swagger.json'
+import swaggerJson from './testeSwagger.json'
 import { authSwagger } from './src/controllers/teste'
 
 const router: Router = Router()
