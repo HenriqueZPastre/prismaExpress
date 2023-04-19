@@ -2,9 +2,10 @@ import { swaggerContas } from '../models/contas'
 
 export const schema = {
 	'createContas': swaggerContas.create,
-	'listarContas': swaggerContas.listarContas,
+	'listarContas': swaggerContas.responseListarContas,
 	'editarContas': swaggerContas.editar,
-	
+	'getConta': swaggerContas.responseGetConta,
+	'paramsId': swaggerContas.paramsId,
 }
 
 export type schemaKeys = keyof typeof schema

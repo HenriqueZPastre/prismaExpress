@@ -15,11 +15,7 @@ const Swagger = {
 			'description': 'Servidor de Desenvolvimento'
 		}
 	],
-	'paths': {
-		'/contas': contas,
-		'/contas/{id}': contas
-		
-	},
+	'paths': contas,
 	'components': {
 		'schemas': schema
 	}

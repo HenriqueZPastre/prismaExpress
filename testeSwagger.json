@@ -58,6 +58,17 @@
           "Contas"
         ],
         "summary": "Lista todas as contas",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Id da conta"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de contas",
@@ -68,26 +79,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Contas"
-        ],
-        "summary": " Insere uma nova conta",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/createContas"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Conta inserida com sucesso"
           }
         }
       }
@@ -160,6 +151,40 @@
             "minimum": 1
           }
         }
+      },
+      "getConta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "saldoInicial": {
+            "type": "number"
+          },
+          "saldoAtual": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "nome",
+          "saldoInicial",
+          "saldoAtual"
+        ]
+      },
+      "paramsId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id"
+        ]
       }
     }
   }
