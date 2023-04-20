@@ -4,7 +4,7 @@ import { ParamsId } from '../utils/paramsId'
 import { generateSchema } from '@anatine/zod-openapi'
 
 export const schema_create_contas = z.object({
-	id: z.number().optional(),
+	id: z.number().int().optional(),
 	create_at: z.date().optional(),
 	nome: z.string().max(60).min(2).trim(),
 	saldoInicial: z.number().min(1).optional(),
@@ -16,9 +16,14 @@ export interface CreateContas extends Request {
 	body: createContas
 }
 
+const responseContas = z.object({
+	id: z.number().int(),
+	nome: z.string()
+})
+
 //Listar todas as contas
 export const schema_lista_contas_objetos = z.object({
-	id: z.number(),
+	id: z.number().int(),
 	nome: z.string().trim(),
 	saldoInicial: z.number(),
 	saldoAtual: z.number(),
@@ -42,16 +47,18 @@ export interface EditarContas extends Request {
 }
 
 const id = z.object({
-	id: z.number()
+	id: z.number().int()
 })
 
 
 export const swaggerContas = {
 	create: generateSchema(schema_create_contas),
+	responseCreateConta : generateSchema(responseContas),
 	responseListarContas: generateSchema(schema_lista_contas),
 	editar: generateSchema(schema_edita_contas),
 	responseGetConta: generateSchema(schema_lista_contas_objetos),
 	paramsId: generateSchema(id),
+
 }
 
 export * as Contas from './contas'

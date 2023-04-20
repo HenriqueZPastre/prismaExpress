@@ -5,14 +5,18 @@ import { contas } from './contas'
 const Swagger = {
 	'openapi': '3.0.0',
 	'info': {
-		'title': 'API de Exemplo',
-		'description': 'API para demonstração',
+		'title': 'API prismaExpress',
+		'description': 'API de estudo usando prisma, express, typescript e zod, além do swagger/openapi para documentação.',
 		'version': '1.0.0'
 	},
 	'servers': [
 		{
 			'url': 'http://localhost:3000',
-			'description': 'Servidor de Desenvolvimento'
+			'description': 'Quando usado em local'
+		},
+		{
+			'url': 'prismaexpress.fly.dev',
+			'description': 'Quando usado em Produção'
 		}
 	],
 	'paths': contas,

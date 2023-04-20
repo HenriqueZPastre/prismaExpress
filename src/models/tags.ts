@@ -18,7 +18,7 @@ export interface TagEditar extends Request {
 }
 
 const schema_tag_l = z.object({
-	id: z.number(),
+	id: z.number().int(),
 	nome: z.string().trim().max(60).min(2),
 })
 

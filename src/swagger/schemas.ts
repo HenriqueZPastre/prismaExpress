@@ -6,6 +6,7 @@ export const schema = {
 	'editarContas': swaggerContas.editar,
 	'getConta': swaggerContas.responseGetConta,
 	'paramsId': swaggerContas.paramsId,
+	'responseCreateConta': swaggerContas.responseCreateConta
 }
 
 export type schemaKeys = keyof typeof schema

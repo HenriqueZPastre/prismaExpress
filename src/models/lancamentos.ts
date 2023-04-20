@@ -7,7 +7,7 @@ export const schema_create_lancamentos = z.object({
 	descricao: z.string().trim().max(60).min(2),
 	valor: z.number().min(1),
 	dataVencimento: z.union([z.date(), z.string()]),
-	contasId: z.number(),
+	contasId: z.number().int(),
 	dataPagamento: z.union([z.date(), z.string()]).optional(),
 	//0 é entrada, 1 é saida
 	tipo: z.union([z.literal(0), z.literal(1)]),
@@ -24,7 +24,7 @@ export const schema_editar_lancamentos = z.object({
 	descricao: z.string().trim().max(60).min(2).optional(),
 	valor: z.number().min(1).optional(),
 	dataVencimento: z.union([z.date(), z.string()]).optional(),
-	contasId: z.number().optional(),
+	contasId: z.number().int().optional(),
 	dataPagamento: z.union([z.date(), z.string()]).optional(),
 	tipo: z.union([z.literal(0), z.literal(1)]).optional(),
 	situacao: z.union([z.literal(0), z.literal(1)]).optional(),
