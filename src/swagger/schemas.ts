@@ -1,11 +1,18 @@
 import { swaggerContas } from '../models/contas'
+import { swaggerTags } from '../models/tags'
 
 export const schema = {
 	'createContas': swaggerContas.create,
+	'responseCreateConta': swaggerContas.responseCreateConta,
 	'listarContas': swaggerContas.responseListarContas,
-	'editarContas': swaggerContas.editar,
 	'getConta': swaggerContas.responseGetConta,
-	'responseCreateConta': swaggerContas.responseCreateConta
+	'editarContas': swaggerContas.editar,
+
+	'createTags': swaggerTags.create,
+	'responseCreateTag': swaggerTags.responseCreateTag,
+	'listarTags': swaggerTags.responseListarTags,
+	'getTag': swaggerTags.responseGetTag,
+	'editarTags': swaggerTags.editar,
 }
 
 export type schemaKeys = keyof typeof schema

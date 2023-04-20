@@ -5,7 +5,7 @@ import { LancamentosController } from './src/controllers/lancamentos'
 import { xuxo } from './src/controllers/xuxo'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJson from './testeSwagger.json'
-import { authSwagger } from './src/controllers/teste'
+import { authSwagger } from './src/utils/authSwagger'
 
 const router: Router = Router()
 export { router }
@@ -26,8 +26,8 @@ router.delete('/contas/:id', CONTAS.deleteConta)
 //**** TAGS ***********************\\
 //*********************************\\
 router.get('/tags', TAGS.listAll)
-router.get('/tags/:id', TAGS.getById)
 router.post('/tags', TAGS.create)
+router.get('/tags/:id', TAGS.getById)
 router.put('/tags/:id', TAGS.editar)
 router.delete('/tags/:id', TAGS.excluir)
 

@@ -1,11 +1,11 @@
 import fs from 'fs'
 import { schema } from './schemas'
-import { contas } from './contas'
+import { swaggerPaths } from './paths'
 
 const Swagger = {
 	'openapi': '3.0.0',
 	'info': {
-		'title': 'API prismaExpress',
+		'title': 'API prismaExpresss',
 		'description': 'API de estudo usando prisma, express, typescript e zod, além do swagger/openapi para documentação.',
 		'version': '1.0.0'
 	},
@@ -19,7 +19,7 @@ const Swagger = {
 			'description': 'Quando usado em Produção'
 		}
 	],
-	'paths': contas,
+	'paths': swaggerPaths,
 	'components': {
 		'schemas': schema
 	}

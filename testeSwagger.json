@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "API prismaExpress",
+    "title": "API prismaExpresss",
     "description": "API de estudo usando prisma, express, typescript e zod, além do swagger/openapi para documentação.",
     "version": "1.0.0"
   },
@@ -173,6 +173,164 @@
           }
         }
       }
+    },
+    "/tags": {
+      "get": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": "Lista as tags",
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página atual desejada, se for undefined pega a pagina 1"
+          },
+          {
+            "name": "all",
+            "in": "path",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Se for true, retorna todos os registros."
+          },
+          {
+            "name": "take",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Quantidade de registros por página (default 15)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/listarTags"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": " Insere uma nova tag",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createTags"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseCreateTag"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/{id}": {
+      "get": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": "Busca os dados da tag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Id da conta"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseCreateTag"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": "Atualiza os dados da tag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Id da conta"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/editarTags"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": "Soft delete da tag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Id da conta"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -205,6 +363,21 @@
           "nome"
         ]
       },
+      "responseCreateConta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nome": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nome"
+        ]
+      },
       "listarContas": {
         "type": "array",
         "items": {
@@ -231,18 +404,6 @@
           ]
         }
       },
-      "editarContas": {
-        "type": "object",
-        "properties": {
-          "nome": {
-            "type": "string"
-          },
-          "saldoInicial": {
-            "type": "number",
-            "minimum": 1
-          }
-        }
-      },
       "getConta": {
         "type": "object",
         "properties": {
@@ -266,18 +427,95 @@
           "saldoAtual"
         ]
       },
-      "responseCreateConta": {
+      "editarContas": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "saldoInicial": {
+            "type": "number",
+            "minimum": 1
+          }
+        }
+      },
+      "createTags": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 2
+          }
+        },
+        "required": [
+          "nome"
+        ]
+      },
+      "responseCreateTag": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer"
           },
           "nome": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 2
           }
         },
         "required": [
           "id",
+          "nome"
+        ]
+      },
+      "listarTags": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "nome": {
+              "type": "string",
+              "maxLength": 60,
+              "minLength": 2
+            }
+          },
+          "required": [
+            "id",
+            "nome"
+          ]
+        }
+      },
+      "getTag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nome": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 2
+          }
+        },
+        "required": [
+          "id",
+          "nome"
+        ]
+      },
+      "editarTags": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 2
+          }
+        },
+        "required": [
           "nome"
         ]
       }

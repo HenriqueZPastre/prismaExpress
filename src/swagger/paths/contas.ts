@@ -1,5 +1,5 @@
-import { swaggerUtils } from './utils/parametros'
-import { getSchema } from './schemas'
+import { swaggerUtils } from '../utils/parametros'
+import { getSchema } from '../schemas'
 import { OpenAPIV3 } from 'openapi-types'
 
 export const contas: OpenAPIV3.PathsObject = {
