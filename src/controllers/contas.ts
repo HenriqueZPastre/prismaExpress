@@ -122,7 +122,7 @@ export const CONTAS = {
 			}
 			return HandleResponse(resp, 500, { erro: 'Não foi possível editar a conta' },)
 		}
-		return HandleResponse(resp, 200)
+		return HandleResponse(resp, 204)
 	},
 
 	async getById(req: ParamsId.RequestParamsId, res: Response) {

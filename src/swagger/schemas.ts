@@ -5,7 +5,6 @@ export const schema = {
 	'listarContas': swaggerContas.responseListarContas,
 	'editarContas': swaggerContas.editar,
 	'getConta': swaggerContas.responseGetConta,
-	'paramsId': swaggerContas.paramsId,
 	'responseCreateConta': swaggerContas.responseCreateConta
 }
 

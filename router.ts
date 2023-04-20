@@ -17,8 +17,8 @@ router.use('/api-docs', authSwagger, swaggerUi.serve, swaggerUi.setup(swaggerJso
 //*********************************\\
 
 router.get('/contas', CONTAS.listAll)
-router.get('/contas/:id', CONTAS.getById)
 router.post('/contas', CONTAS.createConta)
+router.get('/contas/:id', CONTAS.getById)
 router.put('/contas/:id', CONTAS.editarConta)
 router.delete('/contas/:id', CONTAS.deleteConta)
 

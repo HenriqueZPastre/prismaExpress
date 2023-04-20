@@ -1,21 +1,6 @@
+import { swaggerUtils } from './utils/parametros'
 import { getSchema } from './schemas'
 import { OpenAPIV3 } from 'openapi-types'
-interface testeParams {
-	name: OpenAPIV3.ParameterObject['name'],
-	in: OpenAPIV3.ParameterObject['in'],
-	required?: OpenAPIV3.ParameterBaseObject['required'],
-	schema: OpenAPIV3.ParameterBaseObject['schema'],
-	description?: OpenAPIV3.ParameterBaseObject['description'],
-}
-const justID: testeParams = {
-	name: 'id',
-	in: 'path',
-	required: true,
-	schema: {
-		type: 'integer'
-	},
-	description: 'Id da conta',
-}
 
 export const contas: OpenAPIV3.PathsObject = {
 	'/contas': {
@@ -23,7 +8,12 @@ export const contas: OpenAPIV3.PathsObject = {
 			tags: [
 				'Contas'
 			],
-			summary: 'Lista todas as contas',
+			summary: 'Lista as contas',
+			parameters: [
+				swaggerUtils.Paginator[0],
+				swaggerUtils.Paginator[1],
+				swaggerUtils.Paginator[2],
+			],
 			responses: {
 				'200': {
 					description: 'OK',
@@ -72,7 +62,7 @@ export const contas: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Busca os dados de uma conta',
 			parameters: [
-				justID
+				swaggerUtils.idParameter
 			],
 			responses: {
 				'200': {
@@ -87,19 +77,42 @@ export const contas: OpenAPIV3.PathsObject = {
 				}
 			},
 		},
+		put: {
+			tags: [
+				'Contas'
+			],
+			summary: 'Atualiza os dados da conta indicada',
+			parameters: [
+				swaggerUtils.idParameter,
+			],
+			requestBody: {
+				content: {
+					'application/json': {
+						schema: {
+							$ref: getSchema('editarContas')
+						}
+					}
+				}
+			},
+			responses: {
+				'204': {
+					description: 'No Content',
+				}
+			}
+		},
 		delete: {
 			tags: [
 				'Contas'
 			],
 			summary: 'Soft delete da conta',
 			parameters: [
-				justID,
+				swaggerUtils.idParameter,
 			],
 			responses: {
 				'204': {
 					description: 'No Content',
 				}
 			}
-		}
+		},
 	}
 }

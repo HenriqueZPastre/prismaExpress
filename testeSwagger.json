@@ -21,7 +21,34 @@
         "tags": [
           "Contas"
         ],
-        "summary": "Lista todas as contas",
+        "summary": "Lista as contas",
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página atual desejada, se for undefined pega a pagina 1"
+          },
+          {
+            "name": "all",
+            "in": "path",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Se for true, retorna todos os registros."
+          },
+          {
+            "name": "take",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Quantidade de registros por página (default 15)"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -90,6 +117,37 @@
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Contas"
+        ],
+        "summary": "Atualiza os dados da conta indicada",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Id da conta"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/editarContas"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
           }
         }
       },
@@ -206,17 +264,6 @@
           "nome",
           "saldoInicial",
           "saldoAtual"
-        ]
-      },
-      "paramsId": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer"
-          }
-        },
-        "required": [
-          "id"
         ]
       },
       "responseCreateConta": {

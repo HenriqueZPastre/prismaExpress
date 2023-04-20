@@ -46,19 +46,12 @@ export interface EditarContas extends Request {
 	body: editarContas
 }
 
-const id = z.object({
-	id: z.number().int()
-})
-
-
 export const swaggerContas = {
 	create: generateSchema(schema_create_contas),
 	responseCreateConta : generateSchema(responseContas),
 	responseListarContas: generateSchema(schema_lista_contas),
 	editar: generateSchema(schema_edita_contas),
 	responseGetConta: generateSchema(schema_lista_contas_objetos),
-	paramsId: generateSchema(id),
-
 }
 
 export * as Contas from './contas'
