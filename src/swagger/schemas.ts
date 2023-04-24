@@ -16,6 +16,7 @@ export const schema = {
 	editarTags: ModelsSwaggerTag.editar,
 
 	createLancamentos: ModelsSwaggerLancamentos.create,
+	responseCreateLancamentos: ModelsSwaggerLancamentos.responseCreate,
 	editarLancamentos: ModelsSwaggerLancamentos.editar,
 	listarLancamentos: ModelsSwaggerLancamentos.listarLancamentos,
 }

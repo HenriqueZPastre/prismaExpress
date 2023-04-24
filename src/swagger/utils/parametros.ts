@@ -15,7 +15,7 @@ export const id: ParametersCustomSwagger = {
 	schema: {
 		type: 'integer'
 	},
-	description: 'Id da conta',
+	description: 'Id do registro',
 }
 
 export const Paginator: ParametersCustomSwagger[] = [
@@ -50,8 +50,8 @@ export const Paginator: ParametersCustomSwagger[] = [
 		schema: {
 			type: 'string'
 		},
-		description: `Ordenação dos registros exemplo: <br>
-		orderBy = desc | asc	
+		description: `Ordenação dos registros: <br>
+		order = desc | asc	
 		`
 	}
 ]

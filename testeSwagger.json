@@ -104,7 +104,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Id da conta"
+            "description": "Id do registro"
           }
         ],
         "responses": {
@@ -133,7 +133,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Id da conta"
+            "description": "Id do registro"
           }
         ],
         "requestBody": {
@@ -164,7 +164,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Id da conta"
+            "description": "Id do registro"
           }
         ],
         "responses": {
@@ -262,7 +262,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Id da conta"
+            "description": "Id do registro"
           }
         ],
         "responses": {
@@ -291,7 +291,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Id da conta"
+            "description": "Id do registro"
           }
         ],
         "requestBody": {
@@ -322,7 +322,7 @@
             "schema": {
               "type": "integer"
             },
-            "description": "Id da conta"
+            "description": "Id do registro"
           }
         ],
         "responses": {
@@ -370,7 +370,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Ordenação dos registros exemplo: <br>\n\t\torderBy = desc | asc\t\n\t\t"
+            "description": "Ordenação dos registros: <br>\n\t\torder = desc | asc\t\n\t\t"
           },
           {
             "name": "orderby",
@@ -389,7 +389,7 @@
                 "lancamentos_tags"
               ]
             },
-            "description": "Coluna para ordenação dos registros"
+            "description": "Colunas para ordenação dos registros"
           }
         ],
         "responses": {
@@ -402,6 +402,57 @@
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Lancamentos"
+        ],
+        "summary": "Cria um novo lancamento",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createLancamentos"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responseCreateConta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lancamentos/{id}": {
+      "delete": {
+        "tags": [
+          "Lancamentos"
+        ],
+        "summary": "Deleta um lancamento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Id do registro"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
           }
         }
       }
@@ -675,6 +726,77 @@
           "dataVencimento",
           "contasId",
           "tipo"
+        ]
+      },
+      "responseCreateLancamentos": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "valor": {
+            "type": "number"
+          },
+          "dataVencimento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataPagamento": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Se não exister dados, o valor será null"
+          },
+          "tipo": {
+            "type": "integer",
+            "description": "0 = entrada <br>\n\t\t\t\t\t\t1 = saida"
+          },
+          "contasNome": {
+            "type": "string"
+          },
+          "situacao": {
+            "type": "integer",
+            "description": "0 = ABERTO <br>\n\t\t\t\t\t\t1 = FECHADO"
+          },
+          "lancamentos_tags": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "tags": {
+                  "type": "object",
+                  "properties": {
+                    "nome": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "nome",
+                    "id"
+                  ]
+                }
+              },
+              "required": [
+                "tags"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "descricao",
+          "valor",
+          "dataVencimento",
+          "tipo",
+          "contasNome",
+          "situacao",
+          "lancamentos_tags"
         ]
       },
       "editarLancamentos": {

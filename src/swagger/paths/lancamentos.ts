@@ -29,6 +29,49 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 					}
 				}
 			}
+		},
+		post: {
+			tags: [
+				'Lancamentos'
+			],
+			summary: 'Cria um novo lancamento',
+			requestBody: {
+				content: {
+					'application/json': {
+						schema: {
+							$ref: refSchema('createLancamentos')
+						}
+					}
+				}
+			},
+			responses: {
+				'201': {
+					description: 'Created',
+					content: {
+						'application/json': {
+							schema: {
+								$ref: refSchema('responseCreateConta')
+							}
+						}
+					}
+				}
+			}
+		},
+	},
+	'/lancamentos/{id}': {
+		delete: {
+			tags: [
+				'Lancamentos'
+			],
+			summary: 'Deleta um lancamento',
+			parameters: [
+				swaggerUtils.id
+			],
+			responses: {
+				'204': {
+					description: 'No Content'
+				}
+			}
 		}
 	}
 }

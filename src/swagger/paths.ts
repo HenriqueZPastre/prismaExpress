@@ -9,6 +9,6 @@ export const swaggerPaths = {
 	'/tags': tags['/tags'],
 	'/tags/{id}': tags['/tags/{id}'],
 
-	'/lancamentos': Lancamentos['/lancamentos']
-
+	'/lancamentos': Lancamentos['/lancamentos'],
+	'/lancamentos/{id}': Lancamentos['/lancamentos/{id}'],
 }
