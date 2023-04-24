@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse'
-import { Contas } from '../models/contas'
+import { ModelContas } from '../models/contas'
 import { ZodError } from 'zod'
 import { ParamsId } from '../utils/paramsId'
 import { ErrorGenerico } from '../utils/erroGenerico'
-import { Lancamentos } from '../models/lancamentos'
+import { ModelLancamentos } from '../models/lancamentos'
 import { PAGINATOR } from '../utils/Paginator'
 
 
@@ -14,7 +14,7 @@ const prisma = new PrismaClient()
 export const CONTAS = {
 	async listAll(_req: PAGINATOR.Paginator, res: Response,) {
 		const { skip, take } = PAGINATOR.main(_req.query)
-		const all: Contas.listarContas[] = await prisma.contas.findMany({
+		const all: ModelContas.listarContas[] = await prisma.contas.findMany({
 			select: {
 				id: true,
 				nome: true,
@@ -29,7 +29,7 @@ export const CONTAS = {
 		})
 
 		try {
-			Contas.schema_lista_contas.parse(all)
+			ModelContas.zodContas.listar.parse(all)
 		} catch (err) {
 			if (err instanceof ZodError) {
 				return HandleResponse(res, 400, { zod: err })
@@ -45,9 +45,9 @@ export const CONTAS = {
 
 	},
 
-	async createConta(req: Contas.CreateContas, res: Response,) {
+	async createConta(req: ModelContas.CreateContas, res: Response,) {
 		try {
-			const { nome, saldoInicial, saldoAtual } = Contas.schema_create_contas.parse(req.body)
+			const { nome, saldoInicial, saldoAtual } = ModelContas.zodContas.create.parse(req.body)
 			const create = await prisma.contas.create({
 				data: {
 					nome: nome,
@@ -100,10 +100,10 @@ export const CONTAS = {
 		return HandleResponse(res, 204)
 	},
 
-	async editarConta(req: Contas.EditarContas, resp: Response) {
+	async editarConta(req: ModelContas.EditarContas, resp: Response) {
 		const id = parseInt(req.params.id)
 		try {
-			const { nome, saldoInicial } = Contas.schema_edita_contas.parse(req.body)
+			const { nome, saldoInicial } = ModelContas.zodContas.editar.parse(req.body)
 			if (!nome && !saldoInicial) {
 				return HandleResponse(resp, 400, { erro: 'Nenhum dado foi informado para edição' },)
 			}
@@ -159,7 +159,7 @@ export const CONTAS = {
 		return conta
 	},
 
-	atualizarSaldo: async (lancamentos: Lancamentos.infoValores) => {
+	atualizarSaldo: async (lancamentos: ModelLancamentos.infoValores) => {
 		const select = {
 			saldoAtual: true,
 			id: true,

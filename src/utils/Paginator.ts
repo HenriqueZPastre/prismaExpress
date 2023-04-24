@@ -3,7 +3,9 @@ import { Request } from 'express'
 export type QueryPaginator = {
 	take?: string | undefined
 	pagina?: string | undefined
-	all?: string | undefined
+	all?: string | undefined,
+	order?: 'desc' | 'asc' | undefined,
+	orderby?: string | undefined
 }
 
 export interface Paginator extends Request {
@@ -19,6 +21,9 @@ export interface Paginator extends Request {
  * @returns take and skip(pagina)
  */
 export function main(req: QueryPaginator) {
+	const orderParam = req.orderby
+	let orderBy = undefined
+	const order = req.order
 	const all = req.all === 'true' ? Boolean(req.all) : null
 	let take: number | undefined = Number(req.take) || 15
 	let pagina = Number(req.pagina)
@@ -32,7 +37,14 @@ export function main(req: QueryPaginator) {
 	if (pagina && take) {
 		pagina > 1 ? skip = (pagina - 1) * take : skip = undefined
 	}
-	return ({ take, skip })
+
+	if (orderParam) {
+		orderBy = {
+			[orderParam]: order || 'desc'
+		}
+	}
+
+	return ({ take, skip, order, orderBy })
 }
 
 export * as PAGINATOR from './Paginator'

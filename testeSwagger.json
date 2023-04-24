@@ -8,11 +8,11 @@
   "servers": [
     {
       "url": "http://localhost:3000",
-      "description": "Quando usado em local"
+      "description": "Local"
     },
     {
       "url": "prismaexpress.fly.dev",
-      "description": "Quando usado em Produção"
+      "description": "Produção"
     }
   ],
   "paths": {
@@ -331,6 +331,80 @@
           }
         }
       }
+    },
+    "/lancamentos": {
+      "get": {
+        "tags": [
+          "Lancamentos"
+        ],
+        "summary": "Lista os lancamentos",
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Página atual desejada, se for undefined pega a pagina 1"
+          },
+          {
+            "name": "all",
+            "in": "path",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Se for true, retorna todos os registros."
+          },
+          {
+            "name": "take",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Quantidade de registros por página (default 15)"
+          },
+          {
+            "name": "order",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Ordenação dos registros exemplo: <br>\n\t\torderBy = desc | asc\t\n\t\t"
+          },
+          {
+            "name": "orderby",
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "id",
+                "descricao",
+                "valor",
+                "dataVencimento",
+                "dataPagamento",
+                "tipo",
+                "contasNome",
+                "situacao",
+                "lancamentos_tags"
+              ]
+            },
+            "description": "Coluna para ordenação dos registros"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/listarLancamentos"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -518,6 +592,241 @@
         "required": [
           "nome"
         ]
+      },
+      "createLancamentos": {
+        "type": "object",
+        "properties": {
+          "descricao": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 2
+          },
+          "valor": {
+            "type": "number",
+            "minimum": 1
+          },
+          "dataVencimento": {
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "contasId": {
+            "type": "integer"
+          },
+          "dataPagamento": {
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "tipo": {
+            "oneOf": [
+              {
+                "type": "number",
+                "enum": [
+                  0
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              }
+            ]
+          },
+          "situacao": {
+            "oneOf": [
+              {
+                "type": "number",
+                "enum": [
+                  0
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              }
+            ]
+          },
+          "tagsId": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "descricao",
+          "valor",
+          "dataVencimento",
+          "contasId",
+          "tipo"
+        ]
+      },
+      "editarLancamentos": {
+        "type": "object",
+        "properties": {
+          "descricao": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 2
+          },
+          "valor": {
+            "type": "number",
+            "minimum": 1
+          },
+          "dataVencimento": {
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "contasId": {
+            "type": "integer"
+          },
+          "dataPagamento": {
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "tipo": {
+            "oneOf": [
+              {
+                "type": "number",
+                "enum": [
+                  0
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              }
+            ]
+          },
+          "situacao": {
+            "oneOf": [
+              {
+                "type": "number",
+                "enum": [
+                  0
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              }
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "listarLancamentos": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "valor": {
+              "type": "number"
+            },
+            "dataVencimento": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "dataPagamento": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true,
+              "description": "Se não exister dados, o valor será null"
+            },
+            "tipo": {
+              "type": "integer",
+              "description": "0 = entrada <br>\n\t\t\t\t\t\t1 = saida"
+            },
+            "contasNome": {
+              "type": "string"
+            },
+            "situacao": {
+              "type": "integer",
+              "description": "0 = ABERTO <br>\n\t\t\t\t\t\t1 = FECHADO"
+            },
+            "lancamentos_tags": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tags": {
+                    "type": "object",
+                    "properties": {
+                      "nome": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "nome",
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "tags"
+                ]
+              }
+            }
+          },
+          "required": [
+            "id",
+            "descricao",
+            "valor",
+            "dataVencimento",
+            "tipo",
+            "contasNome",
+            "situacao",
+            "lancamentos_tags"
+          ]
+        }
       }
     }
   }

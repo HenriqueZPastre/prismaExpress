@@ -8,7 +8,7 @@ export interface ParametersCustomSwagger {
 	description?: OpenAPIV3.ParameterBaseObject['description'],
 }
 
-export const idParameter: ParametersCustomSwagger = {
+export const id: ParametersCustomSwagger = {
 	name: 'id',
 	in: 'path',
 	required: true,
@@ -44,6 +44,29 @@ export const Paginator: ParametersCustomSwagger[] = [
 		},
 		description: 'Quantidade de registros por página (default 15)'
 	},
+	{
+		name: 'order',
+		in: 'path',
+		schema: {
+			type: 'string'
+		},
+		description: `Ordenação dos registros exemplo: <br>
+		orderBy = desc | asc	
+		`
+	}
 ]
+
+export const orderBy = (objeto: object): OpenAPIV3.ParameterObject => {
+	const keys = Object.keys(objeto)
+	return {
+		name: 'orderby',
+		in: 'path',
+		schema: {
+			type: 'string',
+			enum: keys
+		},
+		description: 'Colunas para ordenação dos registros'
+	}
+}
 
 export * as swaggerUtils from './parametros'

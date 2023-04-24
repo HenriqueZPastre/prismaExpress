@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse'
-import { Lancamentos } from '../models/lancamentos'
+import { ModelLancamentos } from '../models/lancamentos'
 import { ZodError } from 'zod'
 import { CONTAS } from './contas'
 import { TAGS } from './tags'
@@ -13,7 +13,7 @@ const prisma = new PrismaClient()
 export const LancamentosController = {
 
 	async listAll(req: PAGINATOR.Paginator, res: Response) {
-		const { skip, take } = PAGINATOR.main(req.query)
+		const { skip, take, order, orderBy } = PAGINATOR.main(req.query)
 		const lancamentos = await prisma.lancamentos.findMany({
 			select: {
 				id: true,
@@ -41,8 +41,8 @@ export const LancamentosController = {
 			where: {
 				deletede_at: null
 			},
-			orderBy: {
-				id: 'desc',
+			orderBy: orderBy ? orderBy : {
+				id: order || 'desc'
 			},
 			skip: skip,
 			take: take,
@@ -53,9 +53,9 @@ export const LancamentosController = {
 		return HandleResponse(res, 200, { response: lancamentos })
 	},
 
-	async create(req: Lancamentos.CreateLancamentos, res: Response) {
+	async create(req: ModelLancamentos.CreateLancamentos, res: Response) {
 		try {
-			const { descricao, valor, dataVencimento, dataPagamento, tipo, contasId, tagsId } = Lancamentos.schema_create_lancamentos.parse(req.body)
+			const { descricao, valor, dataVencimento, dataPagamento, tipo, contasId, tagsId } = ModelLancamentos.zodLancamentos.create.parse(req.body)
 			const conta = await CONTAS.contaExiste(contasId)
 			const dataAtual = new Date()
 			let situacao = req.body.situacao
@@ -115,7 +115,6 @@ export const LancamentosController = {
 			}
 			return HandleResponse(res, 201, { response: lancamentos, })
 		} catch (err) {
-			console.log(err)
 			if (err instanceof ZodError) {
 				return HandleResponse(res, 400, { zod: err, extras: err })
 			}

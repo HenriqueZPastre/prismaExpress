@@ -1,22 +1,27 @@
-import { swaggerContas } from '../models/contas'
-import { swaggerTags } from '../models/tags'
+import { ModelsSwaggerContas } from '../models/contas'
+import { ModelsSwaggerTag } from '../models/tags'
+import { ModelsSwaggerLancamentos } from '../models/lancamentos'
 
 export const schema = {
-	'createContas': swaggerContas.create,
-	'responseCreateConta': swaggerContas.responseCreateConta,
-	'listarContas': swaggerContas.responseListarContas,
-	'getConta': swaggerContas.responseGetConta,
-	'editarContas': swaggerContas.editar,
+	createContas: ModelsSwaggerContas.create,
+	responseCreateConta: ModelsSwaggerContas.responseCreateConta,
+	listarContas: ModelsSwaggerContas.responseListarContas,
+	getConta: ModelsSwaggerContas.responseGetConta,
+	editarContas: ModelsSwaggerContas.editar,
 
-	'createTags': swaggerTags.create,
-	'responseCreateTag': swaggerTags.responseCreateTag,
-	'listarTags': swaggerTags.responseListarTags,
-	'getTag': swaggerTags.responseGetTag,
-	'editarTags': swaggerTags.editar,
+	createTags: ModelsSwaggerTag.create,
+	responseCreateTag: ModelsSwaggerTag.responseCreateTag,
+	listarTags: ModelsSwaggerTag.responseListarTags,
+	getTag: ModelsSwaggerTag.responseGetTag,
+	editarTags: ModelsSwaggerTag.editar,
+
+	createLancamentos: ModelsSwaggerLancamentos.create,
+	editarLancamentos: ModelsSwaggerLancamentos.editar,
+	listarLancamentos: ModelsSwaggerLancamentos.listarLancamentos,
 }
 
 export type schemaKeys = keyof typeof schema
 
-export const getSchema = (schema: schemaKeys) => {
+export const refSchema = (schema: schemaKeys) => {
 	return `#/components/schemas/${schema}`
 }

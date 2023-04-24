@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { HandleResponse } from '../utils/HandleResponse'
 import { Response } from 'express'
 import { ParamsId } from '../utils/paramsId'
-import { TAG } from '../models/tags'
+import { ModelTAG } from '../models/tags'
 import { ZodError } from 'zod'
 import { ErrorGenerico } from '../utils/erroGenerico'
 import { PAGINATOR } from '../utils/Paginator'
@@ -32,7 +32,7 @@ export const TAGS = {
 			skip: skip,
 		})
 		try {
-			const validar = await TAG.schema_tag_listar.safeParse(query)
+			const validar = await ModelTAG.zodTag.listar.safeParse(query)
 			if (query.length < 1) {
 				return HandleResponse(resp, 404, { erro: 'Nenhum resultado econtrado' },)
 			} else {
@@ -82,9 +82,9 @@ export const TAGS = {
 		}
 	},
 
-	async create(req: TAG.Tag, resp: Response) {
+	async create(req: ModelTAG.Tag, resp: Response) {
 		try {
-			const { nome } = TAG.schema_tag.parse(req.body)
+			const { nome } = ModelTAG.zodTag.tag.parse(req.body)
 			const tag = await prisma.tags.create({
 				select: {
 					id: true,
@@ -104,10 +104,10 @@ export const TAGS = {
 	},
 
 
-	async editar(req: TAG.TagEditar, resp: Response) {
+	async editar(req: ModelTAG.TagEditar, resp: Response) {
 		const id = parseInt(req.params.id)
 		try {
-			const { nome } = TAG.schema_tag.parse(req.body)
+			const { nome } = ModelTAG.zodTag.tag.parse(req.body)
 			const existe = await prisma.tags.findFirst({
 				where: {
 					id: id,

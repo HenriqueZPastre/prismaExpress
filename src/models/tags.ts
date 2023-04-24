@@ -3,11 +3,17 @@ import { z } from 'zod'
 import { ParamsId } from '../utils/paramsId'
 import { generateSchema } from '@anatine/zod-openapi'
 
-export const schema_tag = z.object({
-	nome: z.string().trim().max(60).min(2),
-})
+export const zodTag = {
+	tag: z.object({
+		nome: z.string().trim().max(60).min(2),
+	}),
+	listar: z.object({
+		id: z.number().int(),
+		nome: z.string().trim().max(60).min(2),
+	})
+}
 
-export type tag = z.infer<typeof schema_tag>
+export type tag = z.infer<typeof zodTag.tag>
 
 export interface Tag extends Request {
 	body: tag
@@ -18,19 +24,12 @@ export interface TagEditar extends Request {
 	body: tag
 }
 
-const schema_tag_l = z.object({
-	id: z.number().int(),
-	nome: z.string().trim().max(60).min(2),
-})
-
-export const swaggerTags = {
-	create: generateSchema(schema_tag),
-	responseCreateTag: generateSchema(schema_tag_l),
-	responseListarTags: generateSchema(z.array(schema_tag_l)),
-	editar: generateSchema(schema_tag),
-	responseGetTag: generateSchema(schema_tag_l),
+export const ModelsSwaggerTag = {
+	create: generateSchema(zodTag.tag),
+	responseCreateTag: generateSchema(zodTag.listar),
+	responseListarTags: generateSchema(z.array(zodTag.listar)),
+	editar: generateSchema(zodTag.tag),
+	responseGetTag: generateSchema(zodTag.listar),
 }
 
-export const schema_tag_listar = z.array(schema_tag_l)
-
-export * as TAG from './tags'
+export * as ModelTAG from './tags'

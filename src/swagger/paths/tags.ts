@@ -1,5 +1,5 @@
 import { swaggerUtils } from '../utils/parametros'
-import { getSchema } from '../schemas'
+import { refSchema } from '../schemas'
 import { OpenAPIV3 } from 'openapi-types'
 
 export const tags: OpenAPIV3.PathsObject = {
@@ -20,7 +20,7 @@ export const tags: OpenAPIV3.PathsObject = {
 					content: {
 						'application/json': {
 							schema: {
-								$ref: getSchema('listarTags')
+								$ref: refSchema('listarTags')
 							}
 						}
 					}
@@ -36,7 +36,7 @@ export const tags: OpenAPIV3.PathsObject = {
 				content: {
 					'application/json': {
 						schema: {
-							$ref: getSchema('createTags')
+							$ref: refSchema('createTags')
 						}
 					}
 				}
@@ -47,7 +47,7 @@ export const tags: OpenAPIV3.PathsObject = {
 					content: {
 						'application/json': {
 							schema: {
-								$ref: getSchema('responseCreateTag')
+								$ref: refSchema('responseCreateTag')
 							}
 						}
 					}
@@ -62,7 +62,7 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Busca os dados da tag',
 			parameters: [
-				swaggerUtils.idParameter
+				swaggerUtils.id
 			],
 			responses: {
 				'200': {
@@ -70,7 +70,7 @@ export const tags: OpenAPIV3.PathsObject = {
 					content: {
 						'application/json': {
 							schema: {
-								$ref: getSchema('responseCreateTag')
+								$ref: refSchema('responseCreateTag')
 							}
 						}
 					}
@@ -83,13 +83,13 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Atualiza os dados da tag',
 			parameters: [
-				swaggerUtils.idParameter
+				swaggerUtils.id
 			],
 			requestBody: {
 				content: {
 					'application/json': {
 						schema: {
-							$ref: getSchema('editarTags')
+							$ref: refSchema('editarTags')
 						}
 					}
 				}
@@ -106,7 +106,7 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Soft delete da tag',
 			parameters: [
-				swaggerUtils.idParameter
+				swaggerUtils.id
 			],
 			responses: {
 				'200': {

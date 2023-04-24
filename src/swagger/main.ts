@@ -12,11 +12,11 @@ const Swagger = {
 	'servers': [
 		{
 			'url': 'http://localhost:3000',
-			'description': 'Quando usado em local'
+			'description': 'Local'
 		},
 		{
 			'url': 'prismaexpress.fly.dev',
-			'description': 'Quando usado em Produção'
+			'description': 'Produção'
 		}
 	],
 	'paths': swaggerPaths,

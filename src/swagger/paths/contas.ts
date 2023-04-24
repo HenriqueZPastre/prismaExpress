@@ -1,5 +1,5 @@
 import { swaggerUtils } from '../utils/parametros'
-import { getSchema } from '../schemas'
+import { refSchema } from '../schemas'
 import { OpenAPIV3 } from 'openapi-types'
 
 export const contas: OpenAPIV3.PathsObject = {
@@ -20,7 +20,7 @@ export const contas: OpenAPIV3.PathsObject = {
 					content: {
 						'application/json': {
 							schema: {
-								$ref: getSchema('listarContas')
+								$ref: refSchema('listarContas')
 							}
 						}
 					}
@@ -36,7 +36,7 @@ export const contas: OpenAPIV3.PathsObject = {
 				content: {
 					'application/json': {
 						schema: {
-							$ref: getSchema('createContas')
+							$ref: refSchema('createContas')
 						}
 					}
 				}
@@ -47,7 +47,7 @@ export const contas: OpenAPIV3.PathsObject = {
 					content: {
 						'application/json': {
 							schema: {
-								$ref: getSchema('responseCreateConta')
+								$ref: refSchema('responseCreateConta')
 							}
 						}
 					}
@@ -62,7 +62,7 @@ export const contas: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Busca os dados de uma conta',
 			parameters: [
-				swaggerUtils.idParameter
+				swaggerUtils.id
 			],
 			responses: {
 				'200': {
@@ -70,7 +70,7 @@ export const contas: OpenAPIV3.PathsObject = {
 					content: {
 						'application/json': {
 							schema: {
-								$ref: getSchema('getConta')
+								$ref: refSchema('getConta')
 							}
 						}
 					}
@@ -83,13 +83,13 @@ export const contas: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Atualiza os dados da conta indicada',
 			parameters: [
-				swaggerUtils.idParameter,
+				swaggerUtils.id,
 			],
 			requestBody: {
 				content: {
 					'application/json': {
 						schema: {
-							$ref: getSchema('editarContas')
+							$ref: refSchema('editarContas')
 						}
 					}
 				}
@@ -106,7 +106,7 @@ export const contas: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Soft delete da conta',
 			parameters: [
-				swaggerUtils.idParameter,
+				swaggerUtils.id,
 			],
 			responses: {
 				'204': {
