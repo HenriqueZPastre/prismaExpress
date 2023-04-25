@@ -35,6 +35,8 @@ CREATE TABLE "Tags" (
 -- CreateTable
 CREATE TABLE "lancamentos_tags" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "create_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "deletede_at" DATETIME,
     "tagsId" INTEGER NOT NULL,
     "lancamentosId" INTEGER NOT NULL,
     CONSTRAINT "lancamentos_tags_tagsId_fkey" FOREIGN KEY ("tagsId") REFERENCES "Tags" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,

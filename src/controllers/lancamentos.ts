@@ -151,6 +151,71 @@ export const LancamentosController = {
 			return HandleResponse(res, 500, { mensagem: err })
 		}
 		return HandleResponse(res, 200, { mensagem: 'Lançamento deletado com sucesso' })
-	}
+	},
 
+	async update(req: ModelLancamentos.EditarLancamentos, res: Response) {
+		const id = parseInt(req.params.id)
+		try {
+			const validaBody = ModelLancamentos.zodLancamentos.editar.parse(req.body)
+
+			const tags = validaBody.tags
+			const update = await prisma.lancamentos.update({
+				data: {
+					descricao: validaBody.descricao,
+					valor: validaBody.valor,
+					dataVencimento: validaBody.dataVencimento,
+					dataPagamento: validaBody.dataPagamento,
+					tipo: validaBody.tipo,
+					situacao: validaBody.situacao,
+					lancamentos_tags: {
+						updateMany: {
+							data: {
+								deletede_at: new Date()
+							},
+							where: {
+								deletede_at: null,
+								NOT: {
+									tagsId: {
+										in: tags
+									}
+								}
+							},
+						},
+					}
+				},
+				where: {
+					id: id
+				}
+			})
+
+			validaBody.tags?.map(async (tag: number) => {
+				const existe = await prisma.lancamentos_tags.findFirst({
+					where: {
+						lancamentosId: id,
+						tagsId: tag,
+						deletede_at: null
+					}
+				})
+				if (!existe) {
+					await prisma.lancamentos_tags.create({
+						data: {
+							lancamentosId: id,
+							tagsId: tag
+						}
+					})
+				}
+			})
+
+
+
+
+			return HandleResponse(res, 200, { response: update })
+		} catch (err) {
+			console.log(err)
+			if (err instanceof ZodError) {
+				return HandleResponse(res, 400, { zod: err, extras: err })
+			}
+			return HandleResponse(res, 500, { mensagem: err })
+		}
+	}
 }

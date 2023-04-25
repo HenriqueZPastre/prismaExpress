@@ -27,7 +27,7 @@ export const zodLancamentos = {
 		valor: z.number().min(1).optional(),
 		dataVencimento: z.union([z.date(), z.string()]).optional(),
 		contasId: z.number().int().optional(),
-		dataPagamento: (z.date() || z.string()).optional(),
+		dataPagamento: (z.string() || z.date()).optional(),
 		tipo: extendApi(z.union([z.literal(0), z.literal(1)]), {
 			description: `0 = entrada <br>
 						1 = saida`

@@ -39,6 +39,8 @@ router.delete('/tags/:id', TAGS.excluir)
 router.get('/lancamentos', LancamentosController.listAll)
 router.post('/lancamentos', LancamentosController.create)
 router.delete('/lancamentos/:id', LancamentosController.delete)
+router.put('/lancamentos/:id', LancamentosController.update)
+
 
 //*********************************\\
 //**** XUXOS/TESTES ***************\\
