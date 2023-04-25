@@ -5,25 +5,37 @@ import { extendApi, generateSchema } from '@anatine/zod-openapi'
 
 export const zodLancamentos = {
 	create: z.object({
-		descricao: z.string().trim().max(60).min(2),
+		descricao: z.string().trim().min(2).max(60),
 		valor: z.number().min(1),
-		dataVencimento: z.union([z.date(), z.string()]),
+		dataVencimento: z.date() || z.string(),
 		contasId: z.number().int(),
-		dataPagamento: z.union([z.date(), z.string()]).optional(),
+		dataPagamento:  (z.date() || z.string()).optional(),
 		//0 é entrada, 1 é saida
-		tipo: z.union([z.literal(0), z.literal(1)]),
-		situacao: z.union([z.literal(0), z.literal(1)]).optional(),
+		tipo: extendApi(z.union([z.literal(0), z.literal(1)]), {
+			description: `0 = entrada <br>
+						1 = saida`
+		}),
+		situacao: extendApi(z.union([z.literal(0), z.literal(1)]).optional(), {
+			description: `0 = ABERTO <br>
+						1 = FECHADO`
+		}),
 		tagsId: z.array(z.number()).optional()
 	}),
 
 	editar: z.object({
-		descricao: z.string().trim().max(60).min(2).optional(),
+		descricao: z.string().min(2).max(60).trim().optional(),
 		valor: z.number().min(1).optional(),
 		dataVencimento: z.union([z.date(), z.string()]).optional(),
 		contasId: z.number().int().optional(),
-		dataPagamento: z.union([z.date(), z.string()]).optional(),
-		tipo: z.union([z.literal(0), z.literal(1)]).optional(),
-		situacao: z.union([z.literal(0), z.literal(1)]).optional(),
+		dataPagamento: (z.date() || z.string()).optional(),
+		tipo: extendApi(z.union([z.literal(0), z.literal(1)]), {
+			description: `0 = entrada <br>
+						1 = saida`
+		}),
+		situacao: extendApi(z.union([z.literal(0), z.literal(1)]).optional(), {
+			description: `0 = ABERTO <br>
+						1 = FECHADO`
+		}),
 		tags: z.array(z.number()).optional()
 
 	}),
@@ -33,15 +45,14 @@ export const zodLancamentos = {
 		descricao: z.string(),
 		valor: z.number(),
 		dataVencimento: z.date() || z.string(),
-		dataPagamento: extendApi(z.nullable(z.date()).optional(), {
+		dataPagamento: extendApi( (z.date() || z.string()).optional(), {
 			description: 'Se não exister dados, o valor será null'
 		}),
-		tipo: extendApi(z.number().int(), {
+		tipo: extendApi(z.union([z.literal(0), z.literal(1)]), {
 			description: `0 = entrada <br>
 						1 = saida`
 		}),
-		contasNome: z.string(),
-		situacao: extendApi(z.number().int(), {
+		situacao: extendApi(z.union([z.literal(0), z.literal(1)]).optional(), {
 			description: `0 = ABERTO <br>
 						1 = FECHADO`
 		}),

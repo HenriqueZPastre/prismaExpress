@@ -7,7 +7,7 @@ export const zodContas = {
 	create: z.object({
 		id: z.number().int().optional(),
 		create_at: z.date().optional(),
-		nome: z.string().max(60).min(2).trim(),
+		nome: z.string().min(2).max(60).trim(),
 		saldoInicial: z.number().min(1).optional(),
 		saldoAtual: z.number().min(1).optional(),
 	}),

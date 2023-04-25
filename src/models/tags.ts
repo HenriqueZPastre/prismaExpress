@@ -5,11 +5,11 @@ import { generateSchema } from '@anatine/zod-openapi'
 
 export const zodTag = {
 	tag: z.object({
-		nome: z.string().trim().max(60).min(2),
+		nome: z.string().min(2).max(60).trim(),
 	}),
 	listar: z.object({
 		id: z.number().int(),
-		nome: z.string().trim().max(60).min(2),
+		nome: z.string().min(2).max(60).trim(),
 	})
 }
 

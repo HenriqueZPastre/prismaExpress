@@ -384,7 +384,6 @@
                 "dataVencimento",
                 "dataPagamento",
                 "tipo",
-                "contasNome",
                 "situacao",
                 "lancamentos_tags"
               ]
@@ -472,8 +471,8 @@
           },
           "nome": {
             "type": "string",
-            "maxLength": 60,
-            "minLength": 2
+            "minLength": 2,
+            "maxLength": 60
           },
           "saldoInicial": {
             "type": "number",
@@ -569,8 +568,8 @@
         "properties": {
           "nome": {
             "type": "string",
-            "maxLength": 60,
-            "minLength": 2
+            "minLength": 2,
+            "maxLength": 60
           }
         },
         "required": [
@@ -585,8 +584,8 @@
           },
           "nome": {
             "type": "string",
-            "maxLength": 60,
-            "minLength": 2
+            "minLength": 2,
+            "maxLength": 60
           }
         },
         "required": [
@@ -604,8 +603,8 @@
             },
             "nome": {
               "type": "string",
-              "maxLength": 60,
-              "minLength": 2
+              "minLength": 2,
+              "maxLength": 60
             }
           },
           "required": [
@@ -622,8 +621,8 @@
           },
           "nome": {
             "type": "string",
-            "maxLength": 60,
-            "minLength": 2
+            "minLength": 2,
+            "maxLength": 60
           }
         },
         "required": [
@@ -636,8 +635,8 @@
         "properties": {
           "nome": {
             "type": "string",
-            "maxLength": 60,
-            "minLength": 2
+            "minLength": 2,
+            "maxLength": 60
           }
         },
         "required": [
@@ -649,37 +648,23 @@
         "properties": {
           "descricao": {
             "type": "string",
-            "maxLength": 60,
-            "minLength": 2
+            "minLength": 2,
+            "maxLength": 60
           },
           "valor": {
             "type": "number",
             "minimum": 1
           },
           "dataVencimento": {
-            "oneOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "contasId": {
             "type": "integer"
           },
           "dataPagamento": {
-            "oneOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "tipo": {
             "oneOf": [
@@ -695,7 +680,8 @@
                   1
                 ]
               }
-            ]
+            ],
+            "description": "0 = entrada <br>\n\t\t\t\t\t\t1 = saida"
           },
           "situacao": {
             "oneOf": [
@@ -711,7 +697,8 @@
                   1
                 ]
               }
-            ]
+            ],
+            "description": "0 = ABERTO <br>\n\t\t\t\t\t\t1 = FECHADO"
           },
           "tagsId": {
             "type": "array",
@@ -747,18 +734,40 @@
           "dataPagamento": {
             "type": "string",
             "format": "date-time",
-            "nullable": true,
             "description": "Se não exister dados, o valor será null"
           },
           "tipo": {
-            "type": "integer",
+            "oneOf": [
+              {
+                "type": "number",
+                "enum": [
+                  0
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              }
+            ],
             "description": "0 = entrada <br>\n\t\t\t\t\t\t1 = saida"
           },
-          "contasNome": {
-            "type": "string"
-          },
           "situacao": {
-            "type": "integer",
+            "oneOf": [
+              {
+                "type": "number",
+                "enum": [
+                  0
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              }
+            ],
             "description": "0 = ABERTO <br>\n\t\t\t\t\t\t1 = FECHADO"
           },
           "lancamentos_tags": {
@@ -794,8 +803,6 @@
           "valor",
           "dataVencimento",
           "tipo",
-          "contasNome",
-          "situacao",
           "lancamentos_tags"
         ]
       },
@@ -804,8 +811,8 @@
         "properties": {
           "descricao": {
             "type": "string",
-            "maxLength": 60,
-            "minLength": 2
+            "minLength": 2,
+            "maxLength": 60
           },
           "valor": {
             "type": "number",
@@ -826,15 +833,8 @@
             "type": "integer"
           },
           "dataPagamento": {
-            "oneOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "tipo": {
             "oneOf": [
@@ -850,7 +850,8 @@
                   1
                 ]
               }
-            ]
+            ],
+            "description": "0 = entrada <br>\n\t\t\t\t\t\t1 = saida"
           },
           "situacao": {
             "oneOf": [
@@ -866,7 +867,8 @@
                   1
                 ]
               }
-            ]
+            ],
+            "description": "0 = ABERTO <br>\n\t\t\t\t\t\t1 = FECHADO"
           },
           "tags": {
             "type": "array",
@@ -874,7 +876,10 @@
               "type": "number"
             }
           }
-        }
+        },
+        "required": [
+          "tipo"
+        ]
       },
       "listarLancamentos": {
         "type": "array",
@@ -897,18 +902,40 @@
             "dataPagamento": {
               "type": "string",
               "format": "date-time",
-              "nullable": true,
               "description": "Se não exister dados, o valor será null"
             },
             "tipo": {
-              "type": "integer",
+              "oneOf": [
+                {
+                  "type": "number",
+                  "enum": [
+                    0
+                  ]
+                },
+                {
+                  "type": "number",
+                  "enum": [
+                    1
+                  ]
+                }
+              ],
               "description": "0 = entrada <br>\n\t\t\t\t\t\t1 = saida"
             },
-            "contasNome": {
-              "type": "string"
-            },
             "situacao": {
-              "type": "integer",
+              "oneOf": [
+                {
+                  "type": "number",
+                  "enum": [
+                    0
+                  ]
+                },
+                {
+                  "type": "number",
+                  "enum": [
+                    1
+                  ]
+                }
+              ],
               "description": "0 = ABERTO <br>\n\t\t\t\t\t\t1 = FECHADO"
             },
             "lancamentos_tags": {
@@ -944,8 +971,6 @@
             "valor",
             "dataVencimento",
             "tipo",
-            "contasNome",
-            "situacao",
             "lancamentos_tags"
           ]
         }
