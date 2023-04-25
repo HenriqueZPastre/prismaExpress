@@ -433,6 +433,73 @@
       }
     },
     "/lancamentos/{id}": {
+      "get": {
+        "tags": [
+          "Lancamentos"
+        ],
+        "summary": "Busca um lancamento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Id do registro"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createLancamentos"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Lancamentos"
+        ],
+        "summary": "Atualiza um lancamento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Id do registro"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/editarLancamentos"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createLancamentos"
+                }
+              }
+            }
+          }
+        }
+      },
       "delete": {
         "tags": [
           "Lancamentos"
@@ -833,8 +900,7 @@
             "type": "integer"
           },
           "dataPagamento": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           },
           "tipo": {
             "oneOf": [

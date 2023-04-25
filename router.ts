@@ -38,8 +38,9 @@ router.delete('/tags/:id', TAGS.excluir)
 //*********************************\\
 router.get('/lancamentos', LancamentosController.listAll)
 router.post('/lancamentos', LancamentosController.create)
-router.delete('/lancamentos/:id', LancamentosController.delete)
+router.get('/lancamentos/:id', LancamentosController.getId)
 router.put('/lancamentos/:id', LancamentosController.update)
+router.delete('/lancamentos/:id', LancamentosController.delete)
 
 
 //*********************************\\

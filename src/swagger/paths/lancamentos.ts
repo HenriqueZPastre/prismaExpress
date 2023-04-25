@@ -59,6 +59,58 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 		},
 	},
 	'/lancamentos/{id}': {
+		get: {
+			tags: [
+				'Lancamentos'
+			],
+			summary: 'Busca um lancamento',
+			parameters: [
+				swaggerUtils.id
+			],
+			responses: {
+				'200': {
+					description: 'OK',
+					content: {
+						'application/json': {
+							schema: {
+								$ref: refSchema('createLancamentos')
+							}
+						}
+					}
+				}
+			}
+
+		},
+		put : {
+			tags: [
+				'Lancamentos'
+			],
+			summary: 'Atualiza um lancamento',
+			parameters: [
+				swaggerUtils.id
+			],
+			requestBody: {
+				content: {
+					'application/json': {
+						schema: {
+							$ref: refSchema('editarLancamentos')
+						}
+					}
+				}
+			},
+			responses: {
+				'200': {
+					description: 'OK',
+					content: {
+						'application/json': {
+							schema: {
+								$ref: refSchema('createLancamentos')
+							}
+						}
+					}
+				}
+			}
+		},
 		delete: {
 			tags: [
 				'Lancamentos'

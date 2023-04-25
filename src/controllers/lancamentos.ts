@@ -158,7 +158,6 @@ export const LancamentosController = {
 		try {
 			const validaBody = ModelLancamentos.zodLancamentos.editar.parse(req.body)
 
-			const tags = validaBody.tags
 			const update = await prisma.lancamentos.update({
 				data: {
 					descricao: validaBody.descricao,
@@ -176,7 +175,7 @@ export const LancamentosController = {
 								deletede_at: null,
 								NOT: {
 									tagsId: {
-										in: tags
+										in: validaBody.tags
 									}
 								}
 							},
@@ -205,17 +204,48 @@ export const LancamentosController = {
 					})
 				}
 			})
-
-
-
-
 			return HandleResponse(res, 200, { response: update })
 		} catch (err) {
-			console.log(err)
 			if (err instanceof ZodError) {
 				return HandleResponse(res, 400, { zod: err, extras: err })
 			}
 			return HandleResponse(res, 500, { mensagem: err })
 		}
+	},
+
+	async getId (req: ParamsId.RequestParamsId, res: Response) {
+		const id = parseInt(req.params.id)
+		const lancamentos = await prisma.lancamentos.findFirst({
+			where: {
+				id: id,
+				deletede_at: null
+			},
+			select: {
+				id: true,
+				descricao: true,
+				valor: true,
+				dataVencimento: true,
+				dataPagamento: true,
+				tipo: true,
+				contasId: true,
+				contasNome: true,
+				situacao: true,
+				lancamentos_tags: {
+					select: {
+						tags: {
+							select: {
+								id: true,
+								nome: true,
+							}
+						}
+					}
+				}
+			}
+		})
+		if (!lancamentos) {
+			return HandleResponse(res, 404, { mensagem: 'Lançamento não encontrado' })
+		}
+		return HandleResponse(res, 200, { response: lancamentos })
 	}
+	
 }
