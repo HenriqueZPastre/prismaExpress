@@ -7,6 +7,7 @@ import { CONTAS } from './contas'
 import { TAGS } from './tags'
 import { PAGINATOR } from '../utils/Paginator'
 import { ParamsId } from '../utils/paramsId'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 
 const prisma = new PrismaClient()
 
@@ -115,8 +116,15 @@ export const LancamentosController = {
 			}
 			return HandleResponse(res, 201, { response: lancamentos, })
 		} catch (err) {
+			console.log(typeof err)
 			if (err instanceof ZodError) {
 				return HandleResponse(res, 400, { zod: err, extras: err })
+			}
+			if (err instanceof Error) {
+				return HandleResponse(res, 500, { mensagem: err.message })
+			}
+			if (err instanceof PrismaClientKnownRequestError) {
+				return HandleResponse(res, 400, { mensagem: err.message })
 			}
 			return HandleResponse(res, 500, { mensagem: err })
 		}
@@ -126,7 +134,7 @@ export const LancamentosController = {
 		const id = parseInt(req.params.id)
 
 		try {
-			await prisma.lancamentos.update({
+			const lancamento = await prisma.lancamentos.update({
 				data: {
 					deletede_at: new Date(),
 					lancamentos_tags: {
@@ -144,6 +152,13 @@ export const LancamentosController = {
 					id: id
 				}
 			})
+			if (lancamento.situacao === 1) {
+				lancamento.tipo === 0 ? lancamento.tipo = 1 : lancamento.tipo = 0
+				const atualizaValor = await CONTAS.atualizarSaldo(lancamento)
+				if (atualizaValor) {
+					return HandleResponse(res, 200, { mensagem: 'Lançamento deletado com sucesso', extras: atualizaValor })
+				}
+			}
 		} catch (err) {
 			if (err instanceof ZodError) {
 				return HandleResponse(res, 400, { zod: err, extras: err })
@@ -187,6 +202,10 @@ export const LancamentosController = {
 				}
 			})
 
+			if(validaBody.situacao !== undefined){
+				await CONTAS.atualizarSaldo(update)
+			}
+
 			validaBody.tags?.map(async (tag: number) => {
 				const existe = await prisma.lancamentos_tags.findFirst({
 					where: {
@@ -213,7 +232,7 @@ export const LancamentosController = {
 		}
 	},
 
-	async getId (req: ParamsId.RequestParamsId, res: Response) {
+	async getId(req: ParamsId.RequestParamsId, res: Response) {
 		const id = parseInt(req.params.id)
 		const lancamentos = await prisma.lancamentos.findFirst({
 			where: {
@@ -247,5 +266,5 @@ export const LancamentosController = {
 		}
 		return HandleResponse(res, 200, { response: lancamentos })
 	}
-	
+
 }

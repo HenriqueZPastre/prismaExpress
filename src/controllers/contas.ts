@@ -195,6 +195,7 @@ export const CONTAS = {
 			}
 			return atualizaValor
 		}
+		return undefined
 	}
 }
 

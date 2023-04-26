@@ -6,11 +6,13 @@
 	  "esModuleInterop": true,
 	  "forceConsistentCasingInFileNames": true,
 	  "strict": true,
+	  "noImplicitAny": true,
 	  "skipLibCheck": true,
 	  "outDir": "./dist",
 	  "baseUrl": "./",
 	  "resolveJsonModule": true,
 	},
-	"include": ["./**/*.ts"]
+	"include": ["./**/*.ts"],
+
   }
   

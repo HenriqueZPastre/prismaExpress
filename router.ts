@@ -6,6 +6,7 @@ import { xuxo } from './src/controllers/xuxo'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJson from './testeSwagger.json'
 import { authSwagger } from './src/utils/authSwagger'
+import { controllerValores } from './src/controllers/valores'
 
 const router: Router = Router()
 export { router }
@@ -41,6 +42,8 @@ router.post('/lancamentos', LancamentosController.create)
 router.get('/lancamentos/:id', LancamentosController.getId)
 router.put('/lancamentos/:id', LancamentosController.update)
 router.delete('/lancamentos/:id', LancamentosController.delete)
+
+router.get('/valores', controllerValores.getAll)
 
 
 //*********************************\\

@@ -7,7 +7,9 @@ export const zodLancamentos = {
 	create: z.object({
 		descricao: z.string().trim().min(2).max(60),
 		valor: z.number().min(1),
-		dataVencimento: z.date() || z.string(),
+		dataVencimento: extendApi(z.union([z.date(), z.string()]), {
+			description: 'Formato da data: dataUTC'
+		}),
 		contasId: z.number().int(),
 		dataPagamento:  (z.date() || z.string()).optional(),
 		//0 é entrada, 1 é saida
@@ -28,7 +30,7 @@ export const zodLancamentos = {
 		dataVencimento: z.union([z.date(), z.string()]).optional(),
 		contasId: z.number().int().optional(),
 		dataPagamento: (z.string() || z.date()).optional(),
-		tipo: extendApi(z.union([z.literal(0), z.literal(1)]), {
+		tipo: extendApi(z.union([z.literal(0), z.literal(1)]).optional(), {
 			description: `0 = entrada <br>
 						1 = saida`
 		}),

@@ -30,7 +30,7 @@ model Lancamentos {
     contasId         Int
     contasNome       String
     dataPagamento    DateTime?
-    tipo             Int
+    tipo             Int // 0 = receita, 1 = despesa
     situacao         Int                @default(0)
     contas           Contas             @relation(fields: [contasId], references: [id])
     lancamentos_tags lancamentos_tags[]
