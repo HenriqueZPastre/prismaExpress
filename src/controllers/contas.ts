@@ -41,7 +41,7 @@ export const CONTAS = {
 			return HandleResponse(res, 404, { mensagem: 'Nenhuma conta encontrada' },)
 		}
 
-		return HandleResponse(res, 200, { response: all })
+		return HandleResponse(res, 200, { data: all })
 
 	},
 
@@ -55,7 +55,7 @@ export const CONTAS = {
 					saldoAtual: saldoAtual || 0
 				}
 			})
-			return HandleResponse(res, 201, { response: create.id.toString() })
+			return HandleResponse(res, 201, { data: create.id.toString() })
 		} catch (err) {
 			if (err instanceof ZodError) {
 				return HandleResponse(res, 400, { zod: err })
@@ -143,7 +143,7 @@ export const CONTAS = {
 		if (!conta) {
 			return HandleResponse(res, 404, { erro: 'Conta não encontrada' },)
 		}
-		return HandleResponse(res, 200, { response: conta })
+		return HandleResponse(res, 200, { data: conta })
 	},
 
 	contaExiste: async (id: number) => {

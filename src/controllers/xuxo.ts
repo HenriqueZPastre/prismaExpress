@@ -17,7 +17,7 @@ export const xuxo = {
 			take: take,
 			skip: skip,
 		})
-		return HandleResponse(res, 200, { response: tags })
+		return HandleResponse(res, 200, { data: tags })
 	},
 
 	async test(req: Request, res: Response ) {

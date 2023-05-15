@@ -51,7 +51,7 @@ export const LancamentosController = {
 		if (lancamentos.length < 1) {
 			return HandleResponse(res, 404, { mensagem: 'Nenhum lançamento encontrado' },)
 		}
-		return HandleResponse(res, 200, { response: lancamentos })
+		return HandleResponse(res, 200, { data: lancamentos })
 	},
 
 	async create(req: ModelLancamentos.CreateLancamentos, res: Response) {
@@ -112,9 +112,9 @@ export const LancamentosController = {
 			})
 			const atualizaValor = await CONTAS.atualizarSaldo(lancamentos)
 			if (atualizaValor) {
-				return HandleResponse(res, 201, { response: lancamentos, extras: atualizaValor })
+				return HandleResponse(res, 201, { data: lancamentos, extras: atualizaValor })
 			}
-			return HandleResponse(res, 201, { response: lancamentos, })
+			return HandleResponse(res, 201, { data: lancamentos, })
 		} catch (err) {
 			console.log(typeof err)
 			if (err instanceof ZodError) {
@@ -223,7 +223,7 @@ export const LancamentosController = {
 					})
 				}
 			})
-			return HandleResponse(res, 200, { response: update })
+			return HandleResponse(res, 200, { data: update })
 		} catch (err) {
 			if (err instanceof ZodError) {
 				return HandleResponse(res, 400, { zod: err, extras: err })
@@ -264,7 +264,7 @@ export const LancamentosController = {
 		if (!lancamentos) {
 			return HandleResponse(res, 404, { mensagem: 'Lançamento não encontrado' })
 		}
-		return HandleResponse(res, 200, { response: lancamentos })
+		return HandleResponse(res, 200, { data: lancamentos })
 	}
 
 }

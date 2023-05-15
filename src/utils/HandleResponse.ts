@@ -1,49 +1,52 @@
 import { Response } from 'express'
 import { ZodError } from 'zod'
 
-type generic = {
+type ZodGeneric = {
 	success?: boolean,
 }
 
-type Meta = {
-	zodValidate?: generic,
-	extras?: unknown,
-	response?: unknown,
+interface Meta {
+	data?: unknown,
 	mensagem?: unknown,
 	erro?: unknown,
-	paginas?: unknown,
+	zod?: ZodError | unknown
+	zodValidate?: ZodGeneric,
+	extras?: unknown,
 	registros?: unknown,
-	zod?: ZodError
+	paginas?: unknown,
 }
 
-/**
- * Recebe e retorna um Response do Express 
- * 
- * StatusCode da request
- * 
- * Em caso de passar uma mensagem Tipo = "ERRO" | "MENSAGEM"
- * 
- * O Campo mensagem aceita string | object | object[ ]
- */
-export const HandleResponse = (response: Response, statusCode: number, obj?: Meta): Response => {
-	const registros = obj?.registros
-	const paginas = obj?.paginas
-	const erro = obj?.erro
-	const mensagem = obj?.mensagem
-	const zodValidate = obj?.zodValidate?.success === false ? obj?.zodValidate : undefined
-	const extras = obj?.extras
-	if (obj?.zod !== undefined) {
-		const zod = obj?.zod?.issues[0].path[0] + ' ' + obj?.zod?.issues[0].message.toLowerCase()
-		const extraZod = obj?.zod
-		return response.status(statusCode).json({ registros, paginas, erro, mensagem, zod, extraZod, zodValidate, extras })
+function ValidateZodResponse(obj: Meta) {
+	return obj?.zodValidate?.success === false ? obj?.zodValidate : undefined
+}
+
+function getZodInputErro(obj: Meta) {
+	if (obj?.zod !== undefined && obj?.zod instanceof ZodError) {
+		obj.zod = `${obj?.zod?.issues[0].path[0]} ${obj?.zod?.issues[0].message.toLowerCase()}`
 	}
-	if (obj?.response) {
-		return response.status(statusCode).json({ data: obj.response, registros, paginas, erro, mensagem, zodValidate, extras })
+}
+
+function createResponseObject(obj: Meta): Meta {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { zod, zodValidate, data, erro, extras, mensagem, paginas, registros } = obj
+	const zodErrorMessage = getZodInputErro(obj)
+	const zodValidateResponse = ValidateZodResponse(obj)
+	return {
+		data,
+		mensagem,
+		erro,
+		zod: zodErrorMessage,
+		zodValidate: zodValidateResponse,
+		extras,
+		registros,
+		paginas,
 	}
+}
+
+export function HandleResponse(response: Response, statusCode: number, obj: Meta = {}): Response {
 	if (obj) {
-		return response.status(statusCode).json({ registros, paginas, erro, mensagem, zodValidate, extras })
+		const metaObject = createResponseObject(obj)
+		return response.status(statusCode).json(metaObject)
 	}
 	return response.status(statusCode).json()
 }
-
-

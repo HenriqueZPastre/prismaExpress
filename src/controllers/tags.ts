@@ -36,13 +36,13 @@ export const TAGS = {
 			if (query.length < 1) {
 				return HandleResponse(resp, 404, { erro: 'Nenhum resultado econtrado' },)
 			} else {
-				return HandleResponse(resp, 200, { response: query, zodValidate: validar })
+				return HandleResponse(resp, 200, { data: query, zodValidate: validar })
 			}
 		} catch (error) {
 			if (error instanceof ZodError) {
 				return HandleResponse(resp, 400, { zod: error },)
 			}
-			return HandleResponse(resp, 400, { erro: 'Erro ao listar tags', response: error })
+			return HandleResponse(resp, 400, { erro: 'Erro ao listar tags', data: error })
 		}
 	},
 
@@ -94,7 +94,7 @@ export const TAGS = {
 					nome: nome
 				}
 			})
-			return HandleResponse(resp, 200, { response: tag })
+			return HandleResponse(resp, 200, { data: tag })
 		} catch (error) {
 			if (error instanceof ZodError) {
 				return HandleResponse(resp, 400, { zod: error, extras: error })
@@ -102,7 +102,6 @@ export const TAGS = {
 			return HandleResponse(resp, 400, { erro: error })
 		}
 	},
-
 
 	async editar(req: ModelTAG.TagEditar, resp: Response) {
 		const id = parseInt(req.params.id)
@@ -129,7 +128,7 @@ export const TAGS = {
 						id: id
 					}
 				})
-				return HandleResponse(resp, 200, { response: update })
+				return HandleResponse(resp, 200, { data: update })
 			}
 		} catch (error) {
 			if (error instanceof ZodError) {
@@ -154,7 +153,7 @@ export const TAGS = {
 		if (!tag) {
 			return HandleResponse(resp, 404, { erro: 'Tag não encontrada' },)
 		}
-		return HandleResponse(resp, 200, { response: tag })
+		return HandleResponse(resp, 200, { data: tag })
 	},
 
 	async verificarSeTagExiste(tags: number[]) {
