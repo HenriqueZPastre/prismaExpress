@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import { z } from 'zod'
-import { ParamsId } from '../utils/paramsId'
+import { ParametroID } from '../utils/parametroID'
 import { generateSchema } from '@anatine/zod-openapi'
 
 export const zodTag = {
@@ -20,7 +20,7 @@ export interface Tag extends Request {
 }
 
 export interface TagEditar extends Request {
-	params: ParamsId.paramsId
+	params: ParametroID.parametroID
 	body: tag
 }
 

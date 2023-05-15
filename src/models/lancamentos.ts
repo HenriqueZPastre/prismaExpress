@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import { z } from 'zod'
-import { ParamsId } from '../utils/paramsId'
+import { ParametroID } from '../utils/parametroID'
 import { extendApi, generateSchema } from '@anatine/zod-openapi'
 
 export const zodLancamentos = {
@@ -91,7 +91,7 @@ export interface CreateLancamentos extends Request {
 	body: createLancamentos
 }
 export interface EditarLancamentos extends Request {
-	params: ParamsId.paramsId
+	params: ParametroID.parametroID
 	body: editarLancamentos
 }
 export * as ModelLancamentos from './lancamentos'

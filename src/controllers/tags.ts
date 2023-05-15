@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { HandleResponse } from '../utils/HandleResponse'
 import { Response } from 'express'
-import { ParamsId } from '../utils/paramsId'
+import { ParametroID } from '../utils/parametroID'
 import { ModelTAG } from '../models/tags'
 import { ZodError } from 'zod'
 import { ErrorGenerico } from '../utils/erroGenerico'
@@ -18,7 +18,7 @@ export const TAGS = {
 	/**
 	 * Lista todas as tags ativas do banco
 	*/
-	async listAll(_req: PAGINATOR.Paginator, resp: Response) {
+	async listAll(_req: PAGINATOR.InterfaceRequestPaginator, resp: Response) {
 		const { take, skip } = PAGINATOR.main(_req.query)
 		const query: queryAll[] = await prisma.tags.findMany({
 			select: {
@@ -51,7 +51,7 @@ export const TAGS = {
 	 * 
 	 * Se não houverem lançamentos e a tag já não esteja deletada, faz o soft delete.
 	 */
-	async excluir(req: ParamsId.RequestParamsId, resp: Response) {
+	async excluir(req: ParametroID.RequestParametroID, resp: Response) {
 		const tagId = parseInt(req.params.id)
 		try {
 			const numeroDeLancamentos = await prisma.lancamentos_tags.count({
@@ -138,7 +138,7 @@ export const TAGS = {
 		}
 	},
 
-	async getById(req: ParamsId.RequestParamsId, resp: Response) {
+	async getById(req: ParametroID.RequestParametroID, resp: Response) {
 		const id = parseInt(req.params.id)
 		const tag = await prisma.tags.findFirst({
 			select: {

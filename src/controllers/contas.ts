@@ -3,7 +3,7 @@ import { Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse'
 import { ModelContas } from '../models/contas'
 import { ZodError } from 'zod'
-import { ParamsId } from '../utils/paramsId'
+import { ParametroID } from '../utils/parametroID'
 import { ErrorGenerico } from '../utils/erroGenerico'
 import { ModelLancamentos } from '../models/lancamentos'
 import { PAGINATOR } from '../utils/Paginator'
@@ -12,7 +12,7 @@ import { PAGINATOR } from '../utils/Paginator'
 const prisma = new PrismaClient()
 
 export const CONTAS = {
-	async listAll(_req: PAGINATOR.Paginator, res: Response,) {
+	async listAll(_req: PAGINATOR.InterfaceRequestPaginator, res: Response,) {
 		const { skip, take } = PAGINATOR.main(_req.query)
 		const all: ModelContas.listarContas[] = await prisma.contas.findMany({
 			select: {
@@ -64,7 +64,7 @@ export const CONTAS = {
 		}
 	},
 
-	async deleteConta(req: ParamsId.RequestParamsId, res: Response,) {
+	async deleteConta(req: ParametroID.RequestParametroID, res: Response,) {
 		const id = parseInt(req.params.id)
 
 		const selectConta = await prisma.contas.findFirst({
@@ -125,7 +125,7 @@ export const CONTAS = {
 		return HandleResponse(resp, 204)
 	},
 
-	async getById(req: ParamsId.RequestParamsId, res: Response) {
+	async getById(req: ParametroID.RequestParametroID, res: Response) {
 		const id = parseInt(req.params.id)
 		const conta = await prisma.contas.findFirst({
 			select: {

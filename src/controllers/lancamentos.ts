@@ -6,15 +6,15 @@ import { ZodError } from 'zod'
 import { CONTAS } from './contas'
 import { TAGS } from './tags'
 import { PAGINATOR } from '../utils/Paginator'
-import { ParamsId } from '../utils/paramsId'
+import { ParametroID } from '../utils/parametroID'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 
 const prisma = new PrismaClient()
 
 export const LancamentosController = {
 
-	async listAll(req: PAGINATOR.Paginator, res: Response) {
-		const { skip, take, order, orderBy } = PAGINATOR.main(req.query)
+	async listAll(req: PAGINATOR.InterfaceRequestPaginator, res: Response) {
+		const { skip, take, order, colunaDeordenacao } = PAGINATOR.main(req.query)
 		const lancamentos = await prisma.lancamentos.findMany({
 			select: {
 				id: true,
@@ -42,7 +42,7 @@ export const LancamentosController = {
 			where: {
 				deletede_at: null
 			},
-			orderBy: orderBy ? orderBy : {
+			orderBy: colunaDeordenacao ? colunaDeordenacao : {
 				id: order || 'desc'
 			},
 			skip: skip,
@@ -130,7 +130,7 @@ export const LancamentosController = {
 		}
 	},
 
-	async delete(req: ParamsId.RequestParamsId, res: Response) {
+	async delete(req: ParametroID.RequestParametroID, res: Response) {
 		const id = parseInt(req.params.id)
 
 		try {
@@ -202,7 +202,7 @@ export const LancamentosController = {
 				}
 			})
 
-			if(validaBody.situacao !== undefined){
+			if (validaBody.situacao !== undefined) {
 				await CONTAS.atualizarSaldo(update)
 			}
 
@@ -232,7 +232,7 @@ export const LancamentosController = {
 		}
 	},
 
-	async getId(req: ParamsId.RequestParamsId, res: Response) {
+	async getId(req: ParametroID.RequestParametroID, res: Response) {
 		const id = parseInt(req.params.id)
 		const lancamentos = await prisma.lancamentos.findFirst({
 			where: {

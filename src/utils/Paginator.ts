@@ -1,15 +1,42 @@
 import { Request } from 'express'
 
-export type QueryPaginator = {
+export type ParametrosDeConsultaDoPaginator = {
 	take?: string | undefined
 	pagina?: string | undefined
 	all?: string | undefined,
 	order?: 'desc' | 'asc' | undefined,
-	orderby?: string | undefined
+	colunaDeordenacao?: string | undefined
+}
+export interface InterfaceRequestPaginator extends Request {
+	query: ParametrosDeConsultaDoPaginator
 }
 
-export interface Paginator extends Request {
-	query: QueryPaginator
+const ordenar = (obj: ParametrosDeConsultaDoPaginator) => {
+	const parametroDeOrdenacao = obj.colunaDeordenacao
+	let colunaDeordenacao = undefined
+	const order = obj.order
+	if (parametroDeOrdenacao) {
+		colunaDeordenacao = {
+			[parametroDeOrdenacao]: order || 'desc'
+		}
+	}
+	return { colunaDeordenacao, order }
+}
+
+const paginaEQuantidadeDeRegistros = (obj: ParametrosDeConsultaDoPaginator) => {
+	let take: number | undefined = Number(obj.take) || 15
+	let pagina = Number(obj.pagina)
+	let skip = undefined
+	const all = obj.all === 'true' ? Boolean(obj.all) : null
+	
+	if (!all) {
+		pagina > 1 ? skip = (pagina - 1) * take : skip = undefined
+		return { take, skip }
+	} else {
+		take = undefined
+		pagina = NaN
+		return { take, skip }
+	}
 }
 
 /**
@@ -20,31 +47,13 @@ export interface Paginator extends Request {
  * @param req 
  * @returns take and skip(pagina)
  */
-export function main(req: QueryPaginator) {
-	const orderParam = req.orderby
-	let orderBy = undefined
-	const order = req.order
-	const all = req.all === 'true' ? Boolean(req.all) : null
-	let take: number | undefined = Number(req.take) || 15
-	let pagina = Number(req.pagina)
-	let skip = undefined
+export function main(request: ParametrosDeConsultaDoPaginator) {
 
-	if (all) {
-		take = undefined
-		pagina = NaN
-	}
+	const { take, skip } = paginaEQuantidadeDeRegistros(request)
 
-	if (pagina && take) {
-		pagina > 1 ? skip = (pagina - 1) * take : skip = undefined
-	}
+	const { colunaDeordenacao, order } = ordenar(request)
 
-	if (orderParam) {
-		orderBy = {
-			[orderParam]: order || 'desc'
-		}
-	}
-
-	return ({ take, skip, order, orderBy })
+	return ({ take, skip, order, colunaDeordenacao })
 }
 
 export * as PAGINATOR from './Paginator'
