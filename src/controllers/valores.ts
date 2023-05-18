@@ -52,7 +52,6 @@ export const controllerValores = {
 			}
 		}
 
-		console.log(despesasTotal)
 		return HandleResponse(res, 200, { data: t })
 	}
 }

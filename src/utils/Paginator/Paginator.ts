@@ -13,10 +13,8 @@ export interface IRequestPaginator extends Request {
 
 export class Paginator {
 	static main(query: TodosOsParametrosDoPaginator): TodosOsRetornosDoPaginator {
-		console.log(query)
 		const paginator = Paginacao.main(query)
 		const order = OrdenarConsultas.main(query)
-		console.log({ ...paginator, ...order })
 		return { ...paginator, ...order }
 	}
 
