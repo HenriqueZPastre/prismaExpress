@@ -5,16 +5,16 @@ import { ModelLancamentos } from '../models/lancamentos'
 import { ZodError } from 'zod'
 import { CONTAS } from './contas'
 import { TAGS } from './tags'
-import { PAGINATOR } from '../utils/Paginator'
 import { ParametroID } from '../utils/parametroID'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
+import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
 
 const prisma = new PrismaClient()
 
 export const LancamentosController = {
 
-	async listAll(req: PAGINATOR.InterfaceRequestPaginator, res: Response) {
-		const { skip, take, order, colunaDeordenacao } = PAGINATOR.main(req.query)
+	async listAll(req: IRequestPaginator, res: Response) {
+		const { skip, take, order, colunaParaOrdenacao } = Paginator.main(req.query)
 		const lancamentos = await prisma.lancamentos.findMany({
 			select: {
 				id: true,
@@ -42,7 +42,7 @@ export const LancamentosController = {
 			where: {
 				deletede_at: null
 			},
-			orderBy: colunaDeordenacao ? colunaDeordenacao : {
+			orderBy: colunaParaOrdenacao ? colunaParaOrdenacao : {
 				id: order || 'desc'
 			},
 			skip: skip,

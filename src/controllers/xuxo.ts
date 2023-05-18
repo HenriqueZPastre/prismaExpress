@@ -2,13 +2,13 @@ import { PrismaClient } from '@prisma/client'
 
 import { HandleResponse } from '../utils/HandleResponse'
 import { Request, Response } from 'express'
-import { PAGINATOR } from '../utils/Paginator'
+import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
 
 const prisma = new PrismaClient()
 
 export const xuxo = {
-	async listAll(req: PAGINATOR.InterfaceRequestPaginator, res: Response) {
-		const { skip, take } = PAGINATOR.main(req.query)
+	async listAll(req: IRequestPaginator, res: Response) {
+		const { skip, take, colunaParaOrdenacao, order } = Paginator.main(req.query)
 		const tags = await prisma.tags.findMany({
 			select: {
 				id: true,
@@ -16,11 +16,14 @@ export const xuxo = {
 			},
 			take: take,
 			skip: skip,
+			orderBy: colunaParaOrdenacao ? colunaParaOrdenacao : {
+				id: order || 'desc'
+			},
 		})
 		return HandleResponse(res, 200, { data: tags })
 	},
 
-	async test(req: Request, res: Response ) {
+	async test(req: Request, res: Response) {
 		res.send('OK DEPLY')
 	}
 

@@ -6,14 +6,14 @@ import { ZodError } from 'zod'
 import { ParametroID } from '../utils/parametroID'
 import { ErrorGenerico } from '../utils/erroGenerico'
 import { ModelLancamentos } from '../models/lancamentos'
-import { PAGINATOR } from '../utils/Paginator'
+import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
 
 
 const prisma = new PrismaClient()
 
 export const CONTAS = {
-	async listAll(_req: PAGINATOR.InterfaceRequestPaginator, res: Response,) {
-		const { skip, take } = PAGINATOR.main(_req.query)
+	async listAll(_req: IRequestPaginator, res: Response,) {
+		const { skip, take } = Paginator.main(_req.query)
 		const all: ModelContas.listarContas[] = await prisma.contas.findMany({
 			select: {
 				id: true,

@@ -5,7 +5,7 @@ import { ParametroID } from '../utils/parametroID'
 import { ModelTAG } from '../models/tags'
 import { ZodError } from 'zod'
 import { ErrorGenerico } from '../utils/erroGenerico'
-import { PAGINATOR } from '../utils/Paginator'
+import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
 
 const prisma = new PrismaClient()
 
@@ -18,8 +18,8 @@ export const TAGS = {
 	/**
 	 * Lista todas as tags ativas do banco
 	*/
-	async listAll(_req: PAGINATOR.InterfaceRequestPaginator, resp: Response) {
-		const { take, skip } = PAGINATOR.main(_req.query)
+	async listAll(_req: IRequestPaginator, resp: Response) {
+		const { take, skip } = Paginator.main(_req.query)
 		const query: queryAll[] = await prisma.tags.findMany({
 			select: {
 				id: true,
