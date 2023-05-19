@@ -10,7 +10,6 @@ export interface IParametrosDoPaginator {
 	page?: string | undefined;
 	all?: string | undefined;
 }
-
 export class Paginacao {
 	static main(query: IParametrosDoPaginator): IRetornoPaginator {
 		const all = query.all === 'true' ? Boolean(query.all) : null

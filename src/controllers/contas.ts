@@ -154,7 +154,7 @@ export const CONTAS = {
 			}
 		})
 		if (!conta) {
-			throw ErrorGenerico('Conta não encontrada')
+			throw ErrorGenerico.main('Conta não encontrada')
 		}
 		return conta
 	},

@@ -171,11 +171,11 @@ export const TAGS = {
 		const existeArrayId = Array.from(existe, ({ id }) => id)
 		tags.forEach((tag) => {
 			if (!existeArrayId.includes(tag)) {
-				throw ErrorGenerico(`Tag ${tag} não encontrada`)
+				throw ErrorGenerico.main(`Tag ${tag} não encontrada`)
 			}
 		})
 		if (existe.length < 1) {
-			throw ErrorGenerico('Nenhuma tag informada foi encontrada')
+			throw ErrorGenerico.main('Nenhuma tag informada foi encontrada')
 		}
 		return existe
 	}
