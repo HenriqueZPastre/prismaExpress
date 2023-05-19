@@ -15,7 +15,7 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 				swaggerUtils.Paginator[1],
 				swaggerUtils.Paginator[2],
 				swaggerUtils.Paginator[3],
-				swaggerUtils.orderBy(ModelLancamentos.zodLancamentos.responseCreate.shape)
+				swaggerUtils.colunas(ModelLancamentos.zodLancamentos.responseCreate.shape)
 			],
 			responses: {
 				'200': {

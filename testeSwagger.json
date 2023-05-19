@@ -24,7 +24,7 @@
         "summary": "Lista as contas",
         "parameters": [
           {
-            "name": "pagina",
+            "name": "page",
             "in": "path",
             "required": true,
             "schema": {
@@ -182,7 +182,7 @@
         "summary": "Lista as tags",
         "parameters": [
           {
-            "name": "pagina",
+            "name": "page",
             "in": "path",
             "required": true,
             "schema": {
@@ -340,7 +340,7 @@
         "summary": "Lista os lancamentos",
         "parameters": [
           {
-            "name": "pagina",
+            "name": "page",
             "in": "path",
             "required": true,
             "schema": {
@@ -370,10 +370,14 @@
             "schema": {
               "type": "string"
             },
+            "examples": {
+              "desc": {},
+              "asc": {}
+            },
             "description": "Ordenação dos registros: <br>\n\t\torder = desc | asc\t\n\t\t"
           },
           {
-            "name": "orderby",
+            "name": "coluna",
             "in": "path",
             "schema": {
               "type": "string",
@@ -723,8 +727,16 @@
             "minimum": 1
           },
           "dataVencimento": {
-            "type": "string",
-            "format": "date-time"
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "description": "Formato da data: dataUTC"
           },
           "contasId": {
             "type": "integer"
@@ -942,10 +954,7 @@
               "type": "number"
             }
           }
-        },
-        "required": [
-          "tipo"
-        ]
+        }
       },
       "listarLancamentos": {
         "type": "array",
@@ -1042,5 +1051,6 @@
         }
       }
     }
-  }
+  },
+  "x-try-it-out-enabled": true
 }

@@ -22,7 +22,8 @@ const Swagger = {
 	'paths': swaggerPaths,
 	'components': {
 		'schemas': schema
-	}
+	},
+	'x-try-it-out-enabled': true
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

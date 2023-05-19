@@ -116,7 +116,6 @@ export const LancamentosController = {
 			}
 			return HandleResponse(res, 201, { data: lancamentos, })
 		} catch (err) {
-			console.log(typeof err)
 			if (err instanceof ZodError) {
 				return HandleResponse(res, 400, { zod: err, extras: err })
 			}
