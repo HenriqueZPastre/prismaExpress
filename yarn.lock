@@ -449,7 +449,7 @@
     "@eslint-community/regexpp" "^4.4.0"
     "@typescript-eslint/scope-manager" "5.59.1"
     "@typescript-eslint/type-Utils" "5.59.1"
-    "@typescript-eslint/Utils" "5.59.1"
+    "@typescript-eslint/utils" "5.59.1"
     debug "^4.3.4"
     grapheme-splitter "^1.0.4"
     ignore "^5.2.0"
@@ -481,7 +481,7 @@
   integrity sha512-ZMWQ+Oh82jWqWzvM3xU+9y5U7MEMVv6GLioM3R5NJk6uvP47kZ7YvlgSHJ7ERD6bOY7Q4uxWm25c76HKEwIjZw==
   dependencies:
     "@typescript-eslint/typescript-estree" "5.59.1"
-    "@typescript-eslint/Utils" "5.59.1"
+    "@typescript-eslint/utils" "5.59.1"
     debug "^4.3.4"
     tsUtils "^3.21.0"
 
@@ -503,9 +503,9 @@
     semver "^7.3.7"
     tsUtils "^3.21.0"
 
-"@typescript-eslint/Utils@5.59.1":
+"@typescript-eslint/utils@5.59.1":
   version "5.59.1"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/Utils/-/Utils-5.59.1.tgz#d89fc758ad23d2157cfae53f0b429bdf15db9473"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/Utils-5.59.1.tgz#d89fc758ad23d2157cfae53f0b429bdf15db9473"
   integrity sha512-MkTe7FE+K1/GxZkP5gRj3rCztg45bEhsd8HYjczBuYm+qFHP5vtZmjx3B0yUCDotceQ4sHgTyz60Ycl225njmA==
   dependencies:
     "@eslint-community/eslint-Utils" "^4.2.0"
