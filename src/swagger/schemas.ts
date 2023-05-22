@@ -1,6 +1,6 @@
-import { ModelsSwaggerContas } from '../Models/contas'
-import { ModelsSwaggerTag } from '../Models/tags'
-import { ModelsSwaggerLancamentos } from '../Models/lancamentos'
+import { ModelsSwaggerContas } from '../models/contas'
+import { ModelsSwaggerTag } from '../models/tags'
+import { ModelsSwaggerLancamentos } from '../models/lancamentos'
 
 export const schema = {
 	createContas: ModelsSwaggerContas.create,

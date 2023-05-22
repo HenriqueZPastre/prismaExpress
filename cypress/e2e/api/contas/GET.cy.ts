@@ -1,6 +1,6 @@
 /// <reference types = 'cypress'/>
 
-import { listarContas } from '../../../../src/Models/contas'
+import { listarContas } from '../../../../src/models/contas'
 
 describe('Verificar a tipagem e o valor do response para cada resultado da listagem de contas bancarias', () => {
 	it('Realizar a request', () => {

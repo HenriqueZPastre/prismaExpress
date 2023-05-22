@@ -1,4 +1,4 @@
-import { createContas } from '../../../../src/Models/contas'
+import { createContas } from '../../../../src/models/contas'
 
 export const novaConta: createContas = {
 	nome: 'TESTE',

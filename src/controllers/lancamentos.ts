@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
-import { ModelLancamentos } from '../Models/lancamentos'
+import { ModelLancamentos } from '../models/lancamentos'
 import { ZodError } from 'zod'
 import { CONTAS } from './contas'
 import { TAGS } from './tags'

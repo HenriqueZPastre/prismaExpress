@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
-import { ModelContas } from '../Models/contas'
+import { ModelContas } from '../models/contas'
 import { ZodError } from 'zod'
 import { ParametroID } from '../utils/parametroID'
 import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
-import { ModelLancamentos } from '../Models/lancamentos'
+import { ModelLancamentos } from '../models/lancamentos'
 import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
 
 
