@@ -4,3 +4,4 @@ export class ErrorGenerico extends Error {
 		return erro.message
 	}
 }
+

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { Request, Response } from 'express'
-import { HandleResponse } from '../utils/HandleResponse'
+import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 
 
 const prisma = new PrismaClient()
@@ -52,6 +52,6 @@ export const controllerValores = {
 			}
 		}
 
-		return HandleResponse(res, 200, { data: t })
+		return HandleResponse.main(res, 200, { data: t })
 	}
 }

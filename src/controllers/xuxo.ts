@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 
-import { HandleResponse } from '../utils/HandleResponse'
+import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 import { Request, Response } from 'express'
 import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
 
@@ -20,7 +20,7 @@ export const xuxo = {
 				id: order || 'desc'
 			},
 		})
-		return HandleResponse(res, 200, { data: tags })
+		return HandleResponse.main(res, 200, { data: tags })
 	},
 
 	async test(req: Request, res: Response) {

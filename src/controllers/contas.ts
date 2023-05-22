@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
-import { HandleResponse } from '../utils/HandleResponse'
+import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 import { ModelContas } from '../models/contas'
 import { ZodError } from 'zod'
 import { ParametroID } from '../utils/parametroID'
-import { ErrorGenerico } from '../utils/erroGenerico'
+import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
 import { ModelLancamentos } from '../models/lancamentos'
 import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
 
@@ -32,16 +32,16 @@ export const CONTAS = {
 			ModelContas.zodContas.listar.parse(all)
 		} catch (err) {
 			if (err instanceof ZodError) {
-				return HandleResponse(res, 400, { zod: err })
+				return HandleResponse.main(res, 400, { zod: err })
 			}
-			return HandleResponse(res, 400, { erro: err })
+			return HandleResponse.main(res, 400, { erro: err })
 		}
 
 		if (all.length < 1) {
-			return HandleResponse(res, 404, { mensagem: 'Nenhuma conta encontrada' },)
+			return HandleResponse.main(res, 404, { mensagem: 'Nenhuma conta encontrada' },)
 		}
 
-		return HandleResponse(res, 200, { data: all })
+		return HandleResponse.main(res, 200, { data: all })
 
 	},
 
@@ -55,12 +55,12 @@ export const CONTAS = {
 					saldoAtual: saldoAtual || 0
 				}
 			})
-			return HandleResponse(res, 201, { data: create.id.toString() })
+			return HandleResponse.main(res, 201, { data: create.id.toString() })
 		} catch (err) {
 			if (err instanceof ZodError) {
-				return HandleResponse(res, 400, { zod: err })
+				return HandleResponse.main(res, 400, { zod: err })
 			}
-			return HandleResponse(res, 400, { erro: err })
+			return HandleResponse.main(res, 400, { erro: err })
 		}
 	},
 
@@ -82,11 +82,11 @@ export const CONTAS = {
 		})
 
 		if (!selectConta) {
-			return HandleResponse(res, 404, { erro: 'Conta não encontrada' },)
+			return HandleResponse.main(res, 404, { erro: 'Conta não encontrada' },)
 		}
 
 		if (verificarLancamentosVinculados) {
-			return HandleResponse(res, 400, { mensagem: 'Conta não pode ser excluida pois possui vinculo com outros dados do banco' },)
+			return HandleResponse.main(res, 400, { mensagem: 'Conta não pode ser excluida pois possui vinculo com outros dados do banco' },)
 		}
 
 		await prisma.contas.update({
@@ -97,7 +97,7 @@ export const CONTAS = {
 				id: id
 			}
 		})
-		return HandleResponse(res, 204)
+		return HandleResponse.main(res, 204)
 	},
 
 	async editarConta(req: ModelContas.EditarContas, resp: Response) {
@@ -105,7 +105,7 @@ export const CONTAS = {
 		try {
 			const { nome, saldoInicial } = ModelContas.zodContas.editar.parse(req.body)
 			if (!nome && !saldoInicial) {
-				return HandleResponse(resp, 400, { erro: 'Nenhum dado foi informado para edição' },)
+				return HandleResponse.main(resp, 400, { erro: 'Nenhum dado foi informado para edição' },)
 			}
 			await prisma.contas.update({
 				data: {
@@ -118,11 +118,11 @@ export const CONTAS = {
 			})
 		} catch (err) {
 			if (err instanceof ZodError) {
-				return HandleResponse(resp, 400, { zod: err })
+				return HandleResponse.main(resp, 400, { zod: err })
 			}
-			return HandleResponse(resp, 500, { erro: 'Não foi possível editar a conta' },)
+			return HandleResponse.main(resp, 500, { erro: 'Não foi possível editar a conta' },)
 		}
-		return HandleResponse(resp, 204)
+		return HandleResponse.main(resp, 204)
 	},
 
 	async getById(req: ParametroID.RequestParametroID, res: Response) {
@@ -141,9 +141,9 @@ export const CONTAS = {
 		})
 
 		if (!conta) {
-			return HandleResponse(res, 404, { erro: 'Conta não encontrada' },)
+			return HandleResponse.main(res, 404, { erro: 'Conta não encontrada' },)
 		}
-		return HandleResponse(res, 200, { data: conta })
+		return HandleResponse.main(res, 200, { data: conta })
 	},
 
 	contaExiste: async (id: number) => {

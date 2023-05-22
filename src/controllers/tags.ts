@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client'
-import { HandleResponse } from '../utils/HandleResponse'
+import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 import { Response } from 'express'
 import { ParametroID } from '../utils/parametroID'
 import { ModelTAG } from '../models/tags'
 import { ZodError } from 'zod'
-import { ErrorGenerico } from '../utils/erroGenerico'
+import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
 import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
 
 const prisma = new PrismaClient()
@@ -34,15 +34,15 @@ export const TAGS = {
 		try {
 			const validar = await ModelTAG.zodTag.listar.safeParse(query)
 			if (query.length < 1) {
-				return HandleResponse(resp, 404, { erro: 'Nenhum resultado econtrado' },)
+				return HandleResponse.main(resp, 404, { erro: 'Nenhum resultado econtrado' },)
 			} else {
-				return HandleResponse(resp, 200, { data: query, zodValidate: validar })
+				return HandleResponse.main(resp, 200, { data: query, zodValidate: validar })
 			}
 		} catch (error) {
 			if (error instanceof ZodError) {
-				return HandleResponse(resp, 400, { zod: error },)
+				return HandleResponse.main(resp, 400, { zod: error },)
 			}
-			return HandleResponse(resp, 400, { erro: 'Erro ao listar tags', data: error })
+			return HandleResponse.main(resp, 400, { erro: 'Erro ao listar tags', data: error })
 		}
 	},
 
@@ -64,7 +64,7 @@ export const TAGS = {
 			})
 			if (numeroDeLancamentos > 0) {
 				const mensagemErro = `Não é possível excluir a tag com ID ${tagId} porque há ${numeroDeLancamentos} lançamentos associados a ela.`
-				return HandleResponse(resp, 400, { erro: mensagemErro },)
+				return HandleResponse.main(resp, 400, { erro: mensagemErro },)
 			} else {
 				await prisma.tags.update({
 					data: {
@@ -75,10 +75,10 @@ export const TAGS = {
 					}
 				})
 
-				return HandleResponse(resp, 200)
+				return HandleResponse.main(resp, 200)
 			}
 		} catch (error) {
-			return HandleResponse(resp, 400, { erro: `Tag com id ${tagId} não encontrada`, extras: error },)
+			return HandleResponse.main(resp, 400, { erro: `Tag com id ${tagId} não encontrada`, extras: error },)
 		}
 	},
 
@@ -94,12 +94,12 @@ export const TAGS = {
 					nome: nome
 				}
 			})
-			return HandleResponse(resp, 200, { data: tag })
+			return HandleResponse.main(resp, 200, { data: tag })
 		} catch (error) {
 			if (error instanceof ZodError) {
-				return HandleResponse(resp, 400, { zod: error, extras: error })
+				return HandleResponse.main(resp, 400, { zod: error, extras: error })
 			}
-			return HandleResponse(resp, 400, { erro: error })
+			return HandleResponse.main(resp, 400, { erro: error })
 		}
 	},
 
@@ -114,7 +114,7 @@ export const TAGS = {
 				},
 			})
 			if (!existe) {
-				return HandleResponse(resp, 400, { erro: 'Tag não existe' },)
+				return HandleResponse.main(resp, 400, { erro: 'Tag não existe' },)
 			} else {
 				const update = await prisma.tags.update({
 					select: {
@@ -128,13 +128,13 @@ export const TAGS = {
 						id: id
 					}
 				})
-				return HandleResponse(resp, 200, { data: update })
+				return HandleResponse.main(resp, 200, { data: update })
 			}
 		} catch (error) {
 			if (error instanceof ZodError) {
-				return HandleResponse(resp, 400, { zod: error })
+				return HandleResponse.main(resp, 400, { zod: error })
 			}
-			return HandleResponse(resp, 400, { erro: error })
+			return HandleResponse.main(resp, 400, { erro: error })
 		}
 	},
 
@@ -151,9 +151,9 @@ export const TAGS = {
 			}
 		})
 		if (!tag) {
-			return HandleResponse(resp, 404, { erro: 'Tag não encontrada' },)
+			return HandleResponse.main(resp, 404, { erro: 'Tag não encontrada' },)
 		}
-		return HandleResponse(resp, 200, { data: tag })
+		return HandleResponse.main(resp, 200, { data: tag })
 	},
 
 	async verificarSeTagExiste(tags: number[]) {

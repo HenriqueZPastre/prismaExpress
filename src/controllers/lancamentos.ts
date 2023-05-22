@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
-import { HandleResponse } from '../utils/HandleResponse'
+import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 import { ModelLancamentos } from '../models/lancamentos'
 import { ZodError } from 'zod'
 import { CONTAS } from './contas'
@@ -49,9 +49,9 @@ export const LancamentosController = {
 			take: take,
 		})
 		if (lancamentos.length < 1) {
-			return HandleResponse(res, 404, { mensagem: 'Nenhum lançamento encontrado' },)
+			return HandleResponse.main(res, 404, { mensagem: 'Nenhum lançamento encontrado' },)
 		}
-		return HandleResponse(res, 200, { data: lancamentos })
+		return HandleResponse.main(res, 200, { data: lancamentos })
 	},
 
 	async create(req: ModelLancamentos.CreateLancamentos, res: Response) {
@@ -112,20 +112,20 @@ export const LancamentosController = {
 			})
 			const atualizaValor = await CONTAS.atualizarSaldo(lancamentos)
 			if (atualizaValor) {
-				return HandleResponse(res, 201, { data: lancamentos, extras: atualizaValor })
+				return HandleResponse.main(res, 201, { data: lancamentos, extras: atualizaValor })
 			}
-			return HandleResponse(res, 201, { data: lancamentos, })
+			return HandleResponse.main(res, 201, { data: lancamentos, })
 		} catch (err) {
 			if (err instanceof ZodError) {
-				return HandleResponse(res, 400, { zod: err, extras: err })
+				return HandleResponse.main(res, 400, { zod: err, extras: err })
 			}
 			if (err instanceof Error) {
-				return HandleResponse(res, 500, { mensagem: err.message })
+				return HandleResponse.main(res, 500, { mensagem: err.message })
 			}
 			if (err instanceof PrismaClientKnownRequestError) {
-				return HandleResponse(res, 400, { mensagem: err.message })
+				return HandleResponse.main(res, 400, { mensagem: err.message })
 			}
-			return HandleResponse(res, 500, { mensagem: err })
+			return HandleResponse.main(res, 500, { mensagem: err })
 		}
 	},
 
@@ -155,16 +155,16 @@ export const LancamentosController = {
 				lancamento.tipo === 0 ? lancamento.tipo = 1 : lancamento.tipo = 0
 				const atualizaValor = await CONTAS.atualizarSaldo(lancamento)
 				if (atualizaValor) {
-					return HandleResponse(res, 200, { mensagem: 'Lançamento deletado com sucesso', extras: atualizaValor })
+					return HandleResponse.main(res, 200, { mensagem: 'Lançamento deletado com sucesso', extras: atualizaValor })
 				}
 			}
 		} catch (err) {
 			if (err instanceof ZodError) {
-				return HandleResponse(res, 400, { zod: err, extras: err })
+				return HandleResponse.main(res, 400, { zod: err, extras: err })
 			}
-			return HandleResponse(res, 500, { mensagem: err })
+			return HandleResponse.main(res, 500, { mensagem: err })
 		}
-		return HandleResponse(res, 200, { mensagem: 'Lançamento deletado com sucesso' })
+		return HandleResponse.main(res, 200, { mensagem: 'Lançamento deletado com sucesso' })
 	},
 
 	async update(req: ModelLancamentos.EditarLancamentos, res: Response) {
@@ -222,12 +222,12 @@ export const LancamentosController = {
 					})
 				}
 			})
-			return HandleResponse(res, 200, { data: update })
+			return HandleResponse.main(res, 200, { data: update })
 		} catch (err) {
 			if (err instanceof ZodError) {
-				return HandleResponse(res, 400, { zod: err, extras: err })
+				return HandleResponse.main(res, 400, { zod: err, extras: err })
 			}
-			return HandleResponse(res, 500, { mensagem: err })
+			return HandleResponse.main(res, 500, { mensagem: err })
 		}
 	},
 
@@ -261,9 +261,9 @@ export const LancamentosController = {
 			}
 		})
 		if (!lancamentos) {
-			return HandleResponse(res, 404, { mensagem: 'Lançamento não encontrado' })
+			return HandleResponse.main(res, 404, { mensagem: 'Lançamento não encontrado' })
 		}
-		return HandleResponse(res, 200, { data: lancamentos })
+		return HandleResponse.main(res, 200, { data: lancamentos })
 	}
 
 }
