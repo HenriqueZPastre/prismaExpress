@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { Request, Response } from 'express'
-import { HandleResponse } from '../Utils/HandleResponse/HandleResponse'
+import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 
 
 const prisma = new PrismaClient()

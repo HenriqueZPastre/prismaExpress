@@ -6,7 +6,7 @@ import { xuxo } from './src/Controllers/xuxo'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJson from './testeSwagger.json'
 import { controllerValores } from './src/Controllers/valores'
-import { authSwagger } from './src/Utils/authSwagger'
+import { authSwagger } from './src/utils/authSwagger'
 
 const router: Router = Router()
 export { router }

@@ -1,5 +1,5 @@
 
-import { swaggerUtils } from '../utils/parametros'
+import { swaggerutils } from '../utils/parametros'
 import { refSchema } from '../schemas'
 import { OpenAPIV3 } from 'openapi-types'
 
@@ -11,9 +11,9 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Lista as tags',
 			parameters: [
-				swaggerUtils.Paginator[0],
-				swaggerUtils.Paginator[1],
-				swaggerUtils.Paginator[2],
+				swaggerutils.Paginator[0],
+				swaggerutils.Paginator[1],
+				swaggerutils.Paginator[2],
 			],
 			responses: {
 				'200': {
@@ -63,7 +63,7 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Busca os dados da tag',
 			parameters: [
-				swaggerUtils.id
+				swaggerutils.id
 			],
 			responses: {
 				'200': {
@@ -84,7 +84,7 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Atualiza os dados da tag',
 			parameters: [
-				swaggerUtils.id
+				swaggerutils.id
 			],
 			requestBody: {
 				content: {
@@ -107,7 +107,7 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Soft delete da tag',
 			parameters: [
-				swaggerUtils.id
+				swaggerutils.id
 			],
 			responses: {
 				'200': {

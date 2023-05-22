@@ -1,4 +1,4 @@
-import { swaggerUtils } from '../utils/parametros'
+import { swaggerutils } from '../utils/parametros'
 import { refSchema } from '../schemas'
 import { OpenAPIV3 } from 'openapi-types'
 import { ModelLancamentos } from '../../Models/lancamentos'
@@ -11,11 +11,11 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Lista os lancamentos',
 			parameters: [
-				swaggerUtils.Paginator[0],
-				swaggerUtils.Paginator[1],
-				swaggerUtils.Paginator[2],
-				swaggerUtils.Paginator[3],
-				swaggerUtils.colunas(ModelLancamentos.zodLancamentos.responseCreate.shape)
+				swaggerutils.Paginator[0],
+				swaggerutils.Paginator[1],
+				swaggerutils.Paginator[2],
+				swaggerutils.Paginator[3],
+				swaggerutils.colunas(ModelLancamentos.zodLancamentos.responseCreate.shape)
 			],
 			responses: {
 				'200': {
@@ -65,7 +65,7 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Busca um lancamento',
 			parameters: [
-				swaggerUtils.id
+				swaggerutils.id
 			],
 			responses: {
 				'200': {
@@ -87,7 +87,7 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Atualiza um lancamento',
 			parameters: [
-				swaggerUtils.id
+				swaggerutils.id
 			],
 			requestBody: {
 				content: {
@@ -117,7 +117,7 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Deleta um lancamento',
 			parameters: [
-				swaggerUtils.id
+				swaggerutils.id
 			],
 			responses: {
 				'204': {

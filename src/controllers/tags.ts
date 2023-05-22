@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client'
-import { HandleResponse } from '../Utils/HandleResponse/HandleResponse'
+import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 import { Response } from 'express'
-import { ParametroID } from '../Utils/parametroID'
+import { ParametroID } from '../utils/parametroID'
 import { ModelTAG } from '../Models/tags'
 import { ZodError } from 'zod'
-import { ErrorGenerico } from '../Utils/HandleResponse/erroGenerico'
-import { IRequestPaginator, Paginator } from '../Utils/Paginator/Paginator'
+import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
+import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
 
 const prisma = new PrismaClient()
 

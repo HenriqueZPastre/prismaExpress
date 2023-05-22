@@ -1,5 +1,5 @@
 import { OpenAPIV3 } from 'openapi-types'
-import { TodosOsParametrosDoPaginator } from 'src/Utils/Paginator/Paginator'
+import { TodosOsParametrosDoPaginator } from 'src/utils/Paginator/Paginator'
 
 
 const p: TodosOsParametrosDoPaginator = {
@@ -86,4 +86,4 @@ export const colunas = (objeto: object): OpenAPIV3.ParameterObject => {
 	}
 }
 
-export * as swaggerUtils from './parametros'
+export * as swaggerutils from './parametros'

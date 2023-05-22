@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 
-import { HandleResponse } from '../Utils/HandleResponse/HandleResponse'
+import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 import { Request, Response } from 'express'
-import { IRequestPaginator, Paginator } from '../Utils/Paginator/Paginator'
+import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
 
 const prisma = new PrismaClient()
 

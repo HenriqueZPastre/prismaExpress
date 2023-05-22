@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import { z } from 'zod'
-import { ParametroID } from '../Utils/parametroID'
+import { ParametroID } from '../utils/parametroID'
 import { generateSchema } from '@anatine/zod-openapi'
 
 export const zodTag = {
