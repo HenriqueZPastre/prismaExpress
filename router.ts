@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import { CONTAS } from './src/Controllers/contas'
-import { TAGS } from './src/Controllers/tags'
-import { LancamentosController } from './src/Controllers/lancamentos'
-import { xuxo } from './src/Controllers/xuxo'
+import { CONTAS } from './src/controllers/contas'
+import { TAGS } from './src/controllers/tags'
+import { LancamentosController } from './src/controllers/lancamentos'
+import { xuxo } from './src/controllers/xuxo'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJson from './testeSwagger.json'
-import { controllerValores } from './src/Controllers/valores'
+import { controllerValores } from './src/controllers/valores'
 import { authSwagger } from './src/utils/authSwagger'
 
 const router: Router = Router()
