@@ -1,7 +1,7 @@
 import { swaggerUtils } from '../utils/parametros'
 import { refSchema } from '../schemas'
 import { OpenAPIV3 } from 'openapi-types'
-import { ModelLancamentos } from '../../models/lancamentos'
+import { ModelLancamentos } from '../../Models/lancamentos'
 
 export const Lancamentos: OpenAPIV3.PathsObject = {
 	'/lancamentos': {

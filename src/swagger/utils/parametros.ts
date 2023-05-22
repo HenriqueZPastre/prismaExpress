@@ -1,5 +1,5 @@
 import { OpenAPIV3 } from 'openapi-types'
-import { TodosOsParametrosDoPaginator } from 'src/utils/Paginator/Paginator'
+import { TodosOsParametrosDoPaginator } from 'src/Utils/Paginator/Paginator'
 
 
 const p: TodosOsParametrosDoPaginator = {

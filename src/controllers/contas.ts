@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
-import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
-import { ModelContas } from '../models/contas'
+import { HandleResponse } from '../Utils/HandleResponse/HandleResponse'
+import { ModelContas } from '../Models/contas'
 import { ZodError } from 'zod'
-import { ParametroID } from '../utils/parametroID'
-import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
-import { ModelLancamentos } from '../models/lancamentos'
-import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
+import { ParametroID } from '../Utils/parametroID'
+import { ErrorGenerico } from '../Utils/HandleResponse/erroGenerico'
+import { ModelLancamentos } from '../Models/lancamentos'
+import { IRequestPaginator, Paginator } from '../Utils/Paginator/Paginator'
 
 
 const prisma = new PrismaClient()

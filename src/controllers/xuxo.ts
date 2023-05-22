@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 
-import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
+import { HandleResponse } from '../Utils/HandleResponse/HandleResponse'
 import { Request, Response } from 'express'
-import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
+import { IRequestPaginator, Paginator } from '../Utils/Paginator/Paginator'
 
 const prisma = new PrismaClient()
 
@@ -24,7 +24,7 @@ export const xuxo = {
 	},
 
 	async test(req: Request, res: Response) {
-		res.send('OK DEPLY')
+		res.sendFile('index.html', { root: 'src' })
 	}
 
 }
