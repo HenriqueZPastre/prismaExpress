@@ -3,40 +3,25 @@ import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 import { Response } from 'express'
 import { ParametroID } from '../utils/parametroID'
 import { ModelTAG } from '../models/tags'
-import { ZodError } from 'zod'
+import { ZodError, z } from 'zod'
 import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
-import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
+import { IRequestPaginator } from '../utils/Paginator/Paginator'
+import { serviceTags } from '../Repositories/ServiceTags'
 
 const prisma = new PrismaClient()
-
-type queryAll = {
-	id: number,
-	nome: string
-}
 
 export const TAGS = {
 	/**
 	 * Lista todas as tags ativas do banco
 	*/
-	async listAll(_req: IRequestPaginator, resp: Response) {
-		const { take, skip } = Paginator.main(_req.query)
-		const query: queryAll[] = await prisma.tags.findMany({
-			select: {
-				id: true,
-				nome: true,
-			},
-			where: {
-				deletede_at: null
-			},
-			take: take,
-			skip: skip,
-		})
+	async listAll(req: IRequestPaginator, resp: Response) {
 		try {
-			const validar = await ModelTAG.zodTag.listar.safeParse(query)
-			if (query.length < 1) {
-				return HandleResponse.main(resp, 404, { erro: 'Nenhum resultado econtrado' },)
+			const { consulta } = await serviceTags.listarTodas(req.query)
+			const validar = await z.array(ModelTAG.zodTag.listar).safeParse(consulta)
+			if (consulta != null && consulta.length < 1) {
+				return HandleResponse.main(resp, 404, { mensagem: 'Nenhum resultado encontrado' },)
 			} else {
-				return HandleResponse.main(resp, 200, { data: query, zodValidate: validar })
+				return HandleResponse.main(resp, 200, { data: consulta, zodValidate: validar })
 			}
 		} catch (error) {
 			if (error instanceof ZodError) {
