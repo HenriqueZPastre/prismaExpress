@@ -7,10 +7,11 @@ export type TCriarTag = Zod.infer<typeof M.zodTag.tag>
 export type TEditarTag = TListarTags
 
 export interface ITags {
-	listarTodas(params: TodosOsParametrosDoPaginator): Promise<{ consulta: TListarTags[] | null, error: unknown }>
-	deletar(id: number): void
-	criar(obj: tag): Promise<TListarTags>
-	editar(obj: TEditarTag): Promise<TListarTags>
-	buscarPorId(id: number): Promise<TListarTags>
-	verificarSeTagExiste(id: number): Promise<boolean>
+	listarTodas(params: TodosOsParametrosDoPaginator): Promise<{ consulta: TListarTags[] | null, erro: unknown }>
+	deletar(id: number): Promise<{ error: unknown }>
+	criar(params: tag): Promise<{ resultado: TListarTags | null, erro: unknown }>
+	editar(params: TEditarTag): Promise<{ resultado: TListarTags | null, erro: unknown }>
+	buscarPorId(id: number): Promise<{ resultado: TListarTags | null, erro: unknown }>
+	verificarSeTagExiste(id: number): Promise<{ existe: boolean | null, erro: unknown }>
+	verificarAsociacoesDeTag(id: number): Promise<{ qnt: number | null, erro: unknown }>
 }

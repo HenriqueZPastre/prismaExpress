@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client'
 import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 import { Response } from 'express'
 import { ParametroID } from '../utils/parametroID'
@@ -7,13 +6,12 @@ import { ZodError, z } from 'zod'
 import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
 import { IRequestPaginator } from '../utils/Paginator/Paginator'
 import { serviceTags } from '../Repositories/ServiceTags'
+import { Prisma, PrismaClient } from '@prisma/client'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 
 const prisma = new PrismaClient()
 
 export const TAGS = {
-	/**
-	 * Lista todas as tags ativas do banco
-	*/
 	async listAll(req: IRequestPaginator, resp: Response) {
 		try {
 			const { consulta } = await serviceTags.listarTodas(req.query)
@@ -31,55 +29,29 @@ export const TAGS = {
 		}
 	},
 
-	/**
-	 * Valida se existem lançamento com essa tag impedindo a exclusão
-	 * 
-	 * Se não houverem lançamentos e a tag já não esteja deletada, faz o soft delete.
-	 */
 	async excluir(req: ParametroID.RequestParametroID, resp: Response) {
-		const tagId = parseInt(req.params.id)
 		try {
-			const numeroDeLancamentos = await prisma.lancamentos_tags.count({
-				where: {
-					tagsId: tagId,
-					tags: {
-						deletede_at: null
-					}
-				}
-			})
-			if (numeroDeLancamentos > 0) {
-				const mensagemErro = `Não é possível excluir a tag com ID ${tagId} porque há ${numeroDeLancamentos} lançamentos associados a ela.`
+			const { qnt, erro } = await serviceTags.verificarAsociacoesDeTag(parseInt(req.params.id))
+			if (erro) {
+				return HandleResponse.main(resp, 400, { erro: `Tag com id ${req.params.id} não encontrada`, extras: erro })
+			}
+			if (qnt != null && qnt > 0) {
+				const mensagemErro = `Não é possível excluir a tag com ID ${req.params.id} porque há ${qnt} lançamentos associados a ela.`
 				return HandleResponse.main(resp, 400, { erro: mensagemErro },)
 			} else {
-				await prisma.tags.update({
-					data: {
-						deletede_at: new Date()
-					},
-					where: {
-						id: tagId,
-					}
-				})
-
-				return HandleResponse.main(resp, 200)
+				await serviceTags.deletar(parseInt(req.params.id))
+				return HandleResponse.main(resp, 204)
 			}
 		} catch (error) {
-			return HandleResponse.main(resp, 400, { erro: `Tag com id ${tagId} não encontrada`, extras: error },)
+			return HandleResponse.main(resp, 400, { erro: 'Erro não mapeado', extras: error },)
 		}
 	},
 
 	async create(req: ModelTAG.Tag, resp: Response) {
 		try {
-			const { nome } = ModelTAG.zodTag.tag.parse(req.body)
-			const tag = await prisma.tags.create({
-				select: {
-					id: true,
-					nome: true
-				},
-				data: {
-					nome: nome
-				}
-			})
-			return HandleResponse.main(resp, 200, { data: tag })
+			ModelTAG.zodTag.tag.parse(req.body)
+			const { resultado } = await serviceTags.criar(req.body)
+			return HandleResponse.main(resp, 200, { data: resultado })
 		} catch (error) {
 			if (error instanceof ZodError) {
 				return HandleResponse.main(resp, 400, { zod: error, extras: error })
@@ -91,29 +63,13 @@ export const TAGS = {
 	async editar(req: ModelTAG.TagEditar, resp: Response) {
 		const id = parseInt(req.params.id)
 		try {
-			const { nome } = ModelTAG.zodTag.tag.parse(req.body)
-			const existe = await prisma.tags.findFirst({
-				where: {
-					id: id,
-					deletede_at: null
-				},
-			})
+			ModelTAG.zodTag.tag.parse(req.body)
+			const { existe } = await serviceTags.verificarSeTagExiste(parseInt(req.params.id))
 			if (!existe) {
 				return HandleResponse.main(resp, 400, { erro: 'Tag não existe' },)
 			} else {
-				const update = await prisma.tags.update({
-					select: {
-						id: true,
-						nome: true
-					},
-					data: {
-						nome: nome
-					},
-					where: {
-						id: id
-					}
-				})
-				return HandleResponse.main(resp, 200, { data: update })
+				const { resultado } = await serviceTags.editar({ id, nome: req.body.nome })
+				return HandleResponse.main(resp, 200, { data: resultado })
 			}
 		} catch (error) {
 			if (error instanceof ZodError) {
@@ -124,21 +80,15 @@ export const TAGS = {
 	},
 
 	async getById(req: ParametroID.RequestParametroID, resp: Response) {
-		const id = parseInt(req.params.id)
-		const tag = await prisma.tags.findFirst({
-			select: {
-				id: true,
-				nome: true,
-			},
-			where: {
-				id: id,
-				deletede_at: null
+		try {
+			const { resultado } = await serviceTags.buscarPorId(parseInt(req.params.id))
+			if (!resultado) {
+				return HandleResponse.main(resp, 404, { erro: 'Tag não encontrada' },)
 			}
-		})
-		if (!tag) {
-			return HandleResponse.main(resp, 404, { erro: 'Tag não encontrada' },)
+			return HandleResponse.main(resp, 200, { data: resultado })
+		} catch (error) {
+			return HandleResponse.main(resp, 400, { erro: error })
 		}
-		return HandleResponse.main(resp, 200, { data: tag })
 	},
 
 	async verificarSeTagExiste(tags: number[]) {

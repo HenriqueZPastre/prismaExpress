@@ -1,10 +1,12 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import { Paginator, TodosOsParametrosDoPaginator } from '../utils/Paginator/Paginator'
 import { ITags, TCriarTag, TEditarTag, TListarTags } from './ITags'
 import { PrismaClient } from '@prisma/client'
 
+
 const prisma = new PrismaClient()
 class ServiceTags implements ITags {
-	async listarTodas(params: TodosOsParametrosDoPaginator): Promise<{ consulta: TListarTags[] | null, error: unknown }> {
+	async listarTodas(params: TodosOsParametrosDoPaginator): Promise<{ consulta: TListarTags[] | null, erro: unknown }> {
 		try {
 			const { take, skip, colunaParaOrdenacao, order } = Paginator.main(params)
 			const consulta: TListarTags[] = await prisma.tags.findMany({
@@ -21,35 +23,121 @@ class ServiceTags implements ITags {
 					id: order || 'desc'
 				}
 			})
-			return { consulta, error: null }
+			return { consulta, erro: null }
 		} catch (error) {
-			return { consulta: null, error: null }
+			return { consulta: null, erro: null }
 		}
 	}
 
-	async deletar(id: number): Promise<void> {
-		await prisma.tags.update({
-			data: {
-				deletede_at: new Date()
-			},
-			where: {
-				id: id,
+	async deletar(id: number): Promise<{ error: unknown }> {
+		try {
+			await prisma.tags.update({
+				data: {
+					deletede_at: new Date()
+				},
+				where: {
+					id: id,
+				}
+			})
+			return { error: undefined }
+		} catch (error) {
+			if (error instanceof PrismaClientKnownRequestError && error.code === 'P2025') {
+				return { error: error }
 			}
-		})
+			return { error: error }
+		}
 	}
-	criar(obj: TCriarTag): Promise<TListarTags> {
-		throw new Error('Method not implemented.')
+	async criar(params: TCriarTag): Promise<{ resultado: TListarTags | null, erro: unknown }> {
+		try {
+			const tag = await prisma.tags.create({
+				select: {
+					nome: true,
+					id: true,
+				},
+				data: {
+					nome: params.nome
+				}
+			})
+			return { resultado: tag, erro: null }
+		} catch (error) {
+			return { resultado: null, erro: error }
+		}
 	}
-	editar(obj: TEditarTag): Promise<TListarTags> {
-		throw new Error('Method not implemented.')
+	async editar(params: TEditarTag): Promise<{ resultado: TListarTags | null, erro: unknown }> {
+		try {
+			const update = await prisma.tags.update({
+				select: {
+					id: true,
+					nome: true
+				},
+				data: {
+					nome: params.nome
+				},
+				where: {
+					id: params.id
+				}
+			})
+			return { resultado: update, erro: null }
+		} catch (error) {
+			return { resultado: null, erro: error }
+		}
 	}
-	buscarPorId(id: number): Promise<TListarTags> {
-		throw new Error('Method not implemented.')
-	}
-	verificarSeTagExiste(id: number): Promise<boolean> {
-		throw new Error('Method not implemented.')
+	async buscarPorId(id: number): Promise<{ resultado: TListarTags | null, erro: unknown }> {
+		try {
+			const tag = await prisma.tags.findFirst({
+				select: {
+					id: true,
+					nome: true,
+				},
+				where: {
+					id: id,
+					deletede_at: null
+				}
+			})
+			return { resultado: tag, erro: null }
+		} catch (error) {
+			return { resultado: null, erro: error }
+		}
 	}
 
+	async verificarSeTagExiste(id: number): Promise<{ existe: boolean | null, erro: unknown }> {
+		try {
+			const numeroDeLancamentos = await prisma.lancamentos_tags.count({
+				where: {
+					tagsId: id,
+					tags: {
+						deletede_at: null
+					}
+				}
+			})
+			return { existe: numeroDeLancamentos > 0 ? true : false, erro: null }
+		} catch (error) {
+			return { existe: null, erro: error }
+		}
+	}
+
+	async verificarAsociacoesDeTag(id: number): Promise<{ qnt: number | null, erro: unknown }> {
+		try {
+			await prisma.tags.findFirstOrThrow({
+				where: {
+					id: id,
+					deletede_at: null
+				}
+			})
+			const numeroDeLancamentos = await prisma.lancamentos_tags.count({
+				where: {
+					tagsId: id,
+					deletede_at: null,
+					tags: {
+						deletede_at: null
+					}
+				}
+			})
+			return { qnt: numeroDeLancamentos, erro: null }
+		} catch (error) {
+			return { qnt: null, erro: error }
+		}
+	}
 
 }
 
