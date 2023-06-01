@@ -1,5 +1,5 @@
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
-import { Paginator, TodosOsParametrosDoPaginator } from '../utils/Paginator/Paginator'
+import { ErrorGenerico } from '../../utils/HandleResponse/erroGenerico'
+import { Paginator, TodosOsParametrosDoPaginator } from '../../utils/Paginator/Paginator'
 import { ITags, TCriarTag, TEditarTag, TListarTags } from './ITags'
 import { PrismaClient } from '@prisma/client'
 
@@ -25,7 +25,7 @@ class ServiceTags implements ITags {
 			})
 			return { consulta, erro: null }
 		} catch (error) {
-			return { consulta: null, erro: null }
+			return { consulta: null, erro: error }
 		}
 	}
 
@@ -41,9 +41,6 @@ class ServiceTags implements ITags {
 			})
 			return { error: undefined }
 		} catch (error) {
-			if (error instanceof PrismaClientKnownRequestError && error.code === 'P2025') {
-				return { error: error }
-			}
 			return { error: error }
 		}
 	}
@@ -102,17 +99,16 @@ class ServiceTags implements ITags {
 
 	async verificarSeTagExiste(id: number): Promise<{ existe: boolean | null, erro: unknown }> {
 		try {
-			const numeroDeLancamentos = await prisma.lancamentos_tags.count({
+			const numeroDeLancamentos = await prisma.tags.count({
 				where: {
-					tagsId: id,
-					tags: {
-						deletede_at: null
-					}
+					id: id,
+					deletede_at: null
 				}
 			})
 			return { existe: numeroDeLancamentos > 0 ? true : false, erro: null }
 		} catch (error) {
-			return { existe: null, erro: error }
+			console.error('aaa',error)
+			return { existe: null, erro: new Error(String(error)) }
 		}
 	}
 

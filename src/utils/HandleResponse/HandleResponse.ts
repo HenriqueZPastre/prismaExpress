@@ -24,11 +24,11 @@ function ZodTratarMensagemDeErro(obj: PossiveisDadosDeResposta) {
 	if (obj?.zod !== undefined && obj?.zod instanceof ZodError) {
 		obj.zod = `${obj?.zod?.issues[0].path[0]} ${obj?.zod?.issues[0].message.toLowerCase()}`
 	}
+	return obj?.zod
 }
 
 function MontarDadosDoResponse(obj: PossiveisDadosDeResposta): PossiveisDadosDeResposta {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { zod, zodValidate, data, erro, extras, mensagem, paginas, registros } = obj
+	const { data, erro, extras, mensagem, paginas, registros } = obj
 	const zodErrorMessage = ZodTratarMensagemDeErro(obj)
 	const zodValidateResponse = ZodValidarResponse(obj)
 	return {

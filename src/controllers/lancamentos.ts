@@ -4,7 +4,7 @@ import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 import { ModelLancamentos } from '../models/lancamentos'
 import { ZodError } from 'zod'
 import { CONTAS } from './contas'
-import { TAGS } from './tags'
+import { ControllerTags } from './tags'
 import { ParametroID } from '../utils/parametroID'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
@@ -64,7 +64,7 @@ export const LancamentosController = {
 				situacao = 1 //fechada
 			}
 			let tags = undefined
-			tagsId != undefined ? tags = await TAGS.verificarSeTagExiste(tagsId) : tags = undefined
+			tagsId != undefined ? tags = await ControllerTags.verificarSeTagExiste(tagsId) : tags = undefined
 			const lancamentos = await prisma.lancamentos.create({
 				select: {
 					id: true,

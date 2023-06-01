@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { CONTAS } from './src/controllers/contas'
-import { TAGS } from './src/controllers/tags'
+import { ControllerTags } from './src/controllers/tags'
 import { LancamentosController } from './src/controllers/lancamentos'
 import { xuxo } from './src/controllers/xuxo'
 import swaggerUi from 'swagger-ui-express'
@@ -26,11 +26,11 @@ router.delete('/contas/:id', CONTAS.deleteConta)
 //*********************************\\
 //**** TAGS ***********************\\
 //*********************************\\
-router.get('/tags', TAGS.listAll)
-router.post('/tags', TAGS.create)
-router.get('/tags/:id', TAGS.getById)
-router.put('/tags/:id', TAGS.editar)
-router.delete('/tags/:id', TAGS.excluir)
+router.get('/tags', ControllerTags.listAll)
+router.post('/tags', ControllerTags.create)
+router.get('/tags/:id', ControllerTags.getById)
+router.put('/tags/:id', ControllerTags.editar)
+router.delete('/tags/:id', ControllerTags.excluir)
 
 
 

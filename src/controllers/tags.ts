@@ -5,16 +5,18 @@ import { ModelTAG } from '../models/tags'
 import { ZodError, z } from 'zod'
 import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
 import { IRequestPaginator } from '../utils/Paginator/Paginator'
-import { serviceTags } from '../Repositories/ServiceTags'
-import { Prisma, PrismaClient } from '@prisma/client'
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
+import { serviceTags } from '../Repositories/Tags/ServiceTags'
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export const TAGS = {
+export const ControllerTags = {
 	async listAll(req: IRequestPaginator, resp: Response) {
 		try {
-			const { consulta } = await serviceTags.listarTodas(req.query)
+			const { consulta, erro } = await serviceTags.listarTodas(req.query)
+			if (erro) {
+				return HandleResponse.main(resp, 400, { erro: 'Erro ao listar tags', data: erro })
+			}
 			const validar = await z.array(ModelTAG.zodTag.listar).safeParse(consulta)
 			if (consulta != null && consulta.length < 1) {
 				return HandleResponse.main(resp, 404, { mensagem: 'Nenhum resultado encontrado' },)
@@ -39,7 +41,10 @@ export const TAGS = {
 				const mensagemErro = `Não é possível excluir a tag com ID ${req.params.id} porque há ${qnt} lançamentos associados a ela.`
 				return HandleResponse.main(resp, 400, { erro: mensagemErro },)
 			} else {
-				await serviceTags.deletar(parseInt(req.params.id))
+				const { error } = await serviceTags.deletar(parseInt(req.params.id))
+				if (error) {
+					return HandleResponse.main(resp, 400, { erro: 'Erro ao deletar tag', extras: error },)
+				}
 				return HandleResponse.main(resp, 204)
 			}
 		} catch (error) {
@@ -54,7 +59,8 @@ export const TAGS = {
 			return HandleResponse.main(resp, 200, { data: resultado })
 		} catch (error) {
 			if (error instanceof ZodError) {
-				return HandleResponse.main(resp, 400, { zod: error, extras: error })
+				console.log(error)
+				return HandleResponse.main(resp, 401, { zod: error, extras: error })
 			}
 			return HandleResponse.main(resp, 400, { erro: error })
 		}
@@ -64,7 +70,10 @@ export const TAGS = {
 		const id = parseInt(req.params.id)
 		try {
 			ModelTAG.zodTag.tag.parse(req.body)
-			const { existe } = await serviceTags.verificarSeTagExiste(parseInt(req.params.id))
+			const { existe, erro } = await serviceTags.verificarSeTagExiste(parseInt(req.params.id))
+			if (erro) {
+				return HandleResponse.main(resp, 400, { erro: erro, extras: erro})
+			}
 			if (!existe) {
 				return HandleResponse.main(resp, 400, { erro: 'Tag não existe' },)
 			} else {
@@ -73,7 +82,7 @@ export const TAGS = {
 			}
 		} catch (error) {
 			if (error instanceof ZodError) {
-				return HandleResponse.main(resp, 400, { zod: error })
+				return HandleResponse.main(resp, 400, { zod: error, extras: error })
 			}
 			return HandleResponse.main(resp, 400, { erro: error })
 		}
