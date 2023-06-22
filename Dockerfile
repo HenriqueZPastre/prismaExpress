@@ -5,17 +5,17 @@ FROM node:14-alpine
 WORKDIR /app
 
 # Copy package.json and yarn.lock (if you use yarn) to the working directory
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN npm install --frozen-lockfile
 
 # Copy the rest of the application code to the working directory
 COPY . .
 
 # Build the TypeScript code
-RUN yarn migrate
-RUN yarn build
+RUN npm run migrate
+RUN npm run build
 
 # Expose port 3000
 EXPOSE 3000
