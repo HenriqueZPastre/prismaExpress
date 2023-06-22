@@ -8,7 +8,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm install --frozen-lockfile
+RUN npm install
+#RUN npm install --frozen-lockfile
 
 # Copy the rest of the application code to the working directory
 COPY . .
