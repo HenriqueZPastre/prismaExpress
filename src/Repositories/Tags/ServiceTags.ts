@@ -1,4 +1,3 @@
-import { ErrorGenerico } from '../../utils/HandleResponse/erroGenerico'
 import { Paginator, TodosOsParametrosDoPaginator } from '../../utils/Paginator/Paginator'
 import { ITags, TCriarTag, TEditarTag, TListarTags } from './ITags'
 import { PrismaClient } from '@prisma/client'

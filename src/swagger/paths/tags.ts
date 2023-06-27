@@ -11,9 +11,9 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Lista as tags',
 			parameters: [
-				swaggerutils.Paginator[0],
-				swaggerutils.Paginator[1],
-				swaggerutils.Paginator[2],
+				swaggerutils.Paginator.all,
+				swaggerutils.Paginator.take,
+				swaggerutils.Paginator.page,
 			],
 			responses: {
 				'200': {

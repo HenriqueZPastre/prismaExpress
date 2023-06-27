@@ -10,9 +10,9 @@ export const contas: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Lista as contas',
 			parameters: [
-				swaggerutils.Paginator[0],
-				swaggerutils.Paginator[1],
-				swaggerutils.Paginator[2],
+				swaggerutils.Paginator.page,
+				swaggerutils.Paginator.all,
+				swaggerutils.Paginator.take,
 			],
 			responses: {
 				'200': {

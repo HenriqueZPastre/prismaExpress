@@ -1,16 +1,4 @@
 import { OpenAPIV3 } from 'openapi-types'
-import { TodosOsParametrosDoPaginator } from 'src/utils/Paginator/Paginator'
-
-
-const p: TodosOsParametrosDoPaginator = {
-	page: undefined,
-	all: undefined,
-	take: undefined,
-	order: undefined,
-	coluna: undefined,
-}
-const params = Object.keys(p)
-
 export interface ParametersCustomSwagger {
 	name: OpenAPIV3.ParameterObject['name'],
 	in: OpenAPIV3.ParameterObject['in'],
@@ -18,6 +6,13 @@ export interface ParametersCustomSwagger {
 	schema: OpenAPIV3.ParameterBaseObject['schema'],
 	examples?: OpenAPIV3.ParameterBaseObject['examples'],
 	description?: OpenAPIV3.ParameterBaseObject['description'],
+}
+
+type parametersCustomSwagger = {
+	page: ParametersCustomSwagger,
+	all: ParametersCustomSwagger,
+	take: ParametersCustomSwagger,
+	order: ParametersCustomSwagger,
 }
 
 export const id: ParametersCustomSwagger = {
@@ -30,9 +25,9 @@ export const id: ParametersCustomSwagger = {
 	description: 'Id do registro',
 }
 
-export const Paginator: ParametersCustomSwagger[] = [
-	{
-		name: params[0],
+export const Paginator: parametersCustomSwagger = {
+	page: {
+		name: 'page',
 		in: 'path',
 		required: true,
 		schema: {
@@ -40,24 +35,24 @@ export const Paginator: ParametersCustomSwagger[] = [
 		},
 		description: 'Página atual desejada, se for undefined pega a pagina 1'
 	},
-	{
-		name: params[1],
+	all: {
+		name: 'all',
 		in: 'path',
 		schema: {
 			type: 'boolean'
 		},
 		description: 'Se for true, retorna todos os registros.'
 	},
-	{
-		name: params[2],
+	take: {
+		name: 'take',
 		in: 'path',
 		schema: {
 			type: 'integer'
 		},
 		description: 'Quantidade de registros por página (default 15)'
 	},
-	{
-		name: params[3],
+	order: {
+		name: 'order',
 		in: 'path',
 		schema: {
 			type: 'string'
@@ -71,12 +66,12 @@ export const Paginator: ParametersCustomSwagger[] = [
 		order = desc | asc	
 		`
 	}
-]
+}
 
 export const colunas = (objeto: object): OpenAPIV3.ParameterObject => {
 	const keys = Object.keys(objeto)
 	return {
-		name: params[4],
+		name: 'coluna',
 		in: 'path',
 		schema: {
 			type: 'string',

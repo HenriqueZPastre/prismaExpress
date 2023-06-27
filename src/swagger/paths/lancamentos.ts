@@ -11,10 +11,10 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Lista os lancamentos',
 			parameters: [
-				swaggerutils.Paginator[0],
-				swaggerutils.Paginator[1],
-				swaggerutils.Paginator[2],
-				swaggerutils.Paginator[3],
+				swaggerutils.Paginator.all,
+				swaggerutils.Paginator.order,
+				swaggerutils.Paginator.page,
+				swaggerutils.Paginator.take,
 				swaggerutils.colunas(ModelLancamentos.zodLancamentos.responseCreate.shape)
 			],
 			responses: {
@@ -81,7 +81,7 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 			}
 
 		},
-		put : {
+		put: {
 			tags: [
 				'Lancamentos'
 			],

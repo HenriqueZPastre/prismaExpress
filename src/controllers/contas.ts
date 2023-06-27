@@ -40,9 +40,7 @@ export const CONTAS = {
 		if (all.length < 1) {
 			return HandleResponse.main(res, 404, { mensagem: 'Nenhuma conta encontrada' },)
 		}
-
 		return HandleResponse.main(res, 200, { data: all })
-
 	},
 
 	async createConta(req: ModelContas.CreateContas, res: Response,) {
