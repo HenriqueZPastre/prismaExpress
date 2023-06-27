@@ -10,9 +10,9 @@ export const contas: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Lista as contas',
 			parameters: [
-				swaggerutils.Paginator.page,
-				swaggerutils.Paginator.all,
-				swaggerutils.Paginator.take,
+				swaggerutils.queryParams.page,
+				swaggerutils.queryParams.all,
+				swaggerutils.queryParams.take,
 			],
 			responses: {
 				'200': {
@@ -62,7 +62,7 @@ export const contas: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Busca os dados de uma conta',
 			parameters: [
-				swaggerutils.id
+				swaggerutils.queryParams.id,
 			],
 			responses: {
 				'200': {
@@ -83,7 +83,7 @@ export const contas: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Atualiza os dados da conta indicada',
 			parameters: [
-				swaggerutils.id,
+				swaggerutils.queryParams.id,
 			],
 			requestBody: {
 				content: {
@@ -106,7 +106,7 @@ export const contas: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Soft delete da conta',
 			parameters: [
-				swaggerutils.id,
+				swaggerutils.queryParams.id,
 			],
 			responses: {
 				'204': {

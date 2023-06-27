@@ -11,9 +11,9 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Lista as tags',
 			parameters: [
-				swaggerutils.Paginator.all,
-				swaggerutils.Paginator.take,
-				swaggerutils.Paginator.page,
+				swaggerutils.queryParams.all,
+				swaggerutils.queryParams.take,
+				swaggerutils.queryParams.page,
 			],
 			responses: {
 				'200': {
@@ -63,7 +63,7 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Busca os dados da tag',
 			parameters: [
-				swaggerutils.id
+				swaggerutils.queryParams.id
 			],
 			responses: {
 				'200': {
@@ -84,7 +84,7 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Atualiza os dados da tag',
 			parameters: [
-				swaggerutils.id
+				swaggerutils.queryParams.id
 			],
 			requestBody: {
 				content: {
@@ -107,7 +107,7 @@ export const tags: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Soft delete da tag',
 			parameters: [
-				swaggerutils.id
+				swaggerutils.queryParams.id
 			],
 			responses: {
 				'200': {

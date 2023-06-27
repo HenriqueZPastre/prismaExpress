@@ -11,10 +11,10 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Lista os lancamentos',
 			parameters: [
-				swaggerutils.Paginator.all,
-				swaggerutils.Paginator.order,
-				swaggerutils.Paginator.page,
-				swaggerutils.Paginator.take,
+				swaggerutils.queryParams.all,
+				swaggerutils.queryParams.order,
+				swaggerutils.queryParams.page,
+				swaggerutils.queryParams.take,
 				swaggerutils.colunas(ModelLancamentos.zodLancamentos.responseCreate.shape)
 			],
 			responses: {
@@ -65,7 +65,7 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Busca um lancamento',
 			parameters: [
-				swaggerutils.id
+				swaggerutils.queryParams.id
 			],
 			responses: {
 				'200': {
@@ -87,7 +87,7 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Atualiza um lancamento',
 			parameters: [
-				swaggerutils.id
+				swaggerutils.queryParams.id
 			],
 			requestBody: {
 				content: {
@@ -117,7 +117,7 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 			],
 			summary: 'Deleta um lancamento',
 			parameters: [
-				swaggerutils.id
+				swaggerutils.queryParams.id
 			],
 			responses: {
 				'204': {

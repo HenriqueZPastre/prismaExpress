@@ -13,19 +13,19 @@ type parametersCustomSwagger = {
 	all: ParametersCustomSwagger,
 	take: ParametersCustomSwagger,
 	order: ParametersCustomSwagger,
+	id: ParametersCustomSwagger,
 }
 
-export const id: ParametersCustomSwagger = {
-	name: 'id',
-	in: 'path',
-	required: true,
-	schema: {
-		type: 'integer'
+export const queryParams: parametersCustomSwagger = {
+	id: {
+		name: 'id',
+		in: 'path',
+		required: true,
+		schema: {
+			type: 'integer'
+		},
+		description: 'Id do registro',
 	},
-	description: 'Id do registro',
-}
-
-export const Paginator: parametersCustomSwagger = {
 	page: {
 		name: 'page',
 		in: 'path',
