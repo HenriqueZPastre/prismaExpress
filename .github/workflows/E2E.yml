@@ -3,7 +3,8 @@ on:
   workflow_run:
     workflows:
       - Fly Deploy
-    types: [completed]
+    types:
+      - completed
 jobs:
  cypress-run:
   runs-on: ubuntu-20.04
