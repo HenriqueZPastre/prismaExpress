@@ -1,0 +1,19 @@
+name: E2E in custom container
+on: 
+  push:      
+jobs:
+ cypress-run:
+  runs-on: ubuntu-20.04
+  container:
+   image: cypress/browsers:node-16.18.1-chrome-110.0.5481.96-1-ff-109.0-edge-110.0.1587.41-1
+   options: --user 1001
+  steps:
+   - uses: actions/checkout@v3
+   - uses: cypress-io/github-action@v4
+     with:
+      browser: chrome
+   - uses: actions/checkout@v3
+   - uses: cypress-io/github-action@v4
+     with:
+      browser: edge
+    

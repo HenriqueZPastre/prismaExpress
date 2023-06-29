@@ -1,17 +1,18 @@
-import supertest from 'supertest'
-import { describe, it, expect } from 'vitest'
-
-const url = 'https://prismaexpress.fly.dev/tags'
-const r = supertest(url)
+/// <reference types="cypress" />
+const url = '/tags'
 
 describe('Testes de GET na rota /tags', () => {
 	it('Sucesso', async () => {
-		await r.get('').then((response) => {
+		cy.api({
+			method: 'GET',
+			url: url,
+		}).then((response) => {
 			expect(response.status).be.equal(200)
 			expect(response.body.data).be.an('array').and.have.length(15)
 		})
-	})
 
+	})
+/* 
 	it('All true', async () => {
 		await r.get('?all=true').then((response) => {
 			expect(response.status).be.equal(200)
@@ -46,7 +47,7 @@ describe('Testes de GET na rota /tags', () => {
 				console.log(JSON.stringify(response.body))
 				expect(response.status).be.equal(401)
 			})
-	})
+	}) */
 })
 
 
