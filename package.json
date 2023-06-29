@@ -40,7 +40,7 @@
 	"scripts": {
 		"build": "tsc",
 		"swagger": "ts-node ./src/swagger/main.ts",
-		"cz": "git-cz",
+		"cz": "cz",
 		"lint:fix": "eslint . --ext .ts --fix",
 		"lint": "eslint . --ext .ts",
 		"prisma": "npx prisma studio",
@@ -55,7 +55,7 @@
 	"author": "Henrique <hpastre1@gmail.com>",
 	"config": {
 		"commitizen": {
-			"path": "@commitlint/cz-commitlint"
+			"path": "cz-conventional-changelog"
 		}
 	}
 }
