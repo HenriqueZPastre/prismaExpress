@@ -26,13 +26,11 @@ router.delete('/contas/:id', CONTAS.deleteConta)
 //*********************************\\
 //**** TAGS ***********************\\
 //*********************************\\
-router.get('/tags', ControllerTags.listAll)
-router.post('/tags', ControllerTags.create)
-router.get('/tags/:id', ControllerTags.getById)
+router.get('/tags', ControllerTags.listar)
+router.post('/tags', ControllerTags.criar)
+router.get('/tags/:id', ControllerTags.buscarPorID)
 router.put('/tags/:id', ControllerTags.editar)
 router.delete('/tags/:id', ControllerTags.excluir)
-
-
 
 //*********************************\\
 //**** LANÇAMENTOS ***************\\

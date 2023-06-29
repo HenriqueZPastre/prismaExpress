@@ -11,7 +11,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export const ControllerTags = {
-	async listAll(req: IRequestPaginator, resp: Response) {
+	async listar(req: IRequestPaginator, resp: Response) {
 		try {
 			const { consulta, erro } = await serviceTags.listarTodas(req.query)
 			if (erro) {
@@ -52,7 +52,7 @@ export const ControllerTags = {
 		}
 	},
 
-	async create(req: ModelTAG.Tag, resp: Response) {
+	async criar(req: ModelTAG.Tag, resp: Response) {
 		try {
 			ModelTAG.zodTag.tag.parse(req.body)
 			const { resultado } = await serviceTags.criar(req.body)
@@ -88,7 +88,7 @@ export const ControllerTags = {
 		}
 	},
 
-	async getById(req: ParametroID.RequestParametroID, resp: Response) {
+	async buscarPorID(req: ParametroID.RequestParametroID, resp: Response) {
 		try {
 			const { resultado } = await serviceTags.buscarPorId(parseInt(req.params.id))
 			if (!resultado) {
