@@ -5,6 +5,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@anatine/zod-openapi": "^1.12.1",
+		"@bahmutov/cy-api": "^2.2.5",
 		"@commitlint/cli": "^17.6.6",
 		"@commitlint/config-conventional": "^17.6.6",
 		"@commitlint/cz-commitlint": "^17.5.0",
