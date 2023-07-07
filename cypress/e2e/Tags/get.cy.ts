@@ -1,11 +1,13 @@
 /// <reference types="cypress" />
-const url = '/tags'
+
+import { ROTAS } from '../rotas'
+
 
 describe('Testes de GET na rota /tags', () => {
-	it('Sucesso', () => {
+	it('Nome da coluna não existe', () => {
 		cy.api({
 			method: 'GET',
-			url: url + '?coluna=nomes',
+			url: ROTAS.tags + '?coluna=nomes',
 			failOnStatusCode: false,
 		}).then((response) => {
 			expect(response.status).be.equal(400)
@@ -16,7 +18,7 @@ describe('Testes de GET na rota /tags', () => {
 	it('All true', () => {
 		cy.api({
 			method: 'GET',
-			url: url + '?all=true',
+			url: ROTAS.tags + '?all=true',
 			failOnStatusCode: false,
 		}).then((response) => {
 			expect(response.status).be.equal(200)
@@ -25,11 +27,11 @@ describe('Testes de GET na rota /tags', () => {
 		})
 	})
 
-	it('Take falha se all=true', () => {
+	it('Take é ignorado se all=true', () => {
 		const take = 2
 		cy.api({
 			method: 'GET',
-			url: url + '?all=true&take=' + take,
+			url: ROTAS.tags + '?all=true&take=' + take,
 			failOnStatusCode: false,
 		}).then((response) => {
 			expect(response.status).be.equal(200)
@@ -42,24 +44,12 @@ describe('Testes de GET na rota /tags', () => {
 		const take = 2
 		cy.api({
 			method: 'GET',
-			url: url + '?take=' + take,
+			url: ROTAS.tags + '?take=' + take,
 			failOnStatusCode: false,
 		}).then((response) => {
 			expect(response.status).be.equal(200)
 			expect(response.body.data).be.an('array')
 			expect(response.body.data.length).eq(take)
-		})
-	})
-
-	it('stars', () => {
-		cy.api({
-			method: 'POST',
-			url: url,
-			failOnStatusCode: false,
-			body: { 'nome': 'teste' }
-		}).then((response) => {
-			console.log(JSON.stringify(response.body))
-			expect(response.status).be.equal(200)
 		})
 	})
 })
