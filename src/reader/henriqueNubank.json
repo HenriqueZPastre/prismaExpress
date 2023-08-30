@@ -1,0 +1,294 @@
+{
+  "OFX": {
+    "SIGNONMSGSRSV1": [
+      {
+        "SONRS": [
+          {
+            "STATUS": [
+              {
+                "CODE": [
+                  "0"
+                ],
+                "SEVERITY": [
+                  "INFO"
+                ]
+              }
+            ],
+            "DTSERVER": [
+              "20230814113822[0:GMT]"
+            ],
+            "LANGUAGE": [
+              "POR"
+            ],
+            "FI": [
+              {
+                "ORG": [
+                  "NU PAGAMENTOS S.A."
+                ],
+                "FID": [
+                  "260"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "BANKMSGSRSV1": [
+      {
+        "STMTTRNRS": [
+          {
+            "TRNUID": [
+              "1"
+            ],
+            "STATUS": [
+              {
+                "CODE": [
+                  "0"
+                ],
+                "SEVERITY": [
+                  "INFO"
+                ]
+              }
+            ],
+            "STMTRS": [
+              {
+                "CURDEF": [
+                  "BRL"
+                ],
+                "BANKACCTFROM": [
+                  {
+                    "BANKID": [
+                      "0260"
+                    ],
+                    "BRANCHID": [
+                      "1"
+                    ],
+                    "ACCTID": [
+                      "18192990-1"
+                    ],
+                    "ACCTTYPE": [
+                      "CHECKING"
+                    ]
+                  }
+                ],
+                "BANKTRANLIST": [
+                  {
+                    "DTSTART": [
+                      "20230701000000[-3:BRT]"
+                    ],
+                    "DTEND": [
+                      "20230731000000[-3:BRT]"
+                    ],
+                    "STMTTRN": [
+                      {
+                        "TRNTYPE": [
+                          "CREDIT"
+                        ],
+                        "DTPOSTED": [
+                          "20230706000000[-3:BRT]"
+                        ],
+                        "TRNAMT": [
+                          "603.00"
+                        ],
+                        "FITID": [
+                          "64a76724-8a05-4847-ad1a-18b377284200"
+                        ],
+                        "MEMO": [
+                          "Transferência recebida pelo Pix - Henrique Zamuner Pastre - •••.253.200-•• - COOP SICREDI ALIANÇA RS/SC Agência: 226 Conta: 8276-9"
+                        ]
+                      },
+                      {
+                        "TRNTYPE": [
+                          "DEBIT"
+                        ],
+                        "DTPOSTED": [
+                          "20230706000000[-3:BRT]"
+                        ],
+                        "TRNAMT": [
+                          "-602.39"
+                        ],
+                        "FITID": [
+                          "64a7674d-4328-4905-988b-575827d45edd"
+                        ],
+                        "MEMO": [
+                          "Pagamento de fatura"
+                        ]
+                      },
+                      {
+                        "TRNTYPE": [
+                          "CREDIT"
+                        ],
+                        "DTPOSTED": [
+                          "20230706000000[-3:BRT]"
+                        ],
+                        "TRNAMT": [
+                          "225.00"
+                        ],
+                        "FITID": [
+                          "64a767de-db38-42bb-aef7-e8f9f1db2838"
+                        ],
+                        "MEMO": [
+                          "Transferência recebida pelo Pix - Henrique Zamuner Pastre - •••.253.200-•• - COOP SICREDI ALIANÇA RS/SC Agência: 226 Conta: 8276-9"
+                        ]
+                      },
+                      {
+                        "TRNTYPE": [
+                          "DEBIT"
+                        ],
+                        "DTPOSTED": [
+                          "20230706000000[-3:BRT]"
+                        ],
+                        "TRNAMT": [
+                          "-223.35"
+                        ],
+                        "FITID": [
+                          "64a767f9-3eec-4ede-b510-c0f27a94c87f"
+                        ],
+                        "MEMO": [
+                          "Pagamento de fatura"
+                        ]
+                      },
+                      {
+                        "TRNTYPE": [
+                          "CREDIT"
+                        ],
+                        "DTPOSTED": [
+                          "20230706000000[-3:BRT]"
+                        ],
+                        "TRNAMT": [
+                          "350.00"
+                        ],
+                        "FITID": [
+                          "64a771d7-59f6-422d-b78a-05a02bdda242"
+                        ],
+                        "MEMO": [
+                          "Transferência recebida pelo Pix - Henrique Zamuner Pastre - •••.253.200-•• - COOP SICREDI ALIANÇA RS/SC Agência: 226 Conta: 8276-9"
+                        ]
+                      },
+                      {
+                        "TRNTYPE": [
+                          "DEBIT"
+                        ],
+                        "DTPOSTED": [
+                          "20230706000000[-3:BRT]"
+                        ],
+                        "TRNAMT": [
+                          "-351.67"
+                        ],
+                        "FITID": [
+                          "64a771ed-2663-4ae6-a198-5e60262aa312"
+                        ],
+                        "MEMO": [
+                          "Pagamento de fatura"
+                        ]
+                      },
+                      {
+                        "TRNTYPE": [
+                          "CREDIT"
+                        ],
+                        "DTPOSTED": [
+                          "20230706000000[-3:BRT]"
+                        ],
+                        "TRNAMT": [
+                          "608.00"
+                        ],
+                        "FITID": [
+                          "64a77857-c0e2-4713-a789-d65bb4687c26"
+                        ],
+                        "MEMO": [
+                          "Transferência recebida pelo Pix - Henrique Zamuner Pastre - •••.253.200-•• - COOP SICREDI ALIANÇA RS/SC Agência: 226 Conta: 8276-9"
+                        ]
+                      },
+                      {
+                        "TRNTYPE": [
+                          "DEBIT"
+                        ],
+                        "DTPOSTED": [
+                          "20230706000000[-3:BRT]"
+                        ],
+                        "TRNAMT": [
+                          "-608.70"
+                        ],
+                        "FITID": [
+                          "64a77873-2990-4e95-9371-898121797d96"
+                        ],
+                        "MEMO": [
+                          "Pagamento de fatura"
+                        ]
+                      },
+                      {
+                        "TRNTYPE": [
+                          "CREDIT"
+                        ],
+                        "DTPOSTED": [
+                          "20230715000000[-3:BRT]"
+                        ],
+                        "TRNAMT": [
+                          "30.00"
+                        ],
+                        "FITID": [
+                          "64b2d82f-a74f-4815-ace0-0c6fd3ba9926"
+                        ],
+                        "MEMO": [
+                          "Transferência recebida pelo Pix - Henrique Zamuner Pastre - •••.253.200-•• - COOP SICREDI ALIANÇA RS/SC Agência: 226 Conta: 8276-9"
+                        ]
+                      },
+                      {
+                        "TRNTYPE": [
+                          "DEBIT"
+                        ],
+                        "DTPOSTED": [
+                          "20230715000000[-3:BRT]"
+                        ],
+                        "TRNAMT": [
+                          "-29.99"
+                        ],
+                        "FITID": [
+                          "64b2d844-c683-4411-ac49-ed47e8672f3d"
+                        ],
+                        "MEMO": [
+                          "Pagamento de fatura"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "LEDGERBAL": [
+                  {
+                    "BALAMT": [
+                      "1.94"
+                    ],
+                    "DTASOF": [
+                      "20230731000000[-3:BRT]"
+                    ]
+                  }
+                ],
+                "BALLIST": [
+                  {
+                    "BAL": [
+                      {
+                        "NAME": [
+                          "RENDIMENTO LIQUIDO"
+                        ],
+                        "DESC": [
+                          "RENDIMENTO LIQUIDO NO PERIODO"
+                        ],
+                        "BALTYPE": [
+                          "NUMBER"
+                        ],
+                        "VALUE": [
+                          "0.00"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
