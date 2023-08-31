@@ -7,11 +7,19 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerJson from './testeSwagger.json'
 import { controllerValores } from './src/controllers/valores'
 import { authSwagger } from './src/utils/authSwagger'
+import { Bancos } from './src/controllers/bancos'
 
 const router: Router = Router()
 export { router }
 
 router.use('/api-docs', authSwagger, swaggerUi.serve, swaggerUi.setup(swaggerJson))
+
+//*********************************\\
+//**** BANCOS ***********\\
+//*********************************\\
+
+router.get('/bancos', Bancos.listarBancos)
+router.post('/bancos', Bancos.cadastrarBancos)
 
 //*********************************\\
 //**** CONTAS BANCÁRIAS ***********\\

@@ -45,9 +45,10 @@ export const CONTAS = {
 
 	async createConta(req: ModelContas.CreateContas, res: Response,) {
 		try {
-			const { nome, saldoInicial, saldoAtual } = ModelContas.zodContas.create.parse(req.body)
+			const { nome, saldoInicial, saldoAtual, codigoBanco } = ModelContas.zodContas.create.parse(req.body)
 			const create = await prisma.contas.create({
 				data: {
+					codigoBanco: codigoBanco,
 					nome: nome,
 					saldoInicial: saldoInicial || 0,
 					saldoAtual: saldoAtual || 0

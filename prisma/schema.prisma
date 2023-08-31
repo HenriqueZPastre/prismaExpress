@@ -10,10 +10,20 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Bancos {
+    id          Int       @id
+    create_at   DateTime  @default(now())
+    deletede_at DateTime?
+    nome        String
+    Contas      Contas[]
+}
+
 model Contas {
     id           Int           @id @default(autoincrement())
     create_at    DateTime      @default(now())
     deletede_at  DateTime?
+    codigoBanco  Int
+    Bancos       Bancos        @relation(fields: [codigoBanco], references: [id])
     nome         String
     saldoInicial Float
     saldoAtual   Float
