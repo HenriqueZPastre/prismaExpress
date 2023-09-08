@@ -1,16 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "CommonJS",
-    "allowJs": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "allowJs": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "outDir": "./dist",
     "baseUrl": "./",
-    "resolveJsonModule": true
+    "alwaysStrict": true,
+    "importHelpers": true,
+    "noImplicitReturns": true,
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["./**/*.ts"]
 }

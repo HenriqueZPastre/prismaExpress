@@ -4,3 +4,5 @@ dist
 mochawesome-report
 results
 sicredi.ofx
+src/reader/**.json
+src/reader/**.ofx

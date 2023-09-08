@@ -53,11 +53,20 @@ export interface BANKTRANLIST {
 }
 export interface STMTTRN {
 	TRNTYPE: string[]
-	DTPOSTED: string[] | Date[]
+	DTPOSTED: any
 	TRNAMT: string[]
 	FITID: string[]
 	REFNUM: string[]
 	MEMO: string[]
+}
+
+export interface STMTTRNObject {
+	TRNTYPE: string
+	DTPOSTED: string | Date | undefined
+	TRNAMT: string
+	FITID: string
+	REFNUM: string
+	MEMO: string
 }
 
 export interface TRANSACOES {
