@@ -4,6 +4,18 @@ import { ParametroID } from '../utils/parametroID'
 import { extendApi, generateSchema } from '@anatine/zod-openapi'
 
 export const zodLancamentos = {
+
+	prisma: z.object({
+		id: z.number().int(),
+		descricao: z.string(),
+		valor: z.number(),
+		dataVencimento: z.date(),
+		dataPagamento: z.date().nullable(),
+		tipo: z.number().int().describe('0 = entrada <br> 1 = saida'),
+		situacao: z.number().int(),
+		contasId: z.number().int(),
+	}),
+
 	create: z.object({
 		descricao: z.string().trim().min(2).max(60),
 		valor: z.number().min(1),
@@ -11,7 +23,7 @@ export const zodLancamentos = {
 			description: 'Formato da data: dataUTC'
 		}),
 		contasId: z.number().int(),
-		dataPagamento:  (z.date() || z.string()).optional(),
+		dataPagamento: (z.date() || z.string()).optional(),
 		//0 é entrada, 1 é saida
 		tipo: extendApi(z.union([z.literal(0), z.literal(1)]), {
 			description: `0 = entrada <br>
@@ -47,7 +59,7 @@ export const zodLancamentos = {
 		descricao: z.string(),
 		valor: z.number(),
 		dataVencimento: z.date() || z.string(),
-		dataPagamento: extendApi( (z.date() || z.string()).optional(), {
+		dataPagamento: extendApi((z.date() || z.string()).optional(), {
 			description: 'Se não exister dados, o valor será null'
 		}),
 		tipo: extendApi(z.union([z.literal(0), z.literal(1)]), {
