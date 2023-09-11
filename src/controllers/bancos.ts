@@ -10,7 +10,7 @@ export const Bancos = {
 		try {
 			await Promise.all(req.body.bancos.map(async (banco) => {
 
-				const t = parseInt(banco.codigo)
+				const t = parseInt(banco.id)
 				const existe = await prisma.bancos.findUnique({
 					where: {
 						id: t

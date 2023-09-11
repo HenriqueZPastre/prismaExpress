@@ -16,6 +16,15 @@ const leitorOFX = async (caminhoDoArquivo: string): Promise<OFX | undefined> => 
 
 		const conteudoOfx = conteudoDoArquivo.slice(inicioTagOfx) // Extrai o conteúdo a partir do índice encontrado
 
+		const parser = new xml2js.Parser()
+		parser.parseString(conteudoOfx, (err, result) => {
+			if (err) {
+				console.log(err)
+				return
+			}
+			fs.writeFileSync('./src/reader/resultadssssssssso.json', JSON.stringify(result, null, 2))
+		})
+
 		return new Promise((resolve) => {
 			xml2js.parseString(conteudoOfx, (err, result) => {
 				if (err) {

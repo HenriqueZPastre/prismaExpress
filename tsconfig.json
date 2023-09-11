@@ -1,21 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "allowJs": false,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "skipLibCheck": false,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "alwaysStrict": true,
-    "importHelpers": true,
-    "noImplicitReturns": true,
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-  "include": ["./**/*.ts"]
-}
+	"compilerOptions": {
+	  "target": "es2016",
+	  "module": "CommonJS",
+	  "allowJs": true,
+	  "esModuleInterop": true,
+	  "forceConsistentCasingInFileNames": true,
+	  "strict": true,
+	  "noImplicitAny": true,
+	  "skipLibCheck": true,
+	  "outDir": "./dist",
+	  "baseUrl": "./",
+	  "resolveJsonModule": true
+	},
+	"include": ["./**/*.ts"]
+  }
+  
