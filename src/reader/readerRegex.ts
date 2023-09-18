@@ -11,11 +11,11 @@ interface Transaction {
 }
 
 interface Bank {
-	id: string
-	nome: string
-	numeroConta: string
-	dataInicial: string | null
-	dataFinal: string | null
+	id?: string | null
+	nome?: string | null
+	numeroConta?: string | null
+	dataInicial?: string | null
+	dataFinal?: string | null
 }
 
 const removeTags = (linha: string, tag: string) => {
@@ -29,24 +29,19 @@ const ReaderOfx = (ofxPath: string) => {
 	const indexOfx = leitura.indexOf('<OFX>')
 	const removeCabecalho = leitura.slice(indexOfx)
 	const split = removeCabecalho.split('\n')
-	const bank: Bank = {
-		id: '',
-		nome: '',
-		numeroConta: '',
-		dataInicial: null,
-		dataFinal: null
-	}
+
+	const banco: Bank = {}
 
 	const dados: Transaction[] = []
 
-	
+	let transacao: Transaction = {}
+
 	split.forEach((linha) => {
-		const transacao: Transaction = {}
-		linha.includes('<BANKID>') ? bank.id = removeTags(linha, 'BANKID').trim() : null
-		linha.includes('<ACCTID>') ? bank.numeroConta = removeTags(linha, 'ACCTID').trim() : null
-		linha.includes('<ORG>') ? bank.nome = removeTags(linha, 'ORG').trim() : null
-		linha.includes('<DTSTART>') ? bank.dataInicial = parseDataOFXtoDate(removeTags(linha, 'DTSTART').trim()) : null
-		linha.includes('<DTEND>') ? bank.dataFinal = parseDataOFXtoDate(removeTags(linha, 'DTEND').trim()) : null
+		linha.includes('<BANKID>') ? banco.id = removeTags(linha, 'BANKID').trim() : null
+		linha.includes('<ACCTID>') ? banco.numeroConta = removeTags(linha, 'ACCTID').trim() : null
+		linha.includes('<ORG>') ? banco.nome = removeTags(linha, 'ORG').trim() : null
+		linha.includes('<DTSTART>') ? banco.dataInicial = parseDataOFXtoDate(removeTags(linha, 'DTSTART').trim()) : null
+		linha.includes('<DTEND>') ? banco.dataFinal = parseDataOFXtoDate(removeTags(linha, 'DTEND').trim()) : null
 
 		linha.includes('<TRNTYPE>') ? transacao.type = removeTags(linha, 'TRNTYPE').trim() : null
 		linha.includes('<DTPOSTED>') ? transacao.date = parseDataOFXtoDate(removeTags(linha, 'DTPOSTED').trim()) : null
@@ -55,19 +50,17 @@ const ReaderOfx = (ofxPath: string) => {
 		linha.includes('<MEMO>') ? transacao.memo = removeTags(linha, 'MEMO').trim() : null
 
 		if (linha.includes('</STMTTRN>')) {
-			//console.log(transacao)
+			/////console.log(transacao)
 			dados.push(transacao)
+			transacao = {}
 		}
 	})
-
-	return { bank, dados }
-
-
+	return { banco, dados }
 }
 
-const { bank, dados } = ReaderOfx('./src/reader/henriqueNubank.ofx')
+const { banco, dados } = ReaderOfx('./src/reader/henriqueNubank.ofx')
 
-console.log(bank)
+console.log(banco)
 console.log(dados)
 
 
