@@ -1,34 +1,20 @@
-//const joinedContent = split.join('\n')
-
-//fs.writeFileSync('./src/reader/test.txt',joinedContent, 'utf-8')
-
-//REMOVE AS TAGS
-/* split.forEach((line) => {
-	if (line.includes('<FITID>')) {
-		const t = line.replace(/<\/?FITID>/g,'')
-		console.log(t)
-	}
-})  */
-import { log } from 'console'
 import fs from 'fs'
+import { parseDataOFXtoDate } from './utils'
 
 const t = fs.readFileSync('./src/reader/henriqueNubank.ofx', 'utf-8')
 const index = t.indexOf('<OFX>')
 const slice = t.slice(index)
 const split = slice.split('\n')
 
-const regex = /<STMTTRN>/g
-
-
 interface Transaction {
-	type: any
-	date: any
-	amount: any
-	id: any
-	memo: any
+	type: string
+	date: string | null
+	amount: string
+	id: string
+	memo: string
 }
 let dat = false
-const dale: Transaction[] = []
+const dados: Transaction[] = []
 
 
 const transacao: Transaction = {
@@ -38,25 +24,55 @@ const transacao: Transaction = {
 	id: '',
 	memo: ''
 }
+
+interface Bank {
+	id: string
+	nome: string
+	numeroConta: string
+	dataInicial: string | null
+	dataFinal: string | null
+
+}
+
+const bank: Bank = {
+	id: '',
+	nome: '',
+	numeroConta: '',
+	dataInicial: '',
+	dataFinal: ''
+}
+
+const removeTags = (line: string, tag: string) => {
+	const regex = new RegExp(`<\\/?${tag}>`, 'g')
+	return line.replace(regex, '')
+}
+
 split.forEach((line) => {
+
+	line.includes('<BANKID>') ? bank.id = removeTags(line, 'BANKID').trim() : null
+	line.includes('<ACCTID>') ? bank.numeroConta = removeTags(line, 'ACCTID').trim() : null
+	line.includes('<ORG>') ? bank.nome = removeTags(line, 'ORG').trim() : null
+	line.includes('<DTSTART>') ? bank.dataInicial = parseDataOFXtoDate(removeTags(line, 'DTSTART').trim()) : null
+	line.includes('<DTEND>') ? bank.dataFinal = parseDataOFXtoDate(removeTags(line, 'DTEND').trim()) : null
+
 	if (line.includes('<STMTTRN>')) {
 		dat = true
 	}
 	if (dat) {
-		line.includes('<TRNTYPE>') ? transacao.type = line.replace(/<\/?TRNTYPE>/g, '') : null
-		line.includes('<DTPOSTED>') ? transacao.date = line.replace(/<\/?DTPOSTED>/g, '') : null
-		line.includes('<TRNAMT>') ? transacao.amount = line.replace(/<\/?TRNAMT>/g, '') : null
-		line.includes('<FITID>') ? transacao.id = line.replace(/<\/?FITID>/g, '') : null
-		line.includes('<MEMO>') ? transacao.memo = line.replace(/<\/?MEMO>/g, '') : null
+		line.includes('<TRNTYPE>') ? transacao.type = removeTags(line, 'TRNTYPE').trim() : null
+		line.includes('<DTPOSTED>') ? transacao.date = parseDataOFXtoDate(removeTags(line, 'DTPOSTED').trim()) : null
+		line.includes('<TRNAMT>') ? transacao.amount = removeTags(line, 'TRNAMT').trim() : null
+		line.includes('<FITID>') ? transacao.id = removeTags(line, 'FITID').trim() : null
+		line.includes('<MEMO>') ? transacao.memo = removeTags(line, 'MEMO').trim() : null
 	}
 	if (line.includes('</STMTTRN>')) {
-		dale.push(transacao)
-	
+		dados.push(transacao)
+
 		dat = false
 	}
 })
-
-console.log(dale)
-console.log(dale.length)
+console.log(bank)
+console.log(dados)
+console.log(dados.length)
 
 
