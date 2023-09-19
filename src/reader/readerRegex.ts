@@ -2,7 +2,7 @@ import fs from 'fs'
 import { parseDataOFXtoDate } from './utils'
 
 
-interface Transaction {
+interface Tansacoes {
 	type?: string | null
 	date?: string | null
 	amount?: string | null
@@ -10,7 +10,7 @@ interface Transaction {
 	memo?: string | null
 }
 
-interface Bank {
+interface DadosDoBanco {
 	id?: string | null
 	nome?: string | null
 	numeroConta?: string | null
@@ -30,11 +30,11 @@ const ReaderOfx = (ofxPath: string) => {
 	const removeCabecalho = leitura.slice(indexOfx)
 	const split = removeCabecalho.split('\n')
 
-	const banco: Bank = {}
+	const banco: DadosDoBanco = {}
 
-	const dados: Transaction[] = []
+	const transacoes: Tansacoes[] = []
 
-	let transacao: Transaction = {}
+	let transacao: Tansacoes = {}
 
 	split.forEach((linha) => {
 		linha.includes('<BANKID>') ? banco.id = removeTags(linha, 'BANKID').trim() : null
@@ -50,17 +50,17 @@ const ReaderOfx = (ofxPath: string) => {
 		linha.includes('<MEMO>') ? transacao.memo = removeTags(linha, 'MEMO').trim() : null
 
 		if (linha.includes('</STMTTRN>')) {
-			/////console.log(transacao)
-			dados.push(transacao)
+			//console.log(transacao)
+			transacoes.push(transacao)
 			transacao = {}
 		}
 	})
-	return { banco, dados }
+	return { banco, transacoes }
 }
 
-const { banco, dados } = ReaderOfx('./src/reader/henriqueNubank.ofx')
+const { banco, transacoes } = ReaderOfx('./src/reader/pai.ofx')
 
 console.log(banco)
-console.log(dados)
+console.log(transacoes)
 
 

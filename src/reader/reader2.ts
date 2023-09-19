@@ -53,7 +53,7 @@ const tratarDados = async (caminhoDoArquivo: string) => {
 			dataFinal: b.BANKMSGSRSV1[0].STMTTRNRS[0].STMTRS[0].BANKTRANLIST[0].DTEND[0].trim()
 		}
 
-		const t: STMTTRNObject[]  = []
+		const t: STMTTRNObject[] = []
 		b.BANKMSGSRSV1[0].STMTTRNRS[0].STMTRS[0].BANKTRANLIST[0].STMTTRN.forEach((element) => {
 
 			const objeto: STMTTRNObject = {
