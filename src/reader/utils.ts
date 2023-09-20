@@ -24,3 +24,8 @@ export const parseDataOFXtoDate = (data: string) => {
 
 }
 
+
+export const removeTags = (linha: string, tag: string) => {
+	const regex = new RegExp(`<\\/?${tag}>`, 'g')
+	return linha.replace(regex, '')
+}
