@@ -7,6 +7,7 @@ const prisma = new PrismaClient()
 
 export const Bancos = {
 	async cadastrarBancos(req: CreateBancos, res: Response) {
+		
 		try {
 			await Promise.all(req.body.bancos.map(async (banco) => {
 

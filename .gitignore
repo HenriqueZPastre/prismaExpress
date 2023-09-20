@@ -6,3 +6,4 @@ results
 sicredi.ofx
 src/reader/**.json
 src/reader/**.ofx
+src/reader/ofxs/**.ofx

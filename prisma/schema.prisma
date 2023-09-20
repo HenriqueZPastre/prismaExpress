@@ -20,15 +20,16 @@ model Bancos {
 }
 
 model Contas {
-    id           Int           @id @default(autoincrement())
-    create_at    DateTime      @default(now())
-    deletede_at  DateTime?
-    codigoBanco  Int
-    Bancos       Bancos        @relation(fields: [codigoBanco], references: [id])
-    nome         String
-    saldoInicial Float
-    saldoAtual   Float
-    Lancamentos  Lancamentos[]
+    id                  Int                   @id @default(autoincrement())
+    create_at           DateTime              @default(now())
+    deletede_at         DateTime?
+    codigoBanco         Int
+    nome                String
+    saldoInicial        Float
+    saldoAtual          Float
+    Lancamentos         Lancamentos[]
+    ConciliacaoBancaria ConciliacaoBancaria[]
+    Bancos              Bancos                @relation(fields: [codigoBanco], references: [id])
 }
 
 model Lancamentos {
@@ -45,6 +46,21 @@ model Lancamentos {
     situacao         Int                @default(0)
     contas           Contas             @relation(fields: [contasId], references: [id])
     lancamentos_tags lancamentos_tags[]
+}
+
+model ConciliacaoBancaria {
+    id               Int       @id @default(autoincrement())
+    create_at        DateTime  @default(now())
+    deletede_at      DateTime?
+    update_at        DateTime? @updatedAt
+    fitID            String
+    tipoOperacao     Int
+    data             DateTime
+    valor            Float
+    descricao        String
+    especieTransacao String
+    contasId         Int
+    contas           Contas    @relation(fields: [contasId], references: [id])
 }
 
 model Tags {
