@@ -118,7 +118,7 @@ const VerificarExistenciaDaConta = async (banco: typeDadosDoBanco): Promise<resp
 	}
 }
 
-const findFitid = async (transacao: typeTransacao) => {
+const existeFitId = async (transacao: typeTransacao) => {
 	const existe = await prisma.conciliacaoBancaria.findFirst({
 		select: {
 			id: true,
@@ -147,17 +147,18 @@ const criarlancamentoConcialiacao = async (transacao: typeTransacao, banco: resp
 	console.log(criar)
 }
 
-const start = async () => {
-	const { dadosBanco, transacoes } = ReaderOfx('./src/reader/ofx/sicredi.ofx')
-	//console.log(dadosBanco)
-	//console.log(transacoes)
+const start = async (pathFile:string) => {
+	const { dadosBanco, transacoes } = ReaderOfx(pathFile)
 	const banco = await VerificarExistenciaDaConta(dadosBanco)
-	const existeFit = await findFitid(transacoes[3])
-	if (!existeFit) {
-		await criarlancamentoConcialiacao(transacoes[3], banco)
-	} else {
-		console.log('existe')
-	}
+	console.log(transacoes.length)
+	transacoes.forEach(async (transacao) => {
+		const existeFit = await existeFitId(transacao)
+		if (!existeFit) {
+			await criarlancamentoConcialiacao(transacao, banco)
+		} else {
+			console.log('existe')
+		}
+	})
 }
 
-start()
+start('./src/reader/ofx/sicredi.ofx')
