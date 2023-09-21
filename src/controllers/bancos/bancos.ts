@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import { CreateBancos, listarBancos, ProcurarBancos } from '../models/bancos'
-import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
+import { CreateBancos, listarBancos, ProcurarBancos } from '../../models/bancos'
+import { HandleResponse } from '../../utils/HandleResponse/HandleResponse'
 import { Response } from 'express'
 
 const prisma = new PrismaClient()

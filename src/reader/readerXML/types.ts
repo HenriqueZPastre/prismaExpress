@@ -53,7 +53,7 @@ export interface BANKTRANLIST {
 }
 export interface STMTTRN {
 	TRNTYPE: string[]
-	DTPOSTED: any
+	DTPOSTED: string[]
 	TRNAMT: string[]
 	FITID: string[]
 	REFNUM: string[]

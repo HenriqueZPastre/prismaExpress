@@ -1,7 +1,7 @@
 import fs from 'fs'
 import xml2js from 'xml2js'
 import { DADOS_GERAIS, OFX, STMTTRNObject, } from './types'
-import { parseDataOFXtoDate } from './utils'
+import { parseDataOFXtoDate } from '../utils'
 
 const caminhoDoArquivo = './src/reader/sicredi.ofx'
 
@@ -52,13 +52,14 @@ const tratarDados = async (caminhoDoArquivo: string) => {
 			dataInicial: parseDataOFXtoDate(b.BANKMSGSRSV1[0].STMTTRNRS[0].STMTRS[0].BANKTRANLIST[0].DTSTART[0])?.trim(),
 			dataFinal: b.BANKMSGSRSV1[0].STMTTRNRS[0].STMTRS[0].BANKTRANLIST[0].DTEND[0].trim()
 		}
+		console.log(dadosGerais)
 
 		const t: STMTTRNObject[] = []
 		b.BANKMSGSRSV1[0].STMTTRNRS[0].STMTRS[0].BANKTRANLIST[0].STMTTRN.forEach((element) => {
 
 			const objeto: STMTTRNObject = {
 				TRNTYPE: element.TRNTYPE[0],
-				DTPOSTED: parseDataOFXtoDate(element.DTPOSTED[0]),
+				DTPOSTED: parseDataOFXtoDate(element.DTPOSTED[0]) || undefined,
 				TRNAMT: element.TRNAMT[0],
 				FITID: element.FITID[0],
 				REFNUM: element.REFNUM[0],

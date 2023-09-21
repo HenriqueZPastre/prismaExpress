@@ -7,7 +7,7 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerJson from './testeSwagger.json'
 import { controllerValores } from './src/controllers/valores'
 import { authSwagger } from './src/utils/authSwagger'
-import { Bancos } from './src/controllers/bancos'
+import { Bancos } from './src/controllers/bancos/bancos'
 
 const router: Router = Router()
 export { router }

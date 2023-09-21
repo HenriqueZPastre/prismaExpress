@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError } from 'axios'
 
 
 
@@ -12,12 +12,16 @@ import axios, { AxiosError } from "axios";
 		}
 	}) */
 
-const t = axios.post('https://api-beta-staging.agronota.com.br/auth/login', {
-		"email": "rabbit@uorak.com",
-		"password": "a123456"
+const t = () => {
+	axios.post('https://api-beta-staging.agronota.com.br/auth/login', {
+		'email': 'rabbit@uorak.com',
+		'password': 'a123456'
 	}
-).then((response) => { console.log(response.data) }).catch((error) => {
-	if (error instanceof AxiosError) {
-		console.log(error)
-	}
-})
+	).then((response) => { console.log(response.data) }).catch((error) => {
+		if (error instanceof AxiosError) {
+			console.log(error)
+		}
+	})
+}
+t()
+

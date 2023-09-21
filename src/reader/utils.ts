@@ -5,8 +5,10 @@ export const parseDataOFXtoDate = (data: string) => {
 		console.error('Erro ao converter data')
 		return null
 	}
-
-	const [_stringNormal, ano, mes, dia, hora, minuto, segundo, timeZoneOffset] = regex
+	//_stringNormal é o dado inicial
+	// timeZoneOffset é ignorado no momento  
+	//const [_stringNormal, ano, mes, dia, hora, minuto, segundo, timeZoneOffset] = regex
+	const [, ano, mes, dia, hora, minuto, segundo,] = regex
 	const date = new Date(
 		Date.UTC(
 			parseInt(ano, 10),
@@ -20,10 +22,7 @@ export const parseDataOFXtoDate = (data: string) => {
 	//ignorar por enquanto o timezone
 	//	date.setTime(date.getTime() - parseInt(timeZoneOffset, 10) * 60 * 60 * 1000)
 	return date.toISOString()
-
-
 }
-
 
 export const removeTags = (linha: string, tag: string) => {
 	const regex = new RegExp(`<\\/?${tag}>`, 'g')
