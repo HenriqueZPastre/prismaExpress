@@ -1,7 +1,5 @@
 # Base image
-FROM alpine:3.18
-
-ENV NODE_VERSION 18.18.0
+FROM node:18-alpine
 
 # Define working directory
 WORKDIR /app
