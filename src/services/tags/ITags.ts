@@ -10,6 +10,7 @@ export type TEditarTag = TListarTags
 
 export interface ITags {
 	listarTodas(params: TodosOsParametrosDoPaginator): Promise<{ consulta: TListarTags[] | null, erro: unknown }>
+	
 	deletar(id: number): Promise<{ error: unknown }>
 	criar(params: Tag): Promise<{ resultado: TListarTags | null, erro: unknown }>
 	editar(params: TEditarTag): Promise<{ resultado: TListarTags | null, erro: unknown }>

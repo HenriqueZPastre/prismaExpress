@@ -15,6 +15,5 @@ export function authSwagger(req: Request, res: Response, next: NextFunction) {
 		res.sendStatus(401)
 		return
 	}
-
 	next()
 }

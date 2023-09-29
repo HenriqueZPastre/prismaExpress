@@ -1,19 +1,23 @@
-
+/**
+ *@enum OrdenarConsulta  desc | asc | undefined | string
+ */
 type OrdenarConsulta = 'desc' | 'asc' | undefined | string
-
+/**
+ * @param coluna Nome da coluna para ordenar
+ * @param order Tipo de ordenação
+ */
 export interface IParametrosDeOrdenacao {
 	coluna?: string,
-	order?: OrdenarConsulta  
+	order?: OrdenarConsulta
 }
 
 interface IRetornoDeColunaParaOrdenacao {
-	[nomeDaColuna: string]: OrdenarConsulta 
+	[nomeDaColuna: string]: OrdenarConsulta
 }
-
 
 export interface IRetornosParaOrdenacao {
 	colunaParaOrdenacao: IRetornoDeColunaParaOrdenacao | undefined,
-	order: OrdenarConsulta 
+	order: OrdenarConsulta
 }
 
 export class OrdenarConsultas {

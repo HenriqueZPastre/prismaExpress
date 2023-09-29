@@ -5,6 +5,16 @@ type ZodGenericoResponse = {
 	success?: boolean,
 }
 
+/**
+ * @param data Dados da requisição
+ * @param mensagem Mensagem
+ * @param erro Erro generico
+ * @param zod Erro do zod
+ * @param zodValidate Sucesso ou falha do validação dos dados esperados pelo zod 
+ * @param extras qualquer dado extra.
+ * @param registros Quantidade de registros
+ * @param paginas Quantidade de páginas
+ */
 interface PossiveisDadosDeResposta {
 	data?: unknown,
 	mensagem?: unknown,
@@ -44,9 +54,14 @@ function MontarDadosDoResponse(obj: PossiveisDadosDeResposta): PossiveisDadosDeR
 }
 
 interface IHandleResponse {
+	/**
+	 * @param response response do Express 
+	 * @param statusCode status code da request
+	 * @param objs objeto generico para o response body
+	 * @returns Response do express
+	 */
 	main(response: Response, statusCode: number, obj?: PossiveisDadosDeResposta): Response,
 }
-
 
 export const HandleResponse: IHandleResponse = {
 	main: (response: Response, statusCode: number, obj: PossiveisDadosDeResposta = {}): Response => {

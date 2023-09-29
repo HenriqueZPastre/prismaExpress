@@ -1,10 +1,18 @@
-
+/**
+ * @param take Quantidade de registros por página
+ * @param skip Quantidade de registros para pular
+ */
 export interface IRetornoPaginator {
 	take: number | undefined;
 	skip: number | undefined;
 }
 
 // Interface para consulta de paginação
+/**
+ * @param take Quantidade de registros por página
+ * @param page Número da página
+ * @param all Se for true, retorna todos os registros
+ */
 export interface IParametrosDoPaginator {
 	take?: string | undefined;
 	page?: string | undefined;

@@ -1,13 +1,13 @@
-import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
+import { HandleResponse } from '../../utils/HandleResponse/HandleResponse'
 import { Response } from 'express'
-import { ParametroID } from '../utils/parametroID'
+import { ParametroID } from '../../utils/parametroID'
 import { ZodError, z } from 'zod'
-import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
-import { IRequestPaginator } from '../utils/Paginator/Paginator'
-import { serviceTags } from '../Repositories/Tags/ServiceTags'
+import { ErrorGenerico } from '../../utils/HandleResponse/erroGenerico'
+import { IRequestPaginator } from '../../utils/Paginator/Paginator'
+import { serviceTags } from '../../services/tags/serviceTags'
 import { PrismaClient } from '@prisma/client'
-import { zodTag } from '../models/tags/tags'
-import { ITag, ITagEditar, } from '../models/tags/tags.interface'
+import { zodTag } from '../../models/tags/tags'
+import { ITag, ITagEditar, } from '../../models/tags/tags.interface'
 
 const prisma = new PrismaClient()
 

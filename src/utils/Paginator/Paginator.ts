@@ -2,6 +2,13 @@ import { Request } from 'express'
 import { IParametrosDeOrdenacao, IRetornosParaOrdenacao, OrdenarConsultas } from './OrdenarConsulta'
 import { IParametrosDoPaginator, IRetornoPaginator, Paginacao } from './Paginacao'
 
+/**
+ * @param take Quantidade de registros por página
+ * @param page Número da página
+ * @param all Se for true, retorna todos os registros
+ * @param coluna Nome da coluna para ordenar
+ * @param order Tipo de ordenação
+ */
 export interface TodosOsParametrosDoPaginator extends IParametrosDoPaginator, IParametrosDeOrdenacao { }
 export interface TodosOsRetornosDoPaginator extends IRetornoPaginator, IRetornosParaOrdenacao { }
 

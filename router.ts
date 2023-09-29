@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { CONTAS } from './src/controllers/contas'
-import { ControllerTags } from './src/controllers/tags'
+import { ControllerTags } from './src/controllers/tags/tags'
 import { LancamentosController } from './src/controllers/lancamentos'
 import { xuxo } from './src/controllers/xuxo'
 import swaggerUi from 'swagger-ui-express'
