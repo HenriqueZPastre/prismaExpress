@@ -1,12 +1,13 @@
 import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
 import { Response } from 'express'
 import { ParametroID } from '../utils/parametroID'
-import { ModelTAG } from '../models/tags'
 import { ZodError, z } from 'zod'
 import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
 import { IRequestPaginator } from '../utils/Paginator/Paginator'
 import { serviceTags } from '../Repositories/Tags/ServiceTags'
 import { PrismaClient } from '@prisma/client'
+import { zodTag } from '../models/tags/tags'
+import { ITag, ITagEditar, } from '../models/tags/tags.interface'
 
 const prisma = new PrismaClient()
 
@@ -17,7 +18,7 @@ export const ControllerTags = {
 			if (erro) {
 				return HandleResponse.main(resp, 400, { erro: 'Erro ao listar tags', data: erro })
 			}
-			const validar = await z.array(ModelTAG.zodTag.listar).safeParse(consulta)
+			const validar = await z.array(zodTag.listar).safeParse(consulta)
 			if (consulta != null && consulta.length < 1) {
 				return HandleResponse.main(resp, 404, { mensagem: 'Nenhum resultado encontrado' },)
 			} else {
@@ -52,9 +53,9 @@ export const ControllerTags = {
 		}
 	},
 
-	async criar(req: ModelTAG.Tag, resp: Response) {
+	async criar(req: ITag, resp: Response) {
 		try {
-			ModelTAG.zodTag.tag.parse(req.body)
+			zodTag.tag.parse(req.body)
 			const { resultado } = await serviceTags.criar(req.body)
 			return HandleResponse.main(resp, 200, { data: resultado })
 		} catch (error) {
@@ -66,10 +67,10 @@ export const ControllerTags = {
 		}
 	},
 
-	async editar(req: ModelTAG.TagEditar, resp: Response) {
+	async editar(req: ITagEditar, resp: Response) {
 		const id = parseInt(req.params.id)
 		try {
-			ModelTAG.zodTag.tag.parse(req.body)
+			zodTag.tag.parse(req.body)
 			const { existe, erro } = await serviceTags.verificarSeTagExiste(parseInt(req.params.id))
 			if (erro) {
 				return HandleResponse.main(resp, 400, { erro: erro, extras: erro})

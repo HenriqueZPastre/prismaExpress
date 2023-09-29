@@ -1,14 +1,14 @@
 import { PrismaClient } from '@prisma/client'
 
 import { HandleResponse } from '../../utils/HandleResponse/HandleResponse'
-import { Response } from 'express'
-import { ICreateBancos, IProcurarBancos, listarBancos } from 'src/models/Bancos/bancos.interface'
+import { Response, Request } from 'express'
+import { ICreateBancos, IProcurarBancos, listarBancos } from 'src/models/bancos/bancos.interface'
 
 const prisma = new PrismaClient()
 
 export const Bancos = {
 	async cadastrarBancos(req: ICreateBancos, res: Response) {
-		
+
 		try {
 			await Promise.all(req.body.bancos.map(async (banco) => {
 
@@ -59,6 +59,19 @@ export const Bancos = {
 		})
 		HandleResponse.main(res, 200, { data: bancos })
 		return bancos
+	},
+
+	async getId(req: Request, res: Response) {
+		const id = parseInt(req.params.id)
+		const banco = await prisma.bancos.findUnique({
+			where: {
+				id: id
+			}
+		})
+		if (!banco) {
+			return HandleResponse.main(res, 404, { erro: 'Banco não encontrado' })
+		}
+		return HandleResponse.main(res, 200, { data: banco })
 	}
 
 }

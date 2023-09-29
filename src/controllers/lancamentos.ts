@@ -1,13 +1,15 @@
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
-import { ModelLancamentos } from '../models/lancamentos'
+import { } from '../models/lancamentos/lancamentos'
 import { ZodError } from 'zod'
 import { CONTAS } from './contas'
 import { ControllerTags } from './tags'
 import { ParametroID } from '../utils/parametroID'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
+import { zodLancamentos } from '../models/lancamentos/lancamentos'
+import { ICreateLancamentos, IEditarLancamentos } from '../models/lancamentos/lancamentos.interfaces'
 
 const prisma = new PrismaClient()
 
@@ -54,9 +56,9 @@ export const LancamentosController = {
 		return HandleResponse.main(res, 200, { data: lancamentos })
 	},
 
-	async create(req: ModelLancamentos.CreateLancamentos, res: Response) {
+	async create(req: ICreateLancamentos, res: Response) {
 		try {
-			const { descricao, valor, dataVencimento, dataPagamento, tipo, contasId, tagsId } = ModelLancamentos.zodLancamentos.create.parse(req.body)
+			const { descricao, valor, dataVencimento, dataPagamento, tipo, contasId, tagsId } = zodLancamentos.create.parse(req.body)
 			const conta = await CONTAS.contaExiste(contasId)
 			const dataAtual = new Date()
 			let situacao = req.body.situacao
@@ -167,10 +169,10 @@ export const LancamentosController = {
 		return HandleResponse.main(res, 200, { mensagem: 'Lançamento deletado com sucesso' })
 	},
 
-	async update(req: ModelLancamentos.EditarLancamentos, res: Response) {
+	async update(req: IEditarLancamentos, res: Response) {
 		const id = parseInt(req.params.id)
 		try {
-			const validaBody = ModelLancamentos.zodLancamentos.editar.parse(req.body)
+			const validaBody = zodLancamentos.editar.parse(req.body)
 
 			const update = await prisma.lancamentos.update({
 				data: {

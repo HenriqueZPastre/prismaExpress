@@ -1,7 +1,5 @@
-import { Request } from 'express'
 import { z } from 'zod'
-import { ParametroID } from '../utils/parametroID'
-import { extendApi, generateSchema } from '@anatine/zod-openapi'
+import { extendApi } from '@anatine/zod-openapi'
 
 export const zodLancamentos = {
 
@@ -77,33 +75,4 @@ export const zodLancamentos = {
 			})
 		}))
 	})
-
 }
-
-export const ModelsSwaggerLancamentos = {
-	create: generateSchema(zodLancamentos.create),
-	responseCreate: generateSchema(zodLancamentos.responseCreate),
-	editar: generateSchema(zodLancamentos.editar),
-	listarLancamentos: generateSchema(z.array(zodLancamentos.responseCreate))
-}
-
-export type createLancamentos = z.infer<typeof zodLancamentos.create>
-export type editarLancamentos = z.infer<typeof zodLancamentos.editar>
-
-/**
- * Tipagem para usa na função de atualizar saldo de uma conta bancária
- */
-export type infoValores = {
-	situacao: number,
-	tipo: number,
-	contasId: createLancamentos['contasId'],
-	valor: createLancamentos['valor']
-}
-export interface CreateLancamentos extends Request {
-	body: createLancamentos
-}
-export interface EditarLancamentos extends Request {
-	params: ParametroID.parametroID
-	body: editarLancamentos
-}
-export * as ModelLancamentos from './lancamentos'

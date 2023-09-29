@@ -1,20 +1,20 @@
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
-import { ModelContas } from '../models/contas'
 import { ZodError } from 'zod'
 import { ParametroID } from '../utils/parametroID'
 import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
-import { ModelLancamentos } from '../models/lancamentos'
+import { InfoValores  } from '../models/lancamentos/lancamentos.interfaces'
 import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
-
+import { ICreateContas, IEditarContas, listarContas } from 'src/models/contas/contas.interface'
+import { zodContas } from '../models/contas/contas'
 
 const prisma = new PrismaClient()
 
 export const CONTAS = {
 	async listAll(_req: IRequestPaginator, res: Response,) {
 		const { skip, take } = Paginator.main(_req.query)
-		const all: ModelContas.listarContas[] = await prisma.contas.findMany({
+		const all: listarContas[] = await prisma.contas.findMany({
 			select: {
 				id: true,
 				nome: true,
@@ -29,7 +29,7 @@ export const CONTAS = {
 		})
 
 		try {
-			ModelContas.zodContas.listar.parse(all)
+			zodContas.listar.parse(all)
 		} catch (err) {
 			if (err instanceof ZodError) {
 				return HandleResponse.main(res, 400, { zod: err })
@@ -43,9 +43,9 @@ export const CONTAS = {
 		return HandleResponse.main(res, 200, { data: all })
 	},
 
-	async createConta(req: ModelContas.CreateContas, res: Response,) {
+	async createConta(req: ICreateContas, res: Response,) {
 		try {
-			const { nome, saldoInicial, saldoAtual, codigoBanco } = ModelContas.zodContas.create.parse(req.body)
+			const { nome, saldoInicial, saldoAtual, codigoBanco } = zodContas.create.parse(req.body)
 			const create = await prisma.contas.create({
 				data: {
 					codigoBanco: codigoBanco,
@@ -99,10 +99,10 @@ export const CONTAS = {
 		return HandleResponse.main(res, 204)
 	},
 
-	async editarConta(req: ModelContas.EditarContas, resp: Response) {
+	async editarConta(req: IEditarContas, resp: Response) {
 		const id = parseInt(req.params.id)
 		try {
-			const { nome, saldoInicial } = ModelContas.zodContas.editar.parse(req.body)
+			const { nome, saldoInicial } = zodContas.editar.parse(req.body)
 			if (!nome && !saldoInicial) {
 				return HandleResponse.main(resp, 400, { erro: 'Nenhum dado foi informado para edição' },)
 			}
@@ -158,7 +158,7 @@ export const CONTAS = {
 		return conta
 	},
 
-	atualizarSaldo: async (lancamentos: ModelLancamentos.infoValores) => {
+	atualizarSaldo: async (lancamentos: InfoValores) => {
 		const select = {
 			saldoAtual: true,
 			id: true,

@@ -1,10 +1,7 @@
-import { Request } from 'express'
+
 import { z } from 'zod'
-import { ParametroID } from '../utils/parametroID'
-import { generateSchema } from '@anatine/zod-openapi'
 
 export const zodContas = {
-
 	prisma: z.object({
 		id: z.number().int(),
 		create_at: z.date(),
@@ -43,24 +40,3 @@ export const zodContas = {
 	})
 
 }
-
-export type createContas = z.infer<typeof zodContas.create>
-export type listarContas = z.infer<typeof zodContas.listar>
-export type editarContas = z.infer<typeof zodContas.editar>
-export interface CreateContas extends Request {
-	body: createContas
-}
-export interface EditarContas extends Request {
-	params: ParametroID.parametroID
-	body: editarContas
-}
-
-export const ModelsSwaggerContas = {
-	create: generateSchema(zodContas.create),
-	responseCreateConta: generateSchema(zodContas.responseContas),
-	responseListarContas: generateSchema(z.array(zodContas.listar)),
-	editar: generateSchema(zodContas.editar),
-	responseGetConta: generateSchema(zodContas.listar),
-}
-
-export * as ModelContas from './contas'

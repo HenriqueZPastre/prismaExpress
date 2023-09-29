@@ -1,7 +1,7 @@
 import { swaggerutils } from '../utils/parametros'
 import { refSchema } from '../schemas'
 import { OpenAPIV3 } from 'openapi-types'
-import { ModelLancamentos } from '../../models/lancamentos'
+import { zodLancamentos } from '../../models/lancamentos/lancamentos'
 
 export const Lancamentos: OpenAPIV3.PathsObject = {
 	'/lancamentos': {
@@ -15,7 +15,7 @@ export const Lancamentos: OpenAPIV3.PathsObject = {
 				swaggerutils.queryParams.order,
 				swaggerutils.queryParams.page,
 				swaggerutils.queryParams.take,
-				swaggerutils.colunas(ModelLancamentos.zodLancamentos.responseCreate.shape)
+				swaggerutils.colunas(zodLancamentos.responseCreate.shape)
 			],
 			responses: {
 				'200': {
