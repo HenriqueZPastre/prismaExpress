@@ -6,7 +6,7 @@ import { xuxo } from './src/controllers/xuxo'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJson from './testeSwagger.json'
 import { controllerValores } from './src/controllers/valores'
-import { authSwagger } from './src/utils/authSwagger'
+import { authSwagger } from './src/middlewares/autenticacao/authSwagger'
 //import { Bancos } from './src/controllers/bancos/bancos'
 import { routerBancos } from './src/routes/bancos'
 

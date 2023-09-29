@@ -8,6 +8,7 @@ import { serviceTags } from '../../services/tags/serviceTags'
 import { PrismaClient } from '@prisma/client'
 import { zodTag } from '../../models/tags/tags'
 import { ITag, ITagEditar, } from '../../models/tags/tags.interface'
+import { validarZod } from '../../utils/zodValidate/validateObject'
 
 const prisma = new PrismaClient()
 
@@ -54,16 +55,18 @@ export const ControllerTags = {
 	},
 
 	async criar(req: ITag, resp: Response) {
-		try {
-			zodTag.tag.parse(req.body)
-			const { resultado } = await serviceTags.criar(req.body)
-			return HandleResponse.main(resp, 200, { data: resultado })
-		} catch (error) {
-			if (error instanceof ZodError) {
-				console.log(error)
-				return HandleResponse.main(resp, 401, { zod: error, extras: error })
+		const validar = await validarZod(req, resp, zodTag.tag)
+		if (validar) {
+			try {
+				const { resultado } = await serviceTags.criar(req.body)
+				return HandleResponse.main(resp, 200, { data: resultado })
+			} catch (error) {
+				if (error instanceof ZodError) {
+					console.log(error)
+					return HandleResponse.main(resp, 401, { zod: error, extras: error })
+				}
+				return HandleResponse.main(resp, 400, { erro: error })
 			}
-			return HandleResponse.main(resp, 400, { erro: error })
 		}
 	},
 
@@ -73,7 +76,7 @@ export const ControllerTags = {
 			zodTag.tag.parse(req.body)
 			const { existe, erro } = await serviceTags.verificarSeTagExiste(parseInt(req.params.id))
 			if (erro) {
-				return HandleResponse.main(resp, 400, { erro: erro, extras: erro})
+				return HandleResponse.main(resp, 400, { erro: erro, extras: erro })
 			}
 			if (!existe) {
 				return HandleResponse.main(resp, 400, { erro: 'Tag não existe' },)
