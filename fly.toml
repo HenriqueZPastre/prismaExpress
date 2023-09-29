@@ -1,7 +1,7 @@
-# fly.toml file generated for prismaexpress on 2023-04-18T08:24:06-03:00
+# fly.toml file generated for prismaexpress on 2023-09-29T17:54:36-03:00
 
 app = "prismaexpress"
-primary_region = "gig"
+primary_region = "gru"
 
 [http_service]
   internal_port = 3000
