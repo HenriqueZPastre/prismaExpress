@@ -1,12 +1,13 @@
 import { PrismaClient } from '@prisma/client'
-import { CreateBancos, listarBancos, ProcurarBancos } from '../../models/bancos'
+
 import { HandleResponse } from '../../utils/HandleResponse/HandleResponse'
 import { Response } from 'express'
+import { ICreateBancos, IProcurarBancos, listarBancos } from 'src/models/Bancos/bancos.interface'
 
 const prisma = new PrismaClient()
 
 export const Bancos = {
-	async cadastrarBancos(req: CreateBancos, res: Response) {
+	async cadastrarBancos(req: ICreateBancos, res: Response) {
 		
 		try {
 			await Promise.all(req.body.bancos.map(async (banco) => {
@@ -36,7 +37,7 @@ export const Bancos = {
 	},
 
 
-	async listarBancos(req: ProcurarBancos, res: Response): Promise<listarBancos[]> {
+	async listarBancos(req: IProcurarBancos, res: Response): Promise<listarBancos[]> {
 		const bancos = await prisma.bancos.findMany({
 			select: {
 				id: true,
