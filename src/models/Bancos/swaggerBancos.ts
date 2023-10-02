@@ -1,5 +1,5 @@
 import { generateSchema } from '@anatine/zod-openapi'
-import { zodBancos } from './bancos'
+import { zodBancos } from './zodBancos'
 
 export const ModelsSwaggerBancos = {
 	create: generateSchema(zodBancos.create),
