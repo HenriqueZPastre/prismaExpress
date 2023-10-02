@@ -1,7 +1,7 @@
 import { Response, Request } from 'express'
 import { HandleResponse } from '../../utils/HandleResponse/HandleResponse'
 import { PrismaClient } from '@prisma/client'
-import { TT } from '../../models/bancos/interfaceBancos'
+import { TT, createBancos } from '../../models/bancos/interfaceBancos'
 
 const prisma = new PrismaClient()
 
@@ -9,7 +9,7 @@ export const Bancos = {
 	async cadastrarBancos(req: TT.ICreateBancos, res: Response) {
 
 		try {
-			await Promise.all(req.body.bancos.map(async (banco) => {
+			await Promise.all(req.body.bancos.map(async (banco: createBancos ) => {
 
 				const t = parseInt(banco.id)
 				const existe = await prisma.bancos.findUnique({
