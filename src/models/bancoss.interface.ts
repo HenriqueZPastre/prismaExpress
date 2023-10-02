@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { zodBancos } from './bancos/zodBancos'
+import { zodBancos } from './baank/zodBancos'
 import { Request } from 'express'
 
 export type createBancos = z.infer<typeof zodBancos.create>
