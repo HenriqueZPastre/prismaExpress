@@ -12,6 +12,7 @@
 	  "baseUrl": "./",
 	  "resolveJsonModule": true,
 	  "moduleResolution": "node",
+	  
 	},
 	"include": ["./**/*.ts","./**/*.*.ts", ]
   }
