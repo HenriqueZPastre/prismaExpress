@@ -6,7 +6,7 @@ import { ParametroID } from '../utils/parametroID'
 import { ErrorGenerico } from '../utils/HandleResponse/erroGenerico'
 import { InfoValores  } from '../models/lancamentos/lancamentos.interfaces'
 import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
-import { ICreateContas, IEditarContas, listarContas } from 'src/models/contas/contas.interface'
+import { ICreateContas, IEditarContas, listarContas } from '../models/contas/contas.interface'
 import { zodContas } from '../models/contas/contas'
 
 const prisma = new PrismaClient()

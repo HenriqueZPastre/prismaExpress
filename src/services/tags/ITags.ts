@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { zodTag } from 'src/models/tags/tags'
-import { Tag } from 'src/models/tags/tags.interface'
-import { TodosOsParametrosDoPaginator } from 'src/utils/Paginator/Paginator'
+import { zodTag } from '../../models/tags/tags'
+import { Tag } from '../../models/tags/tags.interface'
+import { TodosOsParametrosDoPaginator } from '../../utils/Paginator/Paginator'
 
 
 export type TListarTags = z.infer<typeof zodTag.listar>

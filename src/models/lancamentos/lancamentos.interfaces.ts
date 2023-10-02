@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { zodLancamentos } from './lancamentos'
 import { Request } from 'express'
-import { ParametroID } from 'src/utils/parametroID'
+import { ParametroID } from '../../utils/parametroID'
 
 export type createLancamentos = z.infer<typeof zodLancamentos.create>
 export type editarLancamentos = z.infer<typeof zodLancamentos.editar>

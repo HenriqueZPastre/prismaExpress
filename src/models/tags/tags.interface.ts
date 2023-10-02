@@ -1,4 +1,4 @@
-import { ParametroID } from 'src/utils/parametroID'
+import { ParametroID } from '../../utils/parametroID'
 import { z } from 'zod'
 import { zodTag } from './tags'
 import { Request } from 'express'
