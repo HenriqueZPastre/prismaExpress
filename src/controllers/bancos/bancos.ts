@@ -1,4 +1,4 @@
-import { Response, Request } from 'express'
+/* import { Response, Request } from 'express'
 import { HandleResponse } from '../../utils/HandleResponse/HandleResponse'
 import { PrismaClient } from '@prisma/client'
 import { TT } from '../../models/bancos/interfaceBancos'
@@ -73,4 +73,4 @@ export const Bancos = {
 		return HandleResponse.main(res, 200, { data: banco })
 	}
 
-}
+} */
