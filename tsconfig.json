@@ -23,10 +23,12 @@
     //"noUnusedParameters": true,
     //"noImplicitReturns": true,
     "noImplicitOverride": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+	"outDir": "./dist",
   },
   "ts-node": {
     "compiler": "typescript",
   }
+  
 
 }
