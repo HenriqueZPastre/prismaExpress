@@ -7,7 +7,7 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerJson from './testeSwagger.json'
 import { controllerValores } from './src/controllers/valores'
 import { authSwagger } from './src/middlewares/autenticacao/authSwagger'
-import { routerBancos } from './src/routes/bancos'
+//import { routerBancos } from './src/routes/bancos'
 
 const router: Router = Router()
 export { router }
@@ -21,7 +21,7 @@ router.use('/api-docs', authSwagger, swaggerUi.serve, swaggerUi.setup(swaggerJso
 router.get('/bancos', Bancos.listarBancos)
 router.post('/bancos', Bancos.cadastrarBancos) */
 
-router.use(routerBancos)
+//router.use(routerBancos)
 //*********************************\\
 //**** CONTAS BANCÁRIAS ***********\\
 //*********************************\\
