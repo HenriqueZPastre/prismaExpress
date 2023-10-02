@@ -2,7 +2,7 @@ import { Response, Request } from 'express'
 import { HandleResponse } from '../../utils/HandleResponse/HandleResponse'
 import { PrismaClient } from '@prisma/client'
 
-import { ICreateBancos, IProcurarBancos, createBancos, listarBancos } from 'src/models/bancos/bancoss.interface'
+import { ICreateBancos, IProcurarBancos, createBancos, listarBancos } from '@algo'
 
 const prisma = new PrismaClient()
 
