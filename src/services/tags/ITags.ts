@@ -1,11 +1,11 @@
-
+import { z } from 'zod'
 import { zodTag } from 'src/models/tags/tags'
 import { Tag } from 'src/models/tags/tags.interface'
 import { TodosOsParametrosDoPaginator } from 'src/utils/Paginator/Paginator'
 
 
-export type TListarTags = Zod.infer<typeof zodTag.listar>
-export type TCriarTag = Zod.infer<typeof zodTag.tag>
+export type TListarTags = z.infer<typeof zodTag.listar>
+export type TCriarTag = z.infer<typeof zodTag.tag>
 export type TEditarTag = TListarTags
 
 export interface ITags {
