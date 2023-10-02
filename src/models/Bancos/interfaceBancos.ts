@@ -16,3 +16,5 @@ export interface IProcurarBancos extends Request {
 		search: string
 	}
 }
+
+export * as TT from './interfaceBancos'
