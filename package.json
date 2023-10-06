@@ -40,7 +40,8 @@
 		"xml2js": "^0.6.2",
 		"zod": "^3.21.4"
 	},
-	"scripts": {
+	"scripts": {	
+		"runBuild": "ts-node -r tsconfig-paths/register ./dist/app.js",
 		"build": "tsc",
 		"swagger": "ts-node ./src/swagger/main.ts",
 		"cz": "cz",
