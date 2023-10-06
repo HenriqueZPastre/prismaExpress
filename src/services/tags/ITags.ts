@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { zodTag } from '../../models/tags/tags'
-import { Tag } from '../../models/tags/tags.interface'
+import { zodTag } from '@models/tags/tags'
+import { Tag } from '@models/tags/tags.interface'
 import { TodosOsParametrosDoPaginator } from '../../utils/Paginator/Paginator'
 
 
