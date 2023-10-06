@@ -1,15 +1,15 @@
 import { PrismaClient } from '@prisma/client'
 import { Response } from 'express'
 import { HandleResponse } from '../utils/HandleResponse/HandleResponse'
-import { } from '@models/lancamentos/lancamentos'
+import { } from '../models/lancamentos/lancamentos'
 import { ZodError } from 'zod'
 import { CONTAS } from './contas'
 import { ControllerTags } from './tags/tags'
 import { ParametroID } from '../utils/parametroID'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/binary'
 import { IRequestPaginator, Paginator } from '../utils/Paginator/Paginator'
-import { zodLancamentos } from '@models/lancamentos/lancamentos'
-import { ICreateLancamentos, IEditarLancamentos } from '@models/lancamentos/lancamentos.interfaces'
+import { zodLancamentos } from '../models/lancamentos/lancamentos'
+import { ICreateLancamentos, IEditarLancamentos } from '../models/lancamentos/lancamentos.interfaces'
 
 const prisma = new PrismaClient()
 
