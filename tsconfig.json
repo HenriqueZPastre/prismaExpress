@@ -10,7 +10,7 @@
     "noImplicitAny": true,
     "skipLibCheck": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "resolveJsonModule": true,
     "paths": {
       "@models/*": ["./src/models/*"]
