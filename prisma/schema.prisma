@@ -10,6 +10,18 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model clientes {
+    id          Int       @id @default(autoincrement())
+    create_at   DateTime  @default(now())
+    deletede_at DateTime?
+    update_at   DateTime? @updatedAt
+    nome        String
+    password    String
+    email       String    @unique
+    telefone    String?
+    token       String?
+}
+
 model Bancos {
     id          Int       @id
     create_at   DateTime  @default(now())
