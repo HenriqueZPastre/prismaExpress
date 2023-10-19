@@ -1,5 +1,6 @@
 import * as jwt from 'jsonwebtoken'
-
+import * as dotenv from 'dotenv'
+dotenv.config()
 // Chave secreta para assinar o JWT
 const secretKey = 'topSecretKey'
 
@@ -9,7 +10,10 @@ const payload = {
 	username: 'usuario123'
 }
 
-// Criar um JWT
+
+const t = process.env.teste
+console.log(t)
+
 const token = jwt.sign(payload, secretKey, { expiresIn: '2 days' })
 
 console.log('Token:', token)

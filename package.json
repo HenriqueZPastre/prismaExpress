@@ -64,6 +64,7 @@
 		}
 	},
 	"dependencies": {
+		"dotenv": "^16.3.1",
 		"xml-js": "^1.6.11"
 	}
 }
