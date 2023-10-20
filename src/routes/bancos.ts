@@ -1,6 +1,6 @@
 import express from 'express'
 import { Bancos } from '../controllers/bancos/bancos'
-import { authSwagger } from '../middlewares/autenticacao/authSwagger'
+import { authSwagger } from '../middlewares/swagger/authSwagger'
 
 const routerBancos = express.Router()
 
