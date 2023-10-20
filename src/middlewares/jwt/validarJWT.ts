@@ -16,7 +16,7 @@ export const getTokenUser = async (token: string) => {
 
 	if (secretKey && tokenExiste?.token) {
 
-		jwt.verify(tokenExiste.token, secretKey, (err: any, decoded: any) => {
+		jwt.verify(tokenExiste.token, secretKey, (err: unknown, decoded: unknown) => {
 			if (err instanceof jwt.TokenExpiredError) {
 				console.error('Token expirado')
 			} else if (err) {

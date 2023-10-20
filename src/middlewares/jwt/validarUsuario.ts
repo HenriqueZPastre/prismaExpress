@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import * as jwt from 'jsonwebtoken'
-import { getTokenUser } from './validarJWT'
+import { loginRequest } from 'src/models/cliente/clientes.interface'
+import { serviceClientes } from 'src/services/clientes/serviceClientes'
 
 interface user {
 	id: number;
@@ -52,7 +53,35 @@ const criarToken = async (body: user) => {
 			token: token
 		}
 	})
+
+}
+
+const user = {
+	email: 'teste@uorak.com',
+	password: 'teste123'
+}
+
+
+const validarToken = async (dados: loginRequest) => {
+	const { erro, token } = await serviceClientes.login(dados)
+	if (erro) {
+		console.error(erro)
+		return
+	}
+
+	const secretKey = process.env.secretJwt
 	
+	if (token && secretKey) {
+		jwt.verify(token, secretKey, (err: unknown, decoded: unknown) => {
+			if (err instanceof jwt.TokenExpiredError) {
+				console.error('Token expirado')
+			} else if (err) {
+				console.error('Erro na verificação do JWT:', err)
+			} else {
+				console.log('JWT verificado com sucesso. Decodificado:', decoded)
+			}
+		})
+	}
 }
 
 validarExistenciaUsuario({
