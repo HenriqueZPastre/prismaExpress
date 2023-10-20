@@ -23,7 +23,6 @@ class ServiceClientes implements IServiceClientes {
 	}
 
 	async login(data: loginRequest): Promise<{ token: string | null, erro: unknown }> {
-
 		const token = await prisma.clientes.findFirst({
 			select: {
 				token: true,
@@ -34,38 +33,19 @@ class ServiceClientes implements IServiceClientes {
 			}
 		})
 		if (token && token.token) {
-			return { token: token.token, erro: null }
+			const { situacao } = await this.validarToken(token.token)
+			console.log(situacao)
+			if (!situacao) {
+				const { token } = await this.criarToken(data)
+				return { token: token, erro: null }
+			}
+		} else {
+			const { token } = await this.criarToken(data)
+			return { token: token, erro: null }
 		}
 		return { token: null, erro: 'Email ou senha incorretos' }
 	}
 
-	async clienteExiste(data: loginRequest): Promise<{ existe: boolean | null; erro: unknown, token: string | null }> {
-		const existe = await prisma.clientes.findFirst({
-			select: {
-				token: true,
-			},
-			where: {
-				email: data.email,
-				password: data.password,
-			}
-		})
-		if (existe?.token) {
-			const { erro, situacao } = this.validarToken(existe.token)
-			if (erro) {
-				console.log(erro)
-				return { existe: false, erro: erro, token: null }
-			}
-			if (!situacao) {
-				const token = await this.criarToken(data)
-				return { existe: true, erro: null, token: token.token }
-			}
-		} else {
-			return { existe: false, erro: 'Email ou senha incorretos', token: null }
-		}
-
-		return { existe: false, erro: 'Erro ao verificar cliente', token: null }
-
-	}
 
 	async criarToken(data: loginRequest): Promise<{ token: string }> {
 		const secretKey = process.env.secretJwt
@@ -83,12 +63,13 @@ class ServiceClientes implements IServiceClientes {
 		return { token: token }
 	}
 
-	validarToken(token: string): { situacao: boolean, erro: unknown } {
+	async validarToken(token: string): Promise<{ situacao: boolean, erro: unknown }> {
 		const secretKey = process.env.secretJwt
 		if (secretKey) {
 			jwt.verify(token, secretKey, (err: unknown, decoded: unknown) => {
 				if (err instanceof jwt.TokenExpiredError) {
 					console.error('Token expirado')
+					return { situacao: false, erro: 'Token expirado' }
 				} else if (err) {
 					console.error('Erro na verificação do JWT:', err)
 				} else {
@@ -99,7 +80,43 @@ class ServiceClientes implements IServiceClientes {
 		}
 		return { situacao: false, erro: 'Erro ao verificar token' }
 	}
+	async logout(token: string): Promise<{ logout: boolean; }> {
+		try {
+			const exit = await prisma.clientes.findFirst({
+				select: {
+					id: true,
+				},
+				where: {
+					token: token,
+				},
+			})
+			await prisma.clientes.update({
+				where: {
+					id: exit?.id,
+				},
+				data: {
+					token: null,
+				}
+
+			})
+			console.log('exit')
+			return { logout: true }
+		} catch (error) {
+			console.log('error')
+			return { logout: false }
+		}
+	}
 }
 
 
 export const serviceClientes = new ServiceClientes()
+const start = async () => {
+	await serviceClientes.login({
+		email: 'teste@uorak.com',
+		password: 'teste123'
+	})
+
+}
+start()
+
+//serviceClientes.logout('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlQHVvcmFrLmNvbSIsInBhc3N3b3JkIjoidGVzdGUxMjMiLCJpYXQiOjE2OTc4MzM4NzMsImV4cCI6MTY5NzgzNDE3M30.mOcqnrr0gRdnGie6C9vZENrsjkceCY67BkO8GaBr6KA')
