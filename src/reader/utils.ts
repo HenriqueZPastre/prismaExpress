@@ -1,3 +1,4 @@
+import { ACCTTYPE, TransactionType } from './interfaces'
 export const parseDataOFXtoDate = (data: string) => {
 
 	const regex = data.match(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\[(-?\d+):[A-Za-z]+\]$/)
@@ -26,5 +27,24 @@ export const parseDataOFXtoDate = (data: string) => {
 
 export const removeTags = (linha: string, tag: string) => {
 	const regex = new RegExp(`<\\/?${tag}>`, 'g')
-	return linha.replace(regex, '')
+	return linha.replace(regex, '').trim()
 }
+
+export const removeTagsTRTYPE = (linha: string, tag: string): TransactionType | null => {
+	const regex = new RegExp(`<\\/?${tag}>`, 'g')
+	const TRNTYPE = linha.replace(regex, '').trim()
+	if (TransactionType[TRNTYPE as keyof typeof TransactionType]) {
+		return TransactionType[TRNTYPE as keyof typeof TransactionType]
+	}
+	throw new Error('Erro ao comparar TRNTYPE')
+}
+
+export const removeTagsACCTTYPE = (linha: string, tag: string): ACCTTYPE | null => {
+	const regex = new RegExp(`<\\/?${tag}>`, 'g')
+	const acctype = linha.replace(regex, '').trim()
+	if (ACCTTYPE[acctype as keyof typeof ACCTTYPE]) {
+		return ACCTTYPE[acctype as keyof typeof ACCTTYPE]
+	}
+	throw new Error('Erro ao comparar acctype')
+}
+

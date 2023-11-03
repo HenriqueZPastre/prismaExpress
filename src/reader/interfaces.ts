@@ -1,43 +1,50 @@
-import { z } from 'zod'
 
-export interface Tansacoes {
-	especieTransacao?: string | null
-	date?: string | null
-	valor?: number | null
-	id?: string | null
-	memo?: string | null
-	tipoOperacao?: number | null
-}
-
-export const zodTransacao = z.object({
-	especieTransacao: z.string().nonempty(),
-	date: z.string().nonempty(),
-	valor: z.number(),
-	id: z.string().nonempty(),
-	memo: z.string().nonempty(),
-	tipoOperacao: z.number(),
-})
-
-export const zodDadosDoBanco = z.object({
-	id: z.string().nonempty(),
-	nome: z.string().nonempty(),
-	numeroConta: z.string().nonempty(),
-	dataInicial: z.string().nonempty(),
-	dataFinal: z.string().nonempty(),
-})
-
-export type typeDadosDoBanco = z.infer<typeof zodDadosDoBanco>
-export type typeTransacao = z.infer<typeof zodTransacao>
-
-export type responseBanco = {
-	codigoBanco: number
-	id: number
+export interface Transacao {
+	tipoDeTransacao: TransactionType | null
+	dataDeTransacao: string | null
+	valor: number | null
+	fitid: string | null
+	refnum: string | null
+	memo: string | null
+	tipoOperacao: 0 | 1 | null // 0 = credito, 1 = debito
 }
 
 export interface DadosDoBanco {
-	id?: string
-	nome?: string
-	numeroConta?: string
-	dataInicial?: string
-	dataFinal?: string
+	id: string | null
+	nome: string | null
+	numeroConta: string | null
+	dataInicial: string | null
+	dataFinal: string | null
+	tipoDaContaBancaria: ACCTTYPE | null
+	moedaCorrente: string | null
+	balanco: number | null
+}
+
+export enum TransactionType {
+	CREDIT = 'CREDIT',//'Credito generico',
+	DEBIT = 'DEBIT', //'Debito generico',
+	INT = 'INT',//'Juros ganhos ou pagos',
+	DIV = 'DIV',//'Dividendo',
+	FEE = 'FEE',//'Taxa da instituição financeira',
+	SRVCHG = 'SRVCHG', //'Taxa de serviço',
+	DEP = 'DEP',//'Deposito',
+	ATM = 'ATM',//'Debito ou credito em caixa automatico (ATM)',
+	POS = 'POS',//'Debito ou credito em ponto de venda',
+	XFER = 'XFER',//'Transferencia',
+	CHECK = 'CHECK',//'Cheque',
+	PAYMENT = 'PAYMENT',//'Pagamento eletronico',
+	CASH = 'CASH', //'Retirada em dinheiro',
+	DIRECTDEP = 'DIRECTDEP', //'Deposito direto',
+	DIRECTDEBIT = 'DIRECTDEBIT',//'Debito iniciado pelo comerciante',
+	REPEATPMT = 'REPEATPMT',//'Pagamento repetido/ordem permanente',
+	HOLD = 'HOLD',//'Apenas valido em <STMTTRNP> indica que o valor esta sob retencao',
+	OTHER = 'OTHER' //'Outro',
+}
+
+export enum ACCTTYPE {
+	CHECKING = 'CHECKING',// "Conta Corrente",
+	SAVINGS = 'SAVINGS',//"Poupança",
+	MONEYMRKT = 'MONEYMRKT',//"Mercado Monetário",
+	CREDITLINE = 'CREDITLINE',// "Linha de Crédito",
+	CD = 'CD',//"Certificado de Depósito",
 }

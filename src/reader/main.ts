@@ -91,9 +91,9 @@ const ReaderOfx = (ofxPath: string): { dadosBanco: DadosDoBanco, todasAsTransaco
 		todasAsTransacoes: todasAsTransacoes
 	}
 	console.log(todasAsTransacoes.length)
-	fs.writeFileSync('./src/reader/reader/ofx//dadosBanco2.json', JSON.stringify(dados))
+	fs.writeFileSync('./src/reader/ofx/si.json', JSON.stringify(dados))
 
 	return { dadosBanco, todasAsTransacoes }
 }
 
-ReaderOfx('./src/reader/reader/ofx/sicredi2.ofx')
+ReaderOfx('./src/reader/ofx/si.ofx')
