@@ -1,4 +1,3 @@
-import fs from 'fs'
 import { parseDataOFXtoDate, removeTags, removeTagsACCTTYPE, removeTagsTRTYPE } from './utils'
 import { DadosDoBanco, Transacao } from './interfaces'
 
@@ -87,15 +86,5 @@ export const ReaderOfx = (ofxPath: string,): { dadosBanco: DadosDoBanco, todasAs
 			}
 		}
 	})
-
-	const dados = {
-		dadosBanco: dadosBanco,
-		todasAsTransacoes: todasAsTransacoes
-	}
-	console.log(todasAsTransacoes.length)
-	fs.writeFileSync('./src/reader/ofx/si.json', JSON.stringify(dados))
-
 	return { dadosBanco, todasAsTransacoes }
 }
-
-ReaderOfx('./src/reader/ofx/ss.ofx',)

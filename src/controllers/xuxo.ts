@@ -34,7 +34,7 @@ export const xuxo = {
 			dadosBanco: dadosBanco,
 			todasAsTransacoes: todasAsTransacoes
 		}
-		return HandleResponse.main(res, 200, { data: all })
+		HandleResponse.main(res, 200, { data: all })
 	}
 
 }
