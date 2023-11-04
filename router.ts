@@ -58,4 +58,5 @@ router.get('/valores', controllerValores.getAll)
 //*********************************\\
 router.get('/a', xuxo.listAll)
 router.get('/', xuxo.test)
+router.post('/c', xuxo.ofx )
 
