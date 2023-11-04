@@ -1,31 +1,33 @@
 import { parseDataOFXtoDate, removeTags, removeTagsACCTTYPE, removeTagsTRTYPE } from './utils'
 import { DadosDoBanco, Transacao } from './interfaces'
 
-const todasAsTransacoes: Transacao[] = []
-
-const dadosBanco: DadosDoBanco = {
-	id: null,
-	nome: null,
-	numeroConta: null,
-	dataInicial: null,
-	dataFinal: null,
-	tipoDaContaBancaria: null,
-	moedaCorrente: null,
-	balanco: null,
-}
-
-let transacao: Transacao = {
-	tipoDeTransacao: null,
-	dataDeTransacao: null,
-	valor: null,
-	fitid: null,
-	refnum: null,
-	memo: null,
-	tipoOperacao: null,
-}
 
 export const ReaderOfx = (ofxPath: string,): { dadosBanco: DadosDoBanco, todasAsTransacoes: Transacao[] } => {
-	
+
+	const todasAsTransacoes: Transacao[] = []
+
+	const dadosBanco: DadosDoBanco = {
+		id: null,
+		nome: null,
+		numeroConta: null,
+		dataInicial: null,
+		dataFinal: null,
+		tipoDaContaBancaria: null,
+		moedaCorrente: null,
+		balanco: null,
+	}
+
+	let transacao: Transacao = {
+		tipoDeTransacao: null,
+		dataDeTransacao: null,
+		valor: null,
+		fitid: null,
+		refnum: null,
+		memo: null,
+		tipoOperacao: null,
+	}
+
+
 	const leitura = Buffer.from(ofxPath, 'base64').toString('utf-8')
 
 	//const leitura = fs.readFileSync(ofxPath, 'utf-8')
@@ -88,3 +90,4 @@ export const ReaderOfx = (ofxPath: string,): { dadosBanco: DadosDoBanco, todasAs
 	})
 	return { dadosBanco, todasAsTransacoes }
 }
+
