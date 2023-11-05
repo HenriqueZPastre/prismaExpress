@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import * as jwt from 'jsonwebtoken'
-import { loginRequest } from 'src/models/cliente/clientes.interface'
-import { serviceClientes } from 'src/services/clientes/serviceClientes'
+import { loginRequest } from '../../../src/models/cliente/clientes.interface'
+import { serviceClientes } from '../../../src/services/clientes/serviceClientes'
 
 interface user {
 	id: number;
@@ -43,8 +43,8 @@ const criarToken = async (body: user) => {
 	const payload = body
 	const secretKey = process.env.secretJwt
 	if (!secretKey) throw new Error('Chave secreta não definida')
-	const token = await jwt.sign(payload, secretKey, { expiresIn: '300000' })
-	console.log(token)
+	const token = await jwt.sign(payload, secretKey, { expiresIn: '30000000' })
+	console.log('Criado: ',token, ' end')
 	await prisma.clientes.update({
 		where: {
 			id: body.id
@@ -70,7 +70,7 @@ const validarToken = async (dados: loginRequest) => {
 	}
 
 	const secretKey = process.env.secretJwt
-	
+
 	if (token && secretKey) {
 		jwt.verify(token, secretKey, (err: unknown, decoded: unknown) => {
 			if (err instanceof jwt.TokenExpiredError) {
@@ -88,3 +88,4 @@ validarExistenciaUsuario({
 	email: 'teste@uorak.com',
 	senha: 'teste123'
 })
+

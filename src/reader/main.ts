@@ -90,4 +90,3 @@ export const ReaderOfx = (ofxPath: string,): { dadosBanco: DadosDoBanco, todasAs
 	})
 	return { dadosBanco, todasAsTransacoes }
 }
-

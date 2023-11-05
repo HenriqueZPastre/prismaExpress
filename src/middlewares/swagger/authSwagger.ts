@@ -10,7 +10,7 @@ export function authSwagger(req: Request, res: Response, next: NextFunction) {
 	}
 	const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('ascii')
 	
-	if (credentials !== 'teste:teste') {
+	if (credentials !== 'testes:teste') {
 		res.setHeader('WWW-Authenticate', 'Basic realm="API Access"')
 		res.sendStatus(401)
 		return
