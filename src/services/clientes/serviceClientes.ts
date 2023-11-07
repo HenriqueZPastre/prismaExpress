@@ -1,7 +1,8 @@
-import { createClientes, loginRequest } from 'src/models/cliente/clientes.interface'
+import { createClientes } from 'src/models/cliente/clientes.interface'
 import { IServiceClientes } from './IServiceClientes'
 import { PrismaClient } from '@prisma/client'
-import * as jwt from 'jsonwebtoken'
+import { serviceAutenticacao } from '../autenticacao/serviceAutenticacao'
+import { usuario } from '../autenticacao/IServiceAutenticacao'
 
 const prisma = new PrismaClient()
 
@@ -22,7 +23,7 @@ class ServiceClientes implements IServiceClientes {
 		}
 	}
 
-	async login(data: loginRequest): Promise<{ token: string | null, erro: unknown }> {
+	async login(data: usuario): Promise<{ token: string | null, erro: unknown }> {
 		const token = await prisma.clientes.findFirst({
 			select: {
 				token: true,
@@ -33,54 +34,21 @@ class ServiceClientes implements IServiceClientes {
 			}
 		})
 		if (token && token.token) {
-			const { situacao } = await this.validarToken(token.token)
-			console.log(situacao)
-			if (!situacao) {
-				const { token } = await this.criarToken(data)
-				return { token: token, erro: null }
+			const { valido, erro } = await serviceAutenticacao.lerToken(token.token)
+			if (erro) {
+				return { token: null, erro: erro }
 			}
-		} else {
-			const { token } = await this.criarToken(data)
-			return { token: token, erro: null }
+			if (!valido) {
+				const { token } = await serviceAutenticacao.criarToken(data)
+				return { token: token, erro: null }
+			} else {
+				return { token: token?.token, erro: null }
+			}
 		}
 		return { token: null, erro: 'Email ou senha incorretos' }
 	}
 
-
-	async criarToken(data: loginRequest): Promise<{ token: string }> {
-		const secretKey = process.env.secretJwt
-		if (!secretKey) throw new Error('Chave secreta não definida')
-		const token = await jwt.sign(data, secretKey, { expiresIn: '300000' })
-		console.log(token)
-		await prisma.clientes.update({
-			where: {
-				email: data.email,
-			},
-			data: {
-				token: token
-			}
-		})
-		return { token: token }
-	}
-
-	async validarToken(token: string): Promise<{ situacao: boolean, erro: unknown }> {
-		const secretKey = process.env.secretJwt
-		if (secretKey) {
-			jwt.verify(token, secretKey, (err: unknown, decoded: unknown) => {
-				if (err instanceof jwt.TokenExpiredError) {
-					console.error('Token expirado')
-					return { situacao: false, erro: 'Token expirado' }
-				} else if (err) {
-					console.error('Erro na verificação do JWT:', err)
-				} else {
-					console.log('JWT verificado com sucesso. Decodificado:', decoded)
-					return { situacao: true, erro: null }
-				}
-			})
-		}
-		return { situacao: false, erro: 'Erro ao verificar token' }
-	}
-	async logout(token: string): Promise<{ logout: boolean; }> {
+	async logout(token: string): Promise<void> {
 		try {
 			const exit = await prisma.clientes.findFirst({
 				select: {
@@ -100,10 +68,8 @@ class ServiceClientes implements IServiceClientes {
 
 			})
 			console.log('exit')
-			return { logout: true }
 		} catch (error) {
 			console.log('error')
-			return { logout: false }
 		}
 	}
 }

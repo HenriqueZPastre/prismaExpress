@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
-import { tokenValidado } from './jwt/validarJWT'
+import { tokenValidado } from './validarJWT'
 
-export const testeIF = async (req: Request, res: Response, next: NextFunction) => {
+export const middlewareValidarJWT = async (req: Request, res: Response, next: NextFunction) => {
 	const token = req.headers.authorization
 
 	if (!token) {

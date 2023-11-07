@@ -1,7 +1,7 @@
 import express from 'express'
 import { Bancos } from '../controllers/bancos/bancos'
 import { authSwagger } from '../middlewares/swagger/authSwagger'
-import { testeIF } from '../../src/middlewares/mid'
+import { middlewareValidarJWT } from '../middlewares/jwt/validadorJWT'
 
 const routerBancos = express.Router()
 
@@ -10,7 +10,7 @@ const routerBancos = express.Router()
 // routerBancos.get('/bancos', Bancos.listarBancos)
 // routerBancos.post('/bancos', Bancos.cadastrarBancos) */
 routerBancos.route('/bancos')
-	.all(testeIF)
+	.all(middlewareValidarJWT)
 	.get(Bancos.listarBancos)
 	.post(Bancos.cadastrarBancos)
 

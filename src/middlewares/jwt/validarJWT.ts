@@ -1,8 +1,8 @@
 import * as jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
 import { PrismaClient } from '@prisma/client'
+
 dotenv.config()
-// Chave secreta para assinar o JWT
 
 export const tokenValidado = async (token: string): Promise<boolean> => {
 	const existeToken = await tokenExiste(token)
