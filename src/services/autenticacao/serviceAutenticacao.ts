@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { IServiceAutenticacao, user, usuario } from './IServiceAutenticacao'
 import * as jwt from 'jsonwebtoken'
+import * as dotenv from 'dotenv'
 
 class Autenticacao implements IServiceAutenticacao {
 	async tokenExiste(token: string): Promise<{ existe: boolean, erro: Error | null }> {
@@ -100,14 +101,14 @@ class Autenticacao implements IServiceAutenticacao {
 		const secretKey = process.env.secretJwt
 		let valido = false
 
-		if (!secretKey) return { valido: false, erro: new Error('Chave secreta não definida') }
+		if (!secretKey) return { valido: false, erro: new Error('Erro de leitura') }
 		jwt.verify(token, secretKey, (err: unknown, decoded: unknown) => {
 			if (decoded) {
 				console.log('decoded', decoded)
 				valido = true
 			}
 			if (err instanceof jwt.TokenExpiredError) {
-				console.error('Token expirado')
+				return { valido: false, erro: new Error('Token expirado') }
 			} else if (err) {
 				console.error('Erro na verificação do JWT:', err)
 			} else {
