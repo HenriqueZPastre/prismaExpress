@@ -72,15 +72,19 @@ model ConciliacaoBancaria {
     descricao        String
     especieTransacao String
     contasId         Int
+    tagsId           Int?
+    tags             Tags?     @relation(fields: [tagsId], references: [id])
     contas           Contas    @relation(fields: [contasId], references: [id])
 }
 
 model Tags {
-    id               Int                @id @default(autoincrement())
-    create_at        DateTime           @default(now())
-    deletede_at      DateTime?
-    nome             String
-    lancamentos_tags lancamentos_tags[]
+    id                  Int                   @id @default(autoincrement())
+    create_at           DateTime              @default(now())
+    deletede_at         DateTime?
+    fitID               String?
+    nome                String
+    lancamentos_tags    lancamentos_tags[]
+    ConciliacaoBancaria ConciliacaoBancaria[]
 }
 
 model lancamentos_tags {
