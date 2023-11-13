@@ -6,7 +6,7 @@ export interface Transacao {
 	fitid: string | null
 	refnum: string | null
 	memo: string | null
-	tipoOperacao: 0 | 1 | null // 0 = credito, 1 = debito
+	tipoOperacao: 0 | 1  // 0 = credito, 1 = debito
 }
 
 export interface DadosDoBanco {

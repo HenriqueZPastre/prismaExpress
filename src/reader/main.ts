@@ -1,5 +1,6 @@
 import { parseDataOFXtoDate, removeTags, removeTagsACCTTYPE, removeTagsTRTYPE } from './utils'
 import { DadosDoBanco, Transacao } from './interfaces'
+import { read } from 'fs'
 
 
 export const ReaderOfx = (ofxPath: string,): { dadosBanco: DadosDoBanco, todasAsTransacoes: Transacao[] } => {
@@ -24,7 +25,7 @@ export const ReaderOfx = (ofxPath: string,): { dadosBanco: DadosDoBanco, todasAs
 		fitid: null,
 		refnum: null,
 		memo: null,
-		tipoOperacao: null,
+		tipoOperacao: 0,
 	}
 
 
@@ -84,9 +85,11 @@ export const ReaderOfx = (ofxPath: string,): { dadosBanco: DadosDoBanco, todasAs
 				fitid: null,
 				refnum: null,
 				memo: null,
-				tipoOperacao: null,
+				tipoOperacao: 0,
 			}
 		}
 	})
 	return { dadosBanco, todasAsTransacoes }
 }
+
+ReaderOfx('./src/utils/agosto.ofx')

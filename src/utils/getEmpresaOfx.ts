@@ -1,53 +1,30 @@
 import { PrismaClient } from '@prisma/client'
-import { DadosDoBanco, Transacao } from 'src/reader/interfaces'
-import { ReaderOfx } from 'src/reader/main'
-import { number } from 'zod'
+import fs from 'fs'
+import { ReaderOfx } from '../reader/main'
 
 
 const texto = 'VE0858584 VALENTE SUPERMERCADO MARAU BR-18'
-const { dadosBanco, todasAsTransacoes } = ReaderOfx('')
-const criarLancamentoConciliacao = async (dadosBanco: DadosDoBanco, transacoes: Transacao) => {
+const criarLancamentoConciliacao = async (/* dadosBanco: DadosDoBanco, transacoes: Transacao[] */) => {
 	const prisma = new PrismaClient()
+	const t = fs.readFileSync('./src/utils/agosto.ofx', 'base64')
+	const { dadosBanco, todasAsTransacoes } = await ReaderOfx(t)
+	
+	for await (const item of todasAsTransacoes) {
 
-	if (transacoes.fitid?.includes('VE')) {
-		type tag = null | number
-		const objeto = {
-			data: transacoes.dataDeTransacao,
-			descricao: transacoes.memo,
-			valor: transacoes.valor,
-			especieTransacao: transacoes.tipoDeTransacao,
-			fitID: transacoes.fitid,
-			tipoOperacao: transacoes.tipoOperacao,
-			contasId: dadosBanco.id,
-			tagsId: null as tag,
-		}
+		
 
-		const fitId = transacoes.fitid?.split(' ')
-		const empresa = fitId[1].concat(' ', fitId[2])
-		const existe = await prisma.tags.findFirst({
-			select: {
-				id: true,
-			},
-			where: {
-				nome: {
-					contains: empresa,
-				}
+		await prisma.conciliacaoBancaria.create({
+			data: {
+				data: item.dataDeTransacao ? item.dataDeTransacao : new Date(),
+				descricao: item.memo ? item.memo : 'Sem descrição',
+				valor: item.valor ? item.valor : 0,
+				tipoOperacao: item.tipoOperacao ,
+				especieTransacao: item.tipoDeTransacao ? item.tipoDeTransacao : '999',
+				fitID: item.fitid ? item.fitid : '999',
+				contasId: 1,
 			}
 		})
-
-		if (!existe) {
-			const create = await prisma.tags.create({
-				select: {
-					id: true,
-				},
-				data: {
-					nome: empresa,
-				}
-			})
-			objeto.tagsId = create.id
-		} else {
-			objeto.tagsId = existe.id
-		}
 	}
 }
 
+criarLancamentoConciliacao()
