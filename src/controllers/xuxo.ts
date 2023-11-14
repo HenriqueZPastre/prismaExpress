@@ -25,7 +25,46 @@ export const xuxo = {
 	},
 
 	async test(req: Request, res: Response) {
-		res.sendFile('index.html', { root: 'src' })
+		const username = process.env.ALGO || 'Nome de usuário não encontrado'
+		console.log('username', username)
+		//res.sendFile('index.html', { root: 'src' })
+		res.send(
+			`<!DOCTYPE html>
+			<html lang="en">
+			
+			<head>
+				<meta charset="UTF-8">
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Document</title>
+				<style>
+					.center-align {
+						text-align: center;
+					}
+				</style>
+			</head>
+			
+			<body>
+				<div>
+					<div
+						style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+						<h1 style="text-align: center;">Rest API desenvolvida com Prisma, Express e testes com Cypress</h1>
+						<p>O nome de usuário é: <span id="username">${username}</span></p>
+						<div>
+							<a href="https://prismaexpress.fly.dev/api-docs/" target="_blank">Documentação</a>
+						</div>
+						<div>
+							<br>
+							<span>Usario: teste</span>
+							<br>
+							<span>Senha: teste</span>
+						</div>
+					</div>
+				</div>
+			</body>
+			
+			</html>`
+		)
 	},
 
 	async ofx(req: Request, res: Response) {
