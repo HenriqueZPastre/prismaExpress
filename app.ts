@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv'
-const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env.staging'
+const envFile = process.env.NODE_ENV === 'teste' ? 'teste' : '.env'
 dotenv.config({ path: envFile })
 
 import express from 'express'
