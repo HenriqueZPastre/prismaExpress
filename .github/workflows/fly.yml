@@ -8,14 +8,12 @@ jobs:
     name: Deploy app
     runs-on: ubuntu-latest
     environment: teste
-    env:
-      NODE_ENV: teste
-      ALGOs: ${{ vars.ALGO}}
-      ALGO: ${{ vars.ALGO}}
     steps:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: echo "var tt${{ vars.TT}} secret test ${{ secrets.TESTEGI}} ,ENV ALGOs ${{ env.ALGOs}} ,vars algo ${{ vars.ALGO}}"
+      - run: echo "var tt${{ vars.TT}} secret test ${{ secrets.TESTEGI}}  ,vars algo ${{ vars.ALGO}}"
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          ALGOs: ${{ vars.ALGO}}
+          ALGO: ${{ vars.ALGO}}
