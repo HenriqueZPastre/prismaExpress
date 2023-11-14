@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy package.json and yarn.lock (if you use yarn) to the working directory
 COPY package.json package-lock.json ./
-
+ENV NODE_ENV=teste
 # Install dependencies
 RUN npm ci
 #RUN npm install --frozen-lockfile

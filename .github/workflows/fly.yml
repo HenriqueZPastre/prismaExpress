@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: teste
     env:
+      NODE_ENV: teste
       ALGOs: ${{ vars.ALGO}}
       ALGO: ${{ vars.ALGO}}
     steps:
