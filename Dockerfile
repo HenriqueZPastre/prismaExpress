@@ -13,8 +13,7 @@ RUN npm ci
 # Copy the rest of the application code to the working directory
 COPY . .
 
-RUN --mount=type=secret,id=MY_SUPER_SECRET \
-    MY_SUPER_SECRET="$(cat /run/secrets/MY_SUPER_SECRET)" 
+
 # Build the TypeScript code
 RUN npm run migrate
 RUN npm run build
