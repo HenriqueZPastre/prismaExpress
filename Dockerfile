@@ -1,8 +1,6 @@
 # Base image
 FROM node:16-alpine
 
-RUN --mount=type=secret,id=MY_SECRET MY_SECRET="$(cat /run/secrets/MY_SECRET)"
-
 # Define working directory
 WORKDIR /app
 
