@@ -13,12 +13,12 @@ RUN npm ci
 # Copy the rest of the application code to the working directory
 COPY . .
 
+RUN --mount=type=secret,id=DATABASE_URL \
+    DATABASE_URL="$(cat /run/secrets/DATABASE_URL)"
 
 # Build the TypeScript code
 RUN npm run migrate
 RUN npm run build
-
-
 
 # Expose port 3000
 EXPOSE 3000
