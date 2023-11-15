@@ -34,11 +34,17 @@ export const controllerValores = {
 		})
 
 		let despesasTotal = 0
-		despesas.forEach((item) => {
+		despesas.forEach((item: { 
+			id: number;
+			descricao: string;
+			valor: number;
+		}) => {
 			despesasTotal += item.valor
 		})
 		let atual = 0
-		saldoAtual.forEach((item) => {
+		saldoAtual.forEach((item: {saldoAtual: number;
+			nome: string;
+			id: number;}) => {
 			atual += item.saldoAtual
 		})
 
