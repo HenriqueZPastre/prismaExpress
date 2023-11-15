@@ -54,6 +54,7 @@
 		"migrate": "npx prisma migrate dev --name init",
 		"o": "npx cypress open",
 		"r": "npx cypress run",
+		"proxy": "fly proxy 5433 -a postgrestesnew",
 		"report": "npx mochawesome-merge 'cypress/results/*.json' > joinmochawesome.json && npx marge joinmochawesome.json && rimraf cypress/results "
 	},
 	"description": "Api REST com prisma, express, zod e testes.",
