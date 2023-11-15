@@ -28,9 +28,11 @@ export const xuxo = {
 		const username = process.env.ALGO || 'Nome de usuário não encontrado'
 		const limao = process.env.LIMAO || 'nada de limão'
 		const id = process.env.ID || 'nada de id'
+		const my = process.env.MY_SUPER_SECRET || 'nada de my'
 		console.log('username', username)
 		console.log('id', id)
 		console.log('limao', limao)
+		console.log('my', my)
 		//res.sendFile('index.html', { root: 'src' })
 		res.send(
 			`<!DOCTYPE html>

@@ -6,7 +6,6 @@ WORKDIR /app
 
 # Copy package.json and yarn.lock (if you use yarn) to the working directory
 COPY package.json package-lock.json ./
-ENV NODE_ENV=teste ALGO=BATATA
 # Install dependencies
 RUN npm ci
 #RUN npm install --frozen-lockfile
@@ -14,11 +13,13 @@ RUN npm ci
 # Copy the rest of the application code to the working directory
 COPY . .
 
-RUN --mount=type=secret,id=LIMAO \
-    LIMAO="$(cat /run/secrets/LIMAO)"
+RUN --mount=type=secret,id=MY_SUPER_SECRET \
+    MY_SUPER_SECRET="$(cat /run/secrets/MY_SUPER_SECRET)" 
 # Build the TypeScript code
 RUN npm run migrate
 RUN npm run build
+
+
 
 # Expose port 3000
 EXPOSE 3000
