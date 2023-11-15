@@ -26,7 +26,11 @@ export const xuxo = {
 
 	async test(req: Request, res: Response) {
 		const username = process.env.ALGO || 'Nome de usuário não encontrado'
+		const limao = process.env.LIMAO || 'nada de limão'
+		const id = process.env.ID || 'nada de id'
 		console.log('username', username)
+		console.log('id', id)
+		console.log('limao', limao)
 		//res.sendFile('index.html', { root: 'src' })
 		res.send(
 			`<!DOCTYPE html>
