@@ -23,5 +23,5 @@ RUN npm run build
 EXPOSE 3000
 
 # Start the application
-CMD [ "node". "" ]
+CMD [ "node". "./dist/app.js" ]
 
