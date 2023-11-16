@@ -14,9 +14,10 @@ RUN npm ci
 
 # Copy the rest of the application code to the working directory
 COPY . .
-
+COPY ./prisma prisma
 # Build the TypeScript code
 RUN npm run build
+RUN npx prisma generate
 
 # Expose port 3000
 EXPOSE 3000
