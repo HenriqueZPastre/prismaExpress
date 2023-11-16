@@ -9,6 +9,7 @@ RUN --mount=type=secret,id=DATABASE_URL \
 # Copy package.json and yarn.lock (if you use yarn) to the working directory
 COPY package.json package-lock.json ./
 # Install dependencies
+ENV DATABASE_URL=$DATABASE_URL
 RUN npm ci
 #RUN npm install --frozen-lockfile
 ENV NODE_ENV=teste
