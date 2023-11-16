@@ -24,4 +24,6 @@ EXPOSE 3000
 
 # Start the application
 
-CMD ["./entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
+CMD [ "node", "./dist/app.js" ]
+
