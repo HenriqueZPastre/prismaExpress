@@ -16,9 +16,9 @@ COPY . .
 
 # Build the TypeScript code
 RUN npm run build
+RUN npm rum migrate
 # Expose port 3000
-COPY        docker-entrypoint.sh /
-ENTRYPOINT  ["/docker-entrypoint.sh"]
+
 EXPOSE 3000
 
 # Start the application
