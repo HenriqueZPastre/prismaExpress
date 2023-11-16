@@ -13,6 +13,9 @@ ENV DATABASE_URL=$DATABASE_URL
 RUN npm ci
 #RUN npm install --frozen-lockfile
 ENV NODE_ENV=teste
+
+ARG MY_SECRET
+ENV MY_SECRET=${MY_SECRET}
 # Copy the rest of the application code to the working directory
 COPY . .
 
@@ -24,6 +27,6 @@ RUN npm run migrate
 EXPOSE 3000
 
 # Start the application
-
+ENTRYPOINT [ "./entrypoint.sh" ]
 CMD [ "node", "./dist/app.js" ]
 
