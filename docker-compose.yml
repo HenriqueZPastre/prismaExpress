@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  app:
+    image: sua-imagem
+    environment:
+      - DATABASE_URL=/run/secrets/DATABASE_URL
+    secrets:
+      - DATABASE_URL
+
+secrets:
+  DATABASE_URL:
+    file: /run/secrets/DATABASE_URL
