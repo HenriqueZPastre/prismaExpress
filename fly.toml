@@ -14,4 +14,4 @@ primary_region = "gru"
     timeout = "2s"
     grace_period = "5s"
 [deploy]
-  release_command = "npx prisma migrate dev --name init"
+  release_command = "npx prisma migrate deploy"
