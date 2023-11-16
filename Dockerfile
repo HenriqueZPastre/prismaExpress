@@ -12,7 +12,6 @@ RUN npm ci
 #RUN npm install --frozen-lockfile
 ENV NODE_ENV=teste
 
-
 # Copy the rest of the application code to the working directory
 COPY . .
 

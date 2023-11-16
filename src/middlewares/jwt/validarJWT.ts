@@ -53,4 +53,3 @@ export const lerToken = async (token: string): Promise<boolean> => {
 	return valido
 }
 
-lerToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6InRlc3RlIiwiZW1haWwiOiJ0ZXN0ZUB1b3Jhay5jb20iLCJ0ZWxlZm9uZSI6bnVsbCwidXBkYXRlX2F0IjoiMjAyMy0xMS0wNVQwMTowNDoyMS4zNjJaIiwiY3JlYXRlX2F0IjoiMjAyMy0xMC0yMFQxMzoyNTowOC43MTJaIiwiZGVsZXRlZGVfYXQiOm51bGwsImlhdCI6MTY5OTE0NzEzOSwiZXhwIjoxNjk5MTc3MTM5fQ.-zlq1d_PgNjS6PlwEJOcKhYuw-PF1K8jKZzroQBz_l8')
