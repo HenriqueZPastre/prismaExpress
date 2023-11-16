@@ -16,9 +16,6 @@ ENV NODE_ENV=teste
 # Copy the rest of the application code to the working directory
 COPY . .
 
-COPY entry.sh /
-RUN chmod 777 /entry.sh
-
 # Build the TypeScript code
 RUN npm run build
 
@@ -26,7 +23,5 @@ RUN npm run build
 EXPOSE 3000
 
 # Start the application
-
-COPY        docker-entrypoint.sh /
-ENTRYPOINT  ["/docker-entrypoint.sh"]
+CMD [ "node". "" ]
 
