@@ -5,38 +5,20 @@ dotenv.config({ path: envFile })
 import express from 'express'
 import { router } from './router'
 import cors from 'cors'
-import fs from 'fs'
 
-
-if (process.env.NODE_ENV === 'teste') {
-	try {
-		const secretPath = '/run/secrets/DATABASE_URL' // Caminho para o segredo no contêiner
-		const secret = fs.readFileSync(secretPath, 'utf8')
-		process.env.DATABASE_URL = secret
-		// Use o segredo conforme necessário no seu aplicativo
-	} catch (err) {
-		console.error('Erro ao ler o segredo:', err)
-	}
-
-}
-
-// Verifica o ambiente atual e carrega as variáveis apropriadas
-console.log(`Ambiente: ${process.env.NODE_ENV}`)
-console.log(`Ambiente: ${process.env.REALM}`)
 const app = express()
 app.use(express.json({ limit: '50mb' }))
-const port = process.env.PORT || 3000
-
 app.use(cors())
 app.use(router)
+
+const port = process.env.PORT || 3000
+
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`)
 
 	console.log('http://localhost:3000/')
 
 })
-app.use('/api', router)
-
 
 const memoryUsage = process.memoryUsage()
 const convertedMemoryUsage = {

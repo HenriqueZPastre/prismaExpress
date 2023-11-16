@@ -10,7 +10,7 @@ const routerBancos = express.Router()
 // routerBancos.get('/bancos', Bancos.listarBancos)
 // routerBancos.post('/bancos', Bancos.cadastrarBancos) */
 routerBancos.route('/bancos')
-	.all(middlewareValidarJWT)
+	.all(authSwagger)
 	.get(Bancos.listarBancos)
 	.post(Bancos.cadastrarBancos)
 
