@@ -16,7 +16,7 @@ ENV NODE_ENV=teste
 # Copy the rest of the application code to the working directory
 COPY . .
 
-COPY  './entrypoint.sh' .
+COPY entrypoint.sh /
 
 # Build the TypeScript code
 RUN npm run build
@@ -26,5 +26,5 @@ EXPOSE 3000
 
 # Start the application
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT  ["/entrypoint.sh"]
 
