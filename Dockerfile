@@ -17,6 +17,7 @@ ENV NODE_ENV=teste
 COPY . .
 
 COPY entrypoint.sh /
+RUN chmod 777 /entrypoint.sh
 
 # Build the TypeScript code
 RUN npm run build
