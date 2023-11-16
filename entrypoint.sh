@@ -4,8 +4,6 @@ set -e
 # Verifica se o comando já foi executado
 if [ ! -f /tmp/comando_executado ]; then
     # Executa o comando
-DATABASE_URL=$(cat /run/secrets/DATABASE_URL)
-export DATABASE_URL
     npx prisma migrate deploy
     
     # Cria o arquivo de controle para indicar que o comando foi executado
