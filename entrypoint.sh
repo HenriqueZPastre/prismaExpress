@@ -1,16 +1,18 @@
 #!/bin/bash
 set -e
 
-# Comandos de inicialização do contêiner, como configurações pré-início
-echo "Performing pre-start actions..."
-
-# Exemplo: Leitura de um segredo Docker e passagem para uma variável de ambiente
-DATABASE_URL=$(cat /run/secrets/DATABASE_URL)
-export DATABASE_URL
-
-# Exibir informações sobre o segredo
-echo "Docker secret value: $DATABASE_URL"
+# Verifica se o comando já foi executado
+if [ ! -f /tmp/comando_executado ]; then
+    # Executa o comando
+    npx prisma migrate deploy
+    
+    # Cria o arquivo de controle para indicar que o comando foi executado
+    touch /tmp/comando_executado
+fi
 
 # Iniciar o serviço principal (por exemplo, iniciar o aplicativo Node.js)
 echo "Starting the main service..."
+
+node ./dist/app.js
+
 exec "$@"
