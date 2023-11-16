@@ -14,14 +14,12 @@ RUN npm ci
 #RUN npm install --frozen-lockfile
 ENV NODE_ENV=teste
 
-ARG MY_SECRET
-ENV MY_SECRET=${MY_SECRET}
+
 # Copy the rest of the application code to the working directory
 COPY . .
 
 # Build the TypeScript code
 RUN npm run build
-RUN npm run migrate
 
 # Expose port 3000
 EXPOSE 3000
