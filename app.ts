@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv'
 const envFile = process.env.NODE_ENV === 'teste' ? 'teste' : '.env'
-dotenv.config({ path: '.env' })
+dotenv.config({ path: envFile })
 
 import express from 'express'
 import { router } from './router'

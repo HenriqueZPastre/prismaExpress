@@ -4,7 +4,6 @@ FROM node:16-alpine
 # Define working directory
 WORKDIR /app
 
-
 # Copy package.json and yarn.lock (if you use yarn) to the working directory
 COPY package.json package-lock.json ./
 # Install dependencies
@@ -16,11 +15,13 @@ COPY . .
 
 # Build the TypeScript code
 RUN npm run build
-RUN npm rum migrate
-# Expose port 3000
 
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
+# Expose port 3000
 EXPOSE 3000
 
 # Start the application
 
-CMD ["node", "./dist/app.js"]
+CMD ["./entrypoint.sh"]
