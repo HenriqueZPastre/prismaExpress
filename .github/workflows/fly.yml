@@ -1,19 +1,34 @@
-name: Fly Deploy
+name: Deploy
 on:
   push:
     branches:
       - main
+
 jobs:
+  TEST:
+    name: Migrate
+    runs-on: ubuntu-latest
+    environment: teste
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+      - name: Install dependencies
+        run: npm install
+      - run: npm run build
+      - name: Apply all pending migrations to the database
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest
     environment: teste
     steps:
-      - uses: actions/checkout@v3
-      - run: npx prisma migrate deploy
-      - run: echo "Deploying to Fly.io $vars.DATABASE_URL"
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --build-secret DATABASE_URL=${{secrets.DATABASE_URL}}
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-          DATABASE_URL: ${{secrets.DATABASE_URL}}
+    - uses: actions/checkout@v3
+    - run: echo "Deploying to Fly.io $vars.DATABASE_URL"
+    - uses: superfly/flyctl-actions/setup-flyctl@master
+    - run: flyctl deploy --remote only
+      env:
+        FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
