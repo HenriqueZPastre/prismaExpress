@@ -1,5 +1,5 @@
 import { Response } from 'express'
-import { ZodError } from 'zod'
+import { ZodError, SafeParseReturnType, SafeParseError } from 'zod'
 
 type ZodGenericoResponse = {
 	success?: boolean,
@@ -19,7 +19,7 @@ interface PossiveisDadosDeResposta {
 	data?: unknown,
 	mensagem?: unknown,
 	erro?: unknown,
-	zod?: ZodError | unknown
+	zod?: ZodError | unknown | SafeParseError<ZodError>,
 	zodValidate?: ZodGenericoResponse,
 	extras?: unknown,
 	registros?: unknown,
@@ -31,8 +31,10 @@ function ZodValidarResponse(obj: PossiveisDadosDeResposta) {
 }
 
 function ZodTratarMensagemDeErro(obj: PossiveisDadosDeResposta) {
+	console.log(obj?.zod)
 	if (obj?.zod !== undefined && obj?.zod instanceof ZodError) {
 		obj.zod = `${obj?.zod?.issues[0].path[0]} ${obj?.zod?.issues[0].message.toLowerCase()}`
+		console.log(obj?.zod)
 	}
 	return obj?.zod
 }
@@ -40,7 +42,10 @@ function ZodTratarMensagemDeErro(obj: PossiveisDadosDeResposta) {
 function MontarDadosDoResponse(obj: PossiveisDadosDeResposta): PossiveisDadosDeResposta {
 	const { data, erro, extras, mensagem, paginas, registros } = obj
 	const zodErrorMessage = ZodTratarMensagemDeErro(obj)
-	const zodValidateResponse = ZodValidarResponse(obj)
+	let zodValidateResponse = undefined
+	if (process.env.NODE_ENV !== 'teste') {
+		zodValidateResponse = ZodValidarResponse(obj)
+	}
 	return {
 		data,
 		mensagem,

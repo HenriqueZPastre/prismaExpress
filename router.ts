@@ -9,10 +9,10 @@ import { controllerValores } from './src/controllers/valores'
 import { authSwagger } from './src/middlewares/swagger/authSwagger'
 import { routerBancos } from './src/routes/bancos'
 
-const router: Router = Router()
-export { router }
+const routerMain: Router = Router()
+export { routerMain }
 
-router.use('/api-docs', authSwagger, swaggerUi.serve, swaggerUi.setup(swaggerJson))
+routerMain.use('/api-docs', authSwagger, swaggerUi.serve, swaggerUi.setup(swaggerJson))
 
 //*********************************\\
 //**** BANCOS ***********\\
@@ -21,44 +21,44 @@ router.use('/api-docs', authSwagger, swaggerUi.serve, swaggerUi.setup(swaggerJso
 router.get('/bancos', Bancos.listarBancos)
 router.post('/bancos', Bancos.cadastrarBancos) */
 
-router.use(routerBancos)
+routerMain.use(routerBancos)
 //*********************************\\
 //**** CONTAS BANCÁRIAS ***********\\
 //*********************************\\
 
-router.get('/contas', CONTAS.listAll)
-router.post('/contas', CONTAS.createConta)
-router.get('/contas/:id', CONTAS.getById)
-router.put('/contas/:id', CONTAS.editarConta)
-router.delete('/contas/:id', CONTAS.deleteConta)
+routerMain.get('/contas', CONTAS.listAll)
+routerMain.post('/contas', CONTAS.createConta)
+routerMain.get('/contas/:id', CONTAS.getById)
+routerMain.put('/contas/:id', CONTAS.editarConta)
+routerMain.delete('/contas/:id', CONTAS.deleteConta)
 
 //*********************************\\
 //**** TAGS ***********************\\
 //*********************************\\
-router.get('/tags', ControllerTags.listar)
-router.post('/tags', ControllerTags.criar)
-router.get('/tags/:id', ControllerTags.buscarPorID)
-router.put('/tags/:id', ControllerTags.editar)
-router.delete('/tags/:id', ControllerTags.excluir)
+routerMain.get('/tags', ControllerTags.listar)
+routerMain.post('/tags', ControllerTags.criar)
+routerMain.get('/tags/:id', ControllerTags.buscarPorID)
+routerMain.put('/tags/:id', ControllerTags.editar)
+routerMain.delete('/tags/:id', ControllerTags.excluir)
 
 //*********************************\\
 //**** LANÇAMENTOS ***************\\
 //*********************************\\
-router.get('/lancamentos', LancamentosController.listAll)
-router.post('/lancamentos', LancamentosController.create)
-router.get('/lancamentos/:id', LancamentosController.getId)
-router.put('/lancamentos/:id', LancamentosController.update)
-router.delete('/lancamentos/:id', LancamentosController.delete)
+routerMain.get('/lancamentos', LancamentosController.listAll)
+routerMain.post('/lancamentos', LancamentosController.create)
+routerMain.get('/lancamentos/:id', LancamentosController.getId)
+routerMain.put('/lancamentos/:id', LancamentosController.update)
+routerMain.delete('/lancamentos/:id', LancamentosController.delete)
 
-router.get('/valores', controllerValores.getAll)
+routerMain.get('/valores', controllerValores.getAll)
 
 
 //*********************************\\
 //**** XUXOS/TESTES ***************\\
 //*********************************\\
-router.get('/a', xuxo.listAll)
-router.get('/', xuxo.test)
-router.post('/c', xuxo.ofx )
-router.get('/base64image', xuxo.base64teste )
+routerMain.get('/a', xuxo.listAll)
+routerMain.get('/', xuxo.test)
+routerMain.post('/c', xuxo.ofx )
+routerMain.get('/base64image', xuxo.base64teste )
 
 

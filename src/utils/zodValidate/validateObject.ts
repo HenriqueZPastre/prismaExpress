@@ -1,4 +1,4 @@
-import { ZodType } from 'zod'
+import { ZodError, ZodType } from 'zod'
 import { Request, Response, } from 'express'
 import { HandleResponse } from '../../utils/HandleResponse/HandleResponse'
 
@@ -12,7 +12,8 @@ import { HandleResponse } from '../../utils/HandleResponse/HandleResponse'
 export const validarZod = async (request: Request, res: Response, objetoZod: ZodType,) => {
 	const validar = await objetoZod.safeParse(request.body)
 	if (validar.success === false) {
-		HandleResponse.main(res, 400, { zodValidate: validar })
+		const tt: ZodError = validar.error
+		HandleResponse.main(res, 400, { zodValidate: validar, zod: tt, })
 		return false
 	}
 	return true

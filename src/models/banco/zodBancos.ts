@@ -1,4 +1,5 @@
-import { z } from 'zod'
+import { ZodType, z } from 'zod'
+import { zodContas } from '../contas/contas'
 
 export const zodBancos = {
 
